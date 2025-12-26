@@ -32,31 +32,31 @@ export default function Pricing() {
   const monthlyPrice = isIndia ? "₹199" : "$5";
   const yearlyPrice = isIndia ? "₹1499" : "$49";
 
-  const handleUpgrade = async (plan) => {
-    try {
-      setLoading(true);
+ const handleUpgrade = async (plan) => {
+  try {
+    setLoading(true);
 
-      await startUpgrade(plan, async () => {
-        const res = await api.get("/profile/me");
-        setUser(res.data);
+    await startUpgrade(plan, (updatedUser) => {
+      setUser(updatedUser);
 
-        setToast({
-          type: "success",
-          message: "🎉 Pro activated successfully!"
-        });
-
-        navigate("/dashboard");
-      });
-
-    } catch {
       setToast({
-        type: "error",
-        message: "Payment cancelled or failed"
+        type: "success",
+        message: "🎉 Pro activated successfully!"
       });
-    } finally {
-      setLoading(false);
-    }
-  };
+
+      navigate("/dashboard", { replace: true });
+    });
+
+  } catch {
+    setToast({
+      type: "error",
+      message: "Payment cancelled or failed"
+    });
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="container py-5" style={{ maxWidth: 900 }}>

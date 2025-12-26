@@ -1,6 +1,6 @@
 import api from "./api";
 
-export async function startUpgrade(planType) {
+export async function startUpgrade(planType, onSuccess) {
   const { data } = await api.post("/payments/upgrade", { planType });
 
   const options = {
@@ -10,9 +10,14 @@ export async function startUpgrade(planType) {
     name: "Brandio",
     description: "Pro Subscription",
     order_id: data.orderId,
-    handler: function () {
-      window.location.href = "/dashboard";
+
+    handler: async function () {
+      // 🔥 IMMEDIATELY refresh user after payment
+      const res = await api.get("/profile/me");
+
+      onSuccess(res.data);
     },
+
     theme: { color: "#facc15" }
   };
 

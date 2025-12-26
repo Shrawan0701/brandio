@@ -72,9 +72,6 @@ export const deleteDeal = async (dealId) => {
 };
 
 
-export const startUpgrade = async (planType) => {
-  const { data } = await api.post("/payments/upgrade", { planType });
-  return data;
-};
+
 
 export default api;
