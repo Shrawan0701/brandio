@@ -1,0 +1,118 @@
+.pricing-page {
+  background: var(--bg-main);
+  padding: 120px 20px 80px;
+}
+
+.pricing-hero {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.pricing-hero h1 {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 800;
+}
+
+.pricing-hero span {
+  color: rgb(103, 226, 187);
+}
+
+.pricing-hero p {
+  margin-top: 16px;
+  font-size: 18px;
+  color: #6b7280;
+}
+
+/* GRID */
+.pricing-grid {
+  max-width: 1100px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+/* CARD */
+.pricing-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.pricing-card h3 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.price {
+  font-size: 40px;
+  font-weight: 800;
+}
+
+.price-note {
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+.pricing-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  flex-grow: 1;
+}
+
+.pricing-card li {
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+/* BUTTONS */
+.btn-primary {
+  background: #111827;
+  color: #fff;
+  text-align: center;
+  padding: 12px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn-outline {
+  border: 1px solid #111827;
+  color: #111827;
+  text-align: center;
+  padding: 12px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* HIGHLIGHT */
+.highlight {
+  transform: scale(1.05);
+  border: 2px solid rgb(103, 226, 187);
+}
+
+.badge {
+  position: absolute;
+  top: -12px;
+  right: 16px;
+  background: rgb(103, 226, 187);
+  color: #111;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* FOOTER */
+.pricing-footer {
+  margin-top: 80px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+}

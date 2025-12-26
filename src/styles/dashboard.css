@@ -1,0 +1,85 @@
+.deal-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.deal-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.upgrade-card {
+  border: 2px dashed #f0ad4e;
+  background: #fff8e1;
+}
+.pricing-card {
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.pricing-card.featured {
+  border: 2px solid #0d6efd;
+  transform: scale(1.05);
+}
+
+.price {
+  font-size: 36px;
+  font-weight: 800;
+}
+
+.price span {
+  font-size: 16px;
+  font-weight: 500;
+  color: #6c757d;
+}
+
+.pricing-features {
+  list-style: none;
+  padding: 0;
+}
+
+.pricing-features li {
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.upgrade-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  border: 1px solid #c7d2fe;
+}
+
+.upgrade-banner h5 {
+  font-weight: 700;
+}
+
+.upgrade-banner button {
+  padding: 10px 20px;
+  border-radius: 12px;
+}
+.deal-status {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.deal-status.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.deal-status.pending {
+  background: #fef9c3;
+  color: #854d0e;
+}
+
+.deal-status.completed {
+  background: #e0e7ff;
+  color: #3730a3;
+}
