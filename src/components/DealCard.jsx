@@ -61,11 +61,18 @@ export default function DealCard({ deal, onDeleted, onUpdated }) {
             </div>
 
             <span
-              className={`badge bg-${statusColor[deal.status]} text-capitalize px-3 py-1 rounded-pill`}
-              style={{ fontSize: "0.75rem" }}
-            >
-              {deal.status}
-            </span>
+  className={`badge bg-${statusColor[deal.status]} text-capitalize px-3 py-2 rounded-pill`}
+  style={{
+    fontSize: "0.75rem",
+    lineHeight: "1.8",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+  }}
+>
+  {deal.status}
+</span>
+
           </div>
 
           {/* AMOUNT */}

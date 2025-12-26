@@ -98,7 +98,7 @@ export default function Pricing() {
         {/* YEARLY */}
         <div className="col-md-4">
           <div className="card pricing-card featured p-4 text-center">
-            <div className="badge bg-primary mb-2">Best Value</div>
+            
 
             <h5 className="fw-bold mb-3">Yearly</h5>
 

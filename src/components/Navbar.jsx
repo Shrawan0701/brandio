@@ -36,9 +36,9 @@ export default function Navbar() {
             {!isPublicUpgrade && (
               <Link
                 to="/upgrade"
-                className="btn btn-outline-dark btn-sm"
+                
               >
-                Pricing
+                
               </Link>
             )}
 
@@ -52,39 +52,40 @@ export default function Navbar() {
         )}
 
         {/* ================= LOGGED IN ================= */}
-        {user && (
-          <>
-            {/* Dashboard */}
-            {!isDashboard && (
-              <Link
-                to="/dashboard"
-                
-              >
-                Dashboard
-              </Link>
-            )}
+       {user && (
+  <div className="d-flex align-items-center gap-2">
+    {/* Dashboard */}
+    {!isDashboard && (
+      <Link
+        to="/dashboard"
+        className="btn btn-sm btn-outline-secondary rounded-pill px-3"
+      >
+        Dashboard
+      </Link>
+    )}
 
-            {/* Profile */}
-            {!isProfile && (
-              <Link
-                to="/profile"
-               
-              >
-                Profile
-              </Link>
-            )}
+    {/* Profile */}
+    {!isProfile && (
+      <Link
+        to="/profile"
+        className="btn btn-sm btn-outline-secondary rounded-pill px-3"
+      >
+        Profile
+      </Link>
+    )}
 
-            {/* In-app Upgrade (only for logged in users) */}
-            {!isPrivatePricing && user.plan === "free" && (
-              <Link
-                to="/pricing"
-               
-              >
-                Upgrade
-              </Link>
-            )}
-          </>
-        )}
+    {/* Upgrade CTA */}
+    {!isPrivatePricing && user.plan === "free" && (
+      <Link
+        to="/pricing"
+        className="btn btn-sm btn-outline-secondary rounded-pill px-3"
+      >
+        Upgrade
+      </Link>
+    )}
+  </div>
+)}
+
       </div>
     </nav>
   );

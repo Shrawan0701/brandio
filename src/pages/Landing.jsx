@@ -23,7 +23,7 @@ export default function Landing() {
         </div>
 
         <div className="platforms">
-          Built for creators on Instagram · YouTube · X · Telegram · Reddit
+          For creators on  Instagram · YouTube · X 
         </div>
       </section>
 
@@ -98,14 +98,7 @@ export default function Landing() {
             </p>
           </div>
 
-          <div>
-            <h5>Product</h5>
-            <ul>
-              <li><Link to="/features">Features</Link></li>
-              <li><Link to="/pricing">Pricing</Link></li>
-              <li><Link to="/reminders">Reminders</Link></li>
-            </ul>
-          </div>
+         
 
           <div>
             <h5>Company</h5>

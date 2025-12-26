@@ -198,18 +198,18 @@ export default function Profile() {
 
               {planStatus?.status === "expiring" && (
                 <p className="text-warning mb-0">
-                  ⚠️ Expires in <b>{planStatus.daysLeft} days</b>. Renew to avoid interruption.
+                   Expires in <b>{planStatus.daysLeft} days</b>. Renew to avoid interruption.
                 </p>
               )}
 
               {planStatus?.status === "expired" && (
                 <p className="text-danger mb-0">
-                  ❌ Your subscription has expired. Please upgrade again.
+                   Your subscription has expired. Please upgrade again.
                 </p>
               )}
             </div>
 
-            <span className="badge bg-success">PRO</span>
+            
           </div>
 
           {planStatus?.status !== "active" && (
