@@ -54,7 +54,7 @@ export default function UpgradeCard() {
             disabled={loading}
             onClick={() => handleUpgrade("monthly")}
           >
-            ₹199 / Month
+            ₹99 / Month
           </button>
 
           <button
@@ -62,7 +62,7 @@ export default function UpgradeCard() {
             disabled={loading}
             onClick={() => handleUpgrade("yearly")}
           >
-            ₹1499 / Year
+            ₹499 / Year
           </button>
         </div>
       </div>
