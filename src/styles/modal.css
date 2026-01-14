@@ -26,3 +26,23 @@
   font-size: 20px;
   cursor: pointer;
 }
+.deal-proof-container {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.deal-proof-image {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.deal-proof-image:hover {
+  transform: scale(1.04);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}

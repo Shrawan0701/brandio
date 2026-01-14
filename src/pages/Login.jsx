@@ -66,6 +66,10 @@ const submit = async (e) => {
             autoComplete="new-password"
             onChange={(e) => setPassword(e.target.value)}
           />
+          <div className="auth-link">
+  <Link to="/forgot-password">Forgot password?</Link>
+</div>
+
           <button>Sign in</button>
         </form>
 

@@ -83,3 +83,26 @@
   background: #e0e7ff;
   color: #3730a3;
 }
+.analytics-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  margin-bottom: 30px;
+}
+/* DEAL SUMMARY */
+.deal-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  text-align: center;
+  gap: 24px;
+  font-size: 20px;
+}
+
+/* Summary item */
+.deal-summary-grid > div {
+  padding: 12px 0;
+}
+
+

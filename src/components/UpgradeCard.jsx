@@ -10,29 +10,35 @@ export default function UpgradeCard() {
   const [loading, setLoading] = useState(false);
 
   const handleUpgrade = async (plan) => {
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      await startUpgrade(plan, async () => {
-        // 🔥 AFTER SUCCESSFUL PAYMENT
-        const res = await api.get("/profile/me");
-        setUser(res.data);
-
-        setToast({
-          type: "success",
-          message: "🎉 Pro activated successfully!"
-        });
+    await startUpgrade(plan, async () => {
+      // ✅ 1. CONFIRM UPGRADE IMMEDIATELY (no webhook wait)
+      await api.post("/payments/confirm", {
+        planType: plan
       });
 
-    } catch (err) {
+      // ✅ 2. REFRESH USER
+      const res = await api.get("/profile/me");
+      setUser(res.data);
+
       setToast({
-        type: "error",
-        message: "Payment failed or cancelled"
+        type: "success",
+        message: "🎉 Pro activated successfully!"
       });
-    } finally {
-      setLoading(false);
-    }
-  };
+    });
+
+  } catch (err) {
+    setToast({
+      type: "error",
+      message: "Payment failed or cancelled"
+    });
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <>

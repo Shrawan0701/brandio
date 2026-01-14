@@ -29,8 +29,8 @@ export default function Pricing() {
     COUNTRIES.find(c => c.code === user.country_code)?.name ||
     "Your country";
 
-  const monthlyPrice = isIndia ? "₹199" : "$5";
-  const yearlyPrice = isIndia ? "₹1499" : "$49";
+  const monthlyPrice = isIndia ? "₹99" : "$5";
+  const yearlyPrice = isIndia ? "₹499" : "$49";
 
  const handleUpgrade = async (plan) => {
   try {
@@ -79,10 +79,13 @@ export default function Pricing() {
             </div>
 
             <ul className="pricing-features mb-4">
-              <li>Unlimited deals</li>
-              <li>Email reminders</li>
-              <li>Priority support</li>
-              <li>Advanced analytics</li>
+            
+            <li>✔ Unlimited brand deals</li>
+            <li>✔ Payment reminders</li>
+            <li>✔ Advanced deal analytics</li>
+            <li>✔ Email notifications</li>
+            <li>✔ Priority support</li>
+          
             </ul>
 
             <button
@@ -108,10 +111,13 @@ export default function Pricing() {
             </div>
 
             <ul className="pricing-features mb-4">
-              <li>Unlimited deals</li>
-              <li>Email reminders</li>
-              <li>Priority support</li>
-              <li>Advanced analytics</li>
+             
+            <li>✔ Unlimited brand deals</li>
+            <li>✔ Payment reminders</li>
+            <li>✔ Advanced deal analytics</li>
+            <li>✔ Email notifications</li>
+            <li>✔ Priority support</li>
+          
             </ul>
 
             <button

@@ -5,6 +5,8 @@ import { useAuth } from "../context/AuthContext";
 import AuthLayout from "../components/AuthLayout";
 import Toast from "../components/Toast";
 import { COUNTRIES } from "../utils/countries";
+import CountrySelect from "../components/CountrySelect";
+
 
 export default function Register() {
   const navigate = useNavigate();
@@ -89,18 +91,15 @@ export default function Register() {
             }
           />
 
-          <select
-            value={form.country}
-            onChange={(e) =>
-              setForm({ ...form, country: e.target.value })
-            }
-          >
-            {COUNTRIES.map((c) => (
-              <option key={c.code} value={c.code}>
-                {c.name}
-              </option>
-            ))}
-          </select>
+          <CountrySelect
+         
+  value={form.country}          // default already "IN"
+  onChange={(code) =>
+    setForm({ ...form, country: code })
+  }
+/>
+
+
 
           <button>Create account</button>
         </form>

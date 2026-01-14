@@ -2,6 +2,8 @@ import { useState } from "react";
 import EditDealModal from "./EditDealModal";
 import { useAuth } from "../context/AuthContext";
 import { deleteDeal } from "../lib/api";
+import DealImageUpload from "./DealImageUpload";
+
 
 export default function DealCard({ deal, onDeleted, onUpdated }) {
   const { user } = useAuth();
@@ -32,6 +34,7 @@ export default function DealCard({ deal, onDeleted, onUpdated }) {
 
   return (
     <>
+   
       {/* DEAL CARD */}
       <div
         className="card h-100"
@@ -79,6 +82,26 @@ export default function DealCard({ deal, onDeleted, onUpdated }) {
           <div className="fs-5 fw-bold mt-3">
             {deal.currency} {deal.amount}
           </div>
+          {/* PROOF IMAGES (PRO ONLY) */}
+{deal.proof_images?.length > 0 && (
+  <div className="deal-proof-container mt-3">
+    {deal.proof_images.map((img, i) => (
+      <img
+        key={i}
+        src={img}
+        alt="Deal proof"
+        className="deal-proof-image"
+        onClick={() => window.open(img, "_blank")}
+      />
+    ))}
+  </div>
+)}
+
+{/* ADD IMAGE BUTTON (PRO ONLY) */}
+{user.plan === "pro" && (
+  <DealImageUpload deal={deal} onUpdated={onUpdated} />
+)}
+
 
           {/* DATES */}
           <div className="mt-3 text-muted small">

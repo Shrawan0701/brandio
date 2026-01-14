@@ -73,6 +73,15 @@ export default function Navbar() {
         Profile
       </Link>
     )}
+    {user.plan === "pro" && (
+  <Link
+    to="/analytics"
+    className="btn btn-sm btn-outline-secondary rounded-pill px-3"
+  >
+    Analytics
+  </Link>
+)}
+
 
     {/* Upgrade CTA */}
     {!isPrivatePricing && user.plan === "free" && (

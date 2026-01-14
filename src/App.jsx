@@ -14,6 +14,11 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
+import Analytics from "./pages/Analytics";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+
+
 
 export default function App() {
   return (
@@ -29,6 +34,9 @@ export default function App() {
 <Route path="/contact" element={<Contact />} />
 <Route path="/privacy" element={<Privacy />} />
 <Route path="/terms" element={<Terms />} />
+<Route path="/forgot-password" element={<ForgotPassword />} />
+<Route path="/reset-password" element={<ResetPassword />} />
+
 
 
 
@@ -50,6 +58,16 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
+
+            <Route
+  path="/analytics"
+  element={
+    <ProtectedRoute>
+      <Analytics />
+    </ProtectedRoute>
+  }
+/>
+
 
             <Route
               path="/profile"

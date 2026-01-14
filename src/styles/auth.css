@@ -35,6 +35,102 @@
   align-items: center;
   justify-content: center;
 }
+/* Wrapper */
+.country-select {
+  position: relative;
+}
+
+/* Input box */
+.country-input {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.country-input:hover {
+  border-color: #c7d2fe;
+}
+
+.country-input:focus {
+  outline: none;
+  border-color: #6366f1;
+}
+
+/* Dropdown arrow */
+.dropdown-arrow {
+  font-size: 12px;
+  color: #0f0f0f;
+}
+
+/* Dropdown */
+.country-dropdown {
+  position: absolute;
+  width: 100%;
+  margin-top: 6px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  z-index: 1000;
+}
+
+/* Search */
+.country-search {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.country-search:focus {
+  outline: none;
+}
+
+/* List */
+.country-list {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+/* Option */
+.country-option {
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.country-option:hover {
+  background: #f3f4f6;
+}
+
+.country-option.active {
+  background: #eef2ff;
+  font-weight: 600;
+}
+/* FORCE country select button to stay white */
+.country-input {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+/* prevent global button styles */
+.country-input:hover,
+.country-input:focus,
+.country-input:active {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-color: #6366f1 !important;
+}
+
 
 .auth-left-card {
   background: #020617;

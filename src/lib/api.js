@@ -16,6 +16,45 @@ export const fetchDeals = async () => {
   return res.data;
 };
 
+/* Get signed upload data */
+export const getDealUploadSignature = async (dealId) => {
+  const res = await api.get(`/deals/${dealId}/upload-signature`);
+  return res.data;
+};
+
+/* Save image URL in DB */
+export const saveDealImage = async (dealId, imageUrl) => {
+  const res = await api.post(`/deals/${dealId}/add-image`, {
+    imageUrl
+  });
+  return res.data;
+};
+
+
+export const fetchAnalytics = () => api.get("/analytics");
+
+export const exportAnalyticsCSV = async () => {
+  const res = await api.get("/analytics/export", {
+    responseType: "blob", // 🔥 IMPORTANT
+  });
+
+  const blob = new Blob([res.data], {
+    type: "text/csv",
+  });
+
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "brandio-analytics.csv";
+
+  document.body.appendChild(link);
+  link.click();
+
+  link.remove();
+  window.URL.revokeObjectURL(url);
+};
+
 
 export const updateSocialLinks = async (social_links) => {
   const res = await api.put("/profile/socials", { social_links });
@@ -37,7 +76,7 @@ export const updateProfile = async (username) => {
 export const uploadProfilePhoto = async (file) => {
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("upload_preset", "brandio_unsigned");
+  formData.append("upload_preset", "brandio_profile");
 
   const res = await fetch(
     "https://api.cloudinary.com/v1_1/da9ej0tre/image/upload",
@@ -47,19 +86,14 @@ export const uploadProfilePhoto = async (file) => {
     }
   );
 
-  const image = await res.json();
+  const data = await res.json();
 
-  if (!image.secure_url) {
-    throw new Error("Upload failed");
-  }
+  // 🔥 SAVE URL TO BACKEND
+  await api.post("/profile/photo", { url: data.secure_url });
 
-  // Save in DB
-  await api.post("/profile/save-photo", {
-    url: image.secure_url
-  });
-
-  return { url: image.secure_url };
+  return data.secure_url;
 };
+
 
 
 

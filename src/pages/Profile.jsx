@@ -116,20 +116,25 @@ export default function Profile() {
 
   /* ---------- PHOTO UPLOAD ---------- */
   const handlePhotoChange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  const file = e.target.files[0];
+  if (!file) return;
 
-    try {
-      setPhotoUploading(true);
-      const res = await uploadProfilePhoto(file);
-      setUser({ ...user, profile_image_url: res.url });
-      showToast("Profile photo updated");
-    } catch {
-      showToast("Photo upload failed", "error");
-    } finally {
-      setPhotoUploading(false);
-    }
-  };
+  try {
+    setPhotoUploading(true);
+
+    await uploadProfilePhoto(file);
+
+    // 🔥 THIS IS THE MISSING PIECE
+    await refreshUser();
+
+    showToast("Profile photo updated");
+  } catch (err) {
+    showToast("Photo upload failed", "error");
+  } finally {
+    setPhotoUploading(false);
+  }
+};
+
 
   /* ---------- SAVE SOCIAL LINKS ---------- */
   const handleSaveSocials = async () => {
@@ -215,7 +220,7 @@ export default function Profile() {
           {planStatus?.status !== "active" && (
             <button
               className="btn btn-dark w-100 mt-3"
-              onClick={() => navigate("/pricing")}
+              onClick={() => navigate("/upgrade")}
             >
               {planStatus.status === "expired" ? "Upgrade Again" : "Renew Pro"}
             </button>

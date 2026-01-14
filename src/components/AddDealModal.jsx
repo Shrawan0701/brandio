@@ -124,7 +124,7 @@ export default function AddDealModal({ onClose, onCreated, totalDeals, plan }) {
       {/* Posting date */}
       <div className="mb-2">
         <label className="form-label small text-muted">
-          Posting date (optional)
+          Posting date 
         </label>
         <input
           type="date"
@@ -137,7 +137,7 @@ export default function AddDealModal({ onClose, onCreated, totalDeals, plan }) {
       {/* Payment due date */}
       <div className="mb-3">
         <label className="form-label small text-muted">
-          Payment due date (optional)
+          Payment due date 
         </label>
         <input
           type="date"
