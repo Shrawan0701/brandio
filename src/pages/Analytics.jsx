@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import { fetchAnalytics, exportAnalyticsCSV } from "../lib/api";
+import { useAuth } from "../context/AuthContext";
+
 
 export default function Analytics() {
   const [data, setData] = useState(null);
+  const { user } = useAuth();
+  
+  const currencySymbol =
+  user?.country_code === "IN" ? "₹" : "$";
+
 
   useEffect(() => {
     fetchAnalytics().then(res => setData(res.data));
@@ -15,9 +22,10 @@ export default function Analytics() {
       <h2 className="fw-bold mb-4">Analytics</h2>
 
       <div className="row g-4 mb-4">
-        <Stat title="This Month" value={`₹${data.thisMonth}`} />
-        <Stat title="Pending Amount" value={`₹${data.pendingAmount}`} />
-        <Stat title="Total Earned" value={`₹${data.totalEarned}`} />
+        <Stat title="This Month" value={`${currencySymbol}${data.thisMonth}`} />
+<Stat title="Pending Amount" value={`${currencySymbol}${data.pendingAmount}`} />
+<Stat title="Total Earned" value={`${currencySymbol}${data.totalEarned}`} />
+
       </div>
 
       <div className="card p-4">
