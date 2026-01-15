@@ -1,4 +1,3 @@
-// src/lib/startUpgrade.js
 import api from "./api";
 
 export async function startUpgrade(planType, onSuccess, navigate) {
@@ -13,12 +12,11 @@ export async function startUpgrade(planType, onSuccess, navigate) {
     order_id: data.orderId,
 
     handler: async function () {
-      // ✅ refresh user
       const res = await api.get("/profile/me");
       onSuccess(res.data);
 
-      // ✅ redirect AFTER payment
-      navigate("/dashboard"); // or "/profile"
+      // ✅ REDIRECT AFTER PAYMENT
+      navigate("/dashboard", { replace: true });
     },
 
     theme: { color: "#facc15" }
