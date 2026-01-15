@@ -7,31 +7,32 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
- const fetchMe = async () => {
-  try {
-    const res = await api.get("/profile/me");
-    const incoming = res.data;
+  const fetchMe = async () => {
+    setLoading(true); // 🔥 THIS WAS MISSING
+    try {
+      const res = await api.get("/profile/me");
+      const incoming = res.data;
 
-    // 🔒 HARD REQUIREMENT
-    if (!incoming.country_code) {
-      throw new Error("country_code missing from backend");
+      if (!incoming.country_code) {
+        throw new Error("country_code missing from backend");
+      }
+
+      setUser(incoming);
+    } catch {
+      setUser(null);
+    } finally {
+      setLoading(false);
     }
-
-    setUser(incoming);
-  } catch {
-    setUser(null);
-  } finally {
-    setLoading(false);
-  }
-};
-
+  };
 
   useEffect(() => {
     fetchMe();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, loading, refreshUser: fetchMe }}>
+    <AuthContext.Provider
+      value={{ user, setUser, loading, refreshUser: fetchMe }}
+    >
       {children}
     </AuthContext.Provider>
   );
