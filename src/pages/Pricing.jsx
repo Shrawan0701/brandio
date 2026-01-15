@@ -6,7 +6,8 @@ import Toast from "../components/Toast";
 import { COUNTRIES } from "../utils/countries";
 
 export default function Pricing() {
-  const { user, setUser } = useAuth();
+  const { user, setUser, loading: authLoading } = useAuth();
+
   const navigate = useNavigate();
 
   const [toast, setToast] = useState(null);
@@ -14,13 +15,18 @@ export default function Pricing() {
 
   /* 🟡 SHOW LOADER instead of returning null */
   /* 🟡 WAIT until auth + country are fully loaded */
-if (!user || !user.country_code) {
+if (authLoading) {
   return (
     <div className="container py-5 text-center">
       <p className="text-muted">Loading pricing…</p>
     </div>
   );
 }
+
+if (!user || !user.country_code) {
+  return null;
+}
+
 
 
   /* 🔒 Redirect Pro users */
