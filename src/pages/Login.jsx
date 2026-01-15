@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 import api from "../lib/api";
 import { useAuth } from "../context/AuthContext";
 import AuthLayout from "../components/AuthLayout";
 import Toast from "../components/Toast";
 
 export default function Login() {
-  const navigate = useNavigate();
+ 
   const { setUser } = useAuth();
 
   const [email, setEmail] = useState("");
@@ -28,10 +28,7 @@ const submit = async (e) => {
 
     await refreshUser(); // 🔥 THIS IS THE FIX
 
-    setTimeout(() => {
-      navigate("/dashboard");
-    }, 500);
-
+   
   } catch (err) {
     setToast({
       type: "error",
