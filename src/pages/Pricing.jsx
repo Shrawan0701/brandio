@@ -13,13 +13,15 @@ export default function Pricing() {
   const [loading, setLoading] = useState(false);
 
   /* 🟡 SHOW LOADER instead of returning null */
-  if (!user) {
-    return (
-      <div className="container py-5 text-center">
-        <p className="text-muted">Loading pricing…</p>
-      </div>
-    );
-  }
+  /* 🟡 WAIT until auth + country are fully loaded */
+if (!user || !user.country_code) {
+  return (
+    <div className="container py-5 text-center">
+      <p className="text-muted">Loading pricing…</p>
+    </div>
+  );
+}
+
 
   /* 🔒 Redirect Pro users */
   useEffect(() => {
@@ -31,7 +33,7 @@ export default function Pricing() {
   if (user.plan === "pro") return null;
 
   /* ✅ SAFE COUNTRY FALLBACK */
-  const countryCode = user.country_code || "DEFAULT";
+  
   const isIndia = countryCode === "IN";
 
   const countryName =

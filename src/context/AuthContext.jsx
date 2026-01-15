@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
         incoming.country_code ||
         incoming.country ||
         prev?.country_code ||
-        "IN"                   // absolute fallback (only if all else fails)
+        "null"                   // absolute fallback (only if all else fails)
     }));
   } catch {
     setUser(null);
