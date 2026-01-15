@@ -1,10 +1,6 @@
 import api from "./api";
 
-export async function startUpgrade(planType, onSuccess, navigate) {
-  if (typeof navigate !== "function") {
-    throw new Error("navigate is required and must be a function");
-  }
-
+export async function startUpgrade(planType, onSuccess) {
   const { data } = await api.post("/payments/upgrade", { planType });
 
   const options = {
@@ -17,12 +13,7 @@ export async function startUpgrade(planType, onSuccess, navigate) {
 
     handler: async function () {
       const res = await api.get("/profile/me");
-
-      // ✅ SAFE CALL
       onSuccess?.(res.data);
-
-      // ✅ ALWAYS REDIRECT
-      navigate("/dashboard", { replace: true });
     },
 
     theme: { color: "#facc15" }

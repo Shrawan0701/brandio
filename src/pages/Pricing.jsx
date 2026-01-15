@@ -58,6 +58,7 @@ export default function Pricing() {
 };
 
 
+
   return (
     <div className="container py-5" style={{ maxWidth: 900 }}>
       <h1 className="fw-bold text-center mb-2">Upgrade to Pro</h1>

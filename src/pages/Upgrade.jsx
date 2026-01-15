@@ -13,35 +13,34 @@ export default function Upgrade() {
   const navigate = useNavigate();
 
 
-  const handleUpgrade = async (planType) => {
-    try {
-      setLoading(true);
+ const handleUpgrade = async (planType) => {
+  try {
+    setLoading(true);
 
-      await startUpgrade(planType, async () => {
-        // ✅ confirm immediately
-        await api.post("/payments/confirm", { planType });
+    await startUpgrade(planType, async () => {
+      await api.post("/payments/confirm", { planType });
 
-        // refresh user
-        const res = await api.get("/profile/me");
-        setUser(res.data);
+      const res = await api.get("/profile/me");
+      setUser(res.data);
 
-        setToast({
-  type: "success",
-  message: "🎉 Pro activated successfully!"
-});
-
-navigate("/dashboard", { replace: true });
-
-      });
-    } catch (err) {
       setToast({
-        type: "error",
-        message: "Payment failed or cancelled"
+        type: "success",
+        message: "🎉 Pro activated successfully!"
       });
-    } finally {
-      setLoading(false);
-    }
-  };
+
+      navigate("/dashboard", { replace: true });
+    });
+
+  } catch {
+    setToast({
+      type: "error",
+      message: "Payment failed or cancelled"
+    });
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="pricing-page">
