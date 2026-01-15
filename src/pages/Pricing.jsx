@@ -23,9 +23,15 @@ if (authLoading) {
   );
 }
 
-if (!user || !user.country_code) {
-  return null;
+if (!user) {
+  return (
+    <div className="container py-5 text-center">
+      <p className="text-muted">Loading pricing…</p>
+    </div>
+  );
 }
+
+
 
 
 
@@ -40,11 +46,13 @@ if (!user || !user.country_code) {
 
   /* ✅ SAFE COUNTRY FALLBACK */
   
-  const isIndia = user.country_code === "IN";
+  const countryCode = user.country_code || "IN"; // 🔥 fallback
+const isIndia = countryCode === "IN";
 
 const countryName =
-  COUNTRIES.find(c => c.code === user.country_code)?.name ||
+  COUNTRIES.find(c => c.code === countryCode)?.name ||
   "Your country";
+
 
 
   const monthlyPrice = isIndia ? "₹99" : "$5";
