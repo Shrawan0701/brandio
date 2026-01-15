@@ -1,6 +1,6 @@
 import api from "./api";
 
-export async function startUpgrade(planType, onSuccess) {
+export async function startUpgrade(planType) {
   const { data } = await api.post("/payments/upgrade", { planType });
 
   const options = {
@@ -11,11 +11,15 @@ export async function startUpgrade(planType, onSuccess) {
     description: "Pro Subscription",
     order_id: data.orderId,
 
-    handler: async function () {
-      // 🔥 IMMEDIATELY refresh user after payment
-      const res = await api.get("/profile/me");
+    handler: async function (response) {
+      // 🔥 HARD GUARANTEE — upgrade user NOW
+      await api.post("/payments/confirm", {
+        planType
+      });
 
-      onSuccess(res.data);
+      // 🔥 force DB refresh
+      const res = await api.get("/profile/me");
+      return res.data;
     },
 
     theme: { color: "#facc15" }
@@ -24,3 +28,4 @@ export async function startUpgrade(planType, onSuccess) {
   const rzp = new window.Razorpay(options);
   rzp.open();
 }
+

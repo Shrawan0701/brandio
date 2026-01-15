@@ -13,31 +13,23 @@ export default function UpgradeCard() {
   try {
     setLoading(true);
 
-    await startUpgrade(plan, async () => {
-      // ✅ 1. CONFIRM UPGRADE IMMEDIATELY (no webhook wait)
-      await api.post("/payments/confirm", {
-        planType: plan
-      });
+    const updatedUser = await startUpgrade(plan);
+    setUser(updatedUser);
 
-      // ✅ 2. REFRESH USER
-      const res = await api.get("/profile/me");
-      setUser(res.data);
-
-      setToast({
-        type: "success",
-        message: "🎉 Pro activated successfully!"
-      });
+    setToast({
+      type: "success",
+      message: "🎉 Pro activated successfully!"
     });
-
   } catch (err) {
     setToast({
       type: "error",
-      message: "Payment failed or cancelled"
+      message: "Payment failed"
     });
   } finally {
     setLoading(false);
   }
 };
+
 
 
   return (
