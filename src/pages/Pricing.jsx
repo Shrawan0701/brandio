@@ -34,11 +34,12 @@ if (!user || !user.country_code) {
 
   /* ✅ SAFE COUNTRY FALLBACK */
   
-  const isIndia = countryCode === "IN";
+  const isIndia = user.country_code === "IN";
 
-  const countryName =
-    COUNTRIES.find(c => c.code === countryCode)?.name ||
-    "Your country";
+const countryName =
+  COUNTRIES.find(c => c.code === user.country_code)?.name ||
+  "Your country";
+
 
   const monthlyPrice = isIndia ? "₹99" : "$5";
   const yearlyPrice = isIndia ? "₹499" : "$49";
