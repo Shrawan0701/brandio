@@ -12,8 +12,11 @@ export async function startUpgrade(planType, onSuccess) {
     order_id: data.orderId,
 
     handler: async function () {
+      // 🔥 THIS IS THE IMPORTANT PART
+      await api.post("/payments/confirm", { planType });
+
       const res = await api.get("/profile/me");
-      onSuccess?.(res.data);
+      onSuccess(res.data);
     },
 
     theme: { color: "#facc15" }
