@@ -5,6 +5,7 @@ import api from "../lib/api";
 import { useEffect, useState } from "react";
 import Toast from "../components/Toast";
 import { COUNTRIES } from "../utils/countries";
+import { getDisplayPricing } from "../utils/pricing"; // ✅ ADDED
 
 export default function Pricing() {
   const { user, setUser } = useAuth();
@@ -20,44 +21,39 @@ export default function Pricing() {
     }
   }, [user, navigate]);
 
-  if (!user || user.plan === "pro") return null;
-
-  /* ✅ IMPORTANT: use country_code */
-  const isIndia = user.country_code === "IN";
+  // ✅ GUARD: wait till user + country_code is ready
+  if (!user || !user.country_code || user.plan === "pro") return null;
 
   const countryName =
     COUNTRIES.find(c => c.code === user.country_code)?.name ||
     "Your country";
 
-  const monthlyPrice = isIndia ? "₹99" : "$5";
-  const yearlyPrice = isIndia ? "₹499" : "$49";
+  // ✅ SINGLE SOURCE OF TRUTH
+  const pricing = getDisplayPricing(user.country_code);
 
- const handleUpgrade = async (plan) => {
-  try {
-    setLoading(true);
+  const handleUpgrade = async (plan) => {
+    try {
+      setLoading(true);
 
-    await startUpgrade(plan, (updatedUser) => {
-      setUser(updatedUser);
+      await startUpgrade(plan, (updatedUser) => {
+        setUser(updatedUser);
 
-      setToast({
-        type: "success",
-        message: "🎉 Pro activated successfully!"
+        setToast({
+          type: "success",
+          message: "🎉 Pro activated successfully!"
+        });
+
+        navigate("/dashboard", { replace: true });
       });
-
-      navigate("/dashboard", { replace: true });
-    });
-
-  } catch {
-    setToast({
-      type: "error",
-      message: "Payment cancelled or failed"
-    });
-  } finally {
-    setLoading(false);
-  }
-};
-
-
+    } catch {
+      setToast({
+        type: "error",
+        message: "Payment cancelled or failed"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="container py-5" style={{ maxWidth: 900 }}>
@@ -68,25 +64,22 @@ export default function Pricing() {
       </p>
 
       <div className="row g-4 justify-content-center">
-
         {/* MONTHLY */}
         <div className="col-md-4">
           <div className="card pricing-card p-4 text-center">
             <h5 className="fw-bold mb-3">Monthly</h5>
 
             <div className="price mb-3">
-              {monthlyPrice}
+              {pricing.monthly}
               <span className="text-muted fs-6"> / month</span>
             </div>
 
             <ul className="pricing-features mb-4">
-            
-            <li>✔ Unlimited brand deals</li>
-            <li>✔ Payment reminders</li>
-            <li>✔ Advanced deal analytics</li>
-            <li>✔ Email notifications</li>
-            <li>✔ Priority support</li>
-          
+              <li>✔ Unlimited brand deals</li>
+              <li>✔ Payment reminders</li>
+              <li>✔ Advanced deal analytics</li>
+              <li>✔ Email notifications</li>
+              <li>✔ Priority support</li>
             </ul>
 
             <button
@@ -102,23 +95,19 @@ export default function Pricing() {
         {/* YEARLY */}
         <div className="col-md-4">
           <div className="card pricing-card featured p-4 text-center">
-            
-
             <h5 className="fw-bold mb-3">Yearly</h5>
 
             <div className="price mb-3">
-              {yearlyPrice}
+              {pricing.yearly}
               <span className="text-muted fs-6"> / year</span>
             </div>
 
             <ul className="pricing-features mb-4">
-             
-            <li>✔ Unlimited brand deals</li>
-            <li>✔ Payment reminders</li>
-            <li>✔ Advanced deal analytics</li>
-            <li>✔ Email notifications</li>
-            <li>✔ Priority support</li>
-          
+              <li>✔ Unlimited brand deals</li>
+              <li>✔ Payment reminders</li>
+              <li>✔ Advanced deal analytics</li>
+              <li>✔ Email notifications</li>
+              <li>✔ Priority support</li>
             </ul>
 
             <button

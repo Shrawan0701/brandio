@@ -2,36 +2,38 @@ import { startUpgrade } from "../lib/payments";
 import { useAuth } from "../context/AuthContext";
 import Toast from "./Toast";
 import { useState } from "react";
-
-
+import { getDisplayPricing } from "../utils/pricing"; // ✅ ADDED
 
 export default function UpgradeCard() {
-  const { setUser } = useAuth();
+  const { user, setUser } = useAuth();
   const [toast, setToast] = useState(null);
   const [loading, setLoading] = useState(false);
 
- const handleUpgrade = async (plan) => {
-  try {
-    setLoading(true);
+  // ✅ GUARD
+  if (!user || !user.country_code) return null;
 
-    const updatedUser = await startUpgrade(plan);
-    setUser(updatedUser);
+  const pricing = getDisplayPricing(user.country_code);
 
-    setToast({
-      type: "success",
-      message: "🎉 Pro activated successfully!"
-    });
-  } catch (err) {
-    setToast({
-      type: "error",
-      message: "Payment failed"
-    });
-  } finally {
-    setLoading(false);
-  }
-};
+  const handleUpgrade = async (plan) => {
+    try {
+      setLoading(true);
 
+      const updatedUser = await startUpgrade(plan);
+      setUser(updatedUser);
 
+      setToast({
+        type: "success",
+        message: "🎉 Pro activated successfully!"
+      });
+    } catch (err) {
+      setToast({
+        type: "error",
+        message: "Payment failed"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -47,7 +49,7 @@ export default function UpgradeCard() {
             disabled={loading}
             onClick={() => handleUpgrade("monthly")}
           >
-            ₹99 / Month
+            {pricing.monthly} / Month
           </button>
 
           <button
@@ -55,7 +57,7 @@ export default function UpgradeCard() {
             disabled={loading}
             onClick={() => handleUpgrade("yearly")}
           >
-            ₹499 / Year
+            {pricing.yearly} / Year
           </button>
         </div>
       </div>
