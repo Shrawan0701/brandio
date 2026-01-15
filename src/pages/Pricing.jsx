@@ -12,30 +12,23 @@ export default function Pricing() {
   const [toast, setToast] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  /* 🚫 HARD GUARD — do NOTHING until user is ready */
+  if (!user || !user.country_code) return null;
+
   /* 🔒 Redirect Pro users */
   useEffect(() => {
-    if (user?.plan === "pro") {
+    if (user.plan === "pro") {
       navigate("/dashboard", { replace: true });
     }
   }, [user, navigate]);
 
-  /* 🟡 IMPORTANT: show loader instead of null */
-  if (!user) {
-    return (
-      <div className="container py-5 text-center">
-        <p className="text-muted">Loading pricing…</p>
-      </div>
-    );
-  }
-
   if (user.plan === "pro") return null;
 
-  /* ✅ SAFE country resolution */
-  const countryCode = user.country_code || "IN"; // fallback
-  const isIndia = countryCode === "IN";
+  /* ✅ SINGLE SOURCE OF TRUTH */
+  const isIndia = user.country_code === "IN";
 
   const countryName =
-    COUNTRIES.find(c => c.code === countryCode)?.name ||
+    COUNTRIES.find(c => c.code === user.country_code)?.name ||
     "Your country";
 
   const monthlyPrice = isIndia ? "₹99" : "$5";
@@ -75,6 +68,7 @@ export default function Pricing() {
       </p>
 
       <div className="row g-4 justify-content-center">
+
         {/* MONTHLY */}
         <div className="col-md-4">
           <div className="card pricing-card p-4 text-center">

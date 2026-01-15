@@ -8,10 +8,9 @@ export default function UpgradeCard() {
   const [toast, setToast] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  if (!user) return null;
+  if (!user || !user.country_code) return null;
 
-  const countryCode = user.country_code || "IN";
-  const isIndia = countryCode === "IN";
+  const isIndia = user.country_code === "IN";
 
   const monthlyLabel = isIndia ? "₹99 / Month" : "$5 / Month";
   const yearlyLabel = isIndia ? "₹499 / Year" : "$49 / Year";
