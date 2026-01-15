@@ -2,14 +2,14 @@ import { startUpgrade } from "../lib/payments";
 import { useAuth } from "../context/AuthContext";
 import Toast from "./Toast";
 import { useState } from "react";
-import api from "../lib/api";
+
 
 export default function UpgradeCard() {
   const { setUser } = useAuth();
   const [toast, setToast] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleUpgrade = async (plan) => {
+ const handleUpgrade = async (plan) => {
   try {
     setLoading(true);
 
