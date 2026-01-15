@@ -4,11 +4,14 @@ import api from "../lib/api";
 import { useAuth } from "../context/AuthContext";
 import Toast from "../components/Toast";
 import "../styles/pricing.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Upgrade() {
   const { setUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState(null);
+  const navigate = useNavigate();
+
 
   const handleUpgrade = async (planType) => {
     try {
@@ -23,9 +26,12 @@ export default function Upgrade() {
         setUser(res.data);
 
         setToast({
-          type: "success",
-          message: "🎉 Pro activated successfully!"
-        });
+  type: "success",
+  message: "🎉 Pro activated successfully!"
+});
+
+navigate("/dashboard", { replace: true });
+
       });
     } catch (err) {
       setToast({
