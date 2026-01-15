@@ -29,12 +29,7 @@ export const AuthProvider = ({ children }) => {
     fetchMe();
   }, []);
 
-  useEffect(() => {
-  if (!loading && user) {
-    window.location.replace("/dashboard");
-  }
-}, [loading, user]);
-
+  
 
   return (
     <AuthContext.Provider
