@@ -1,11 +1,9 @@
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { startUpgrade } from "../lib/payments";
-import api from "../lib/api";
 import { useEffect, useState } from "react";
 import Toast from "../components/Toast";
 import { COUNTRIES } from "../utils/countries";
-import { getDisplayPricing } from "../utils/pricing"; // ✅ ADDED
 
 export default function Pricing() {
   const { user, setUser } = useAuth();
@@ -14,22 +12,34 @@ export default function Pricing() {
   const [toast, setToast] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  /* 🔒 Redirect Pro users safely */
+  /* 🔒 Redirect Pro users */
   useEffect(() => {
     if (user?.plan === "pro") {
       navigate("/dashboard", { replace: true });
     }
   }, [user, navigate]);
 
-  // ✅ GUARD: wait till user + country_code is ready
-  if (!user || !user.country_code || user.plan === "pro") return null;
+  /* 🟡 IMPORTANT: show loader instead of null */
+  if (!user) {
+    return (
+      <div className="container py-5 text-center">
+        <p className="text-muted">Loading pricing…</p>
+      </div>
+    );
+  }
+
+  if (user.plan === "pro") return null;
+
+  /* ✅ SAFE country resolution */
+  const countryCode = user.country_code || "IN"; // fallback
+  const isIndia = countryCode === "IN";
 
   const countryName =
-    COUNTRIES.find(c => c.code === user.country_code)?.name ||
+    COUNTRIES.find(c => c.code === countryCode)?.name ||
     "Your country";
 
-  // ✅ SINGLE SOURCE OF TRUTH
-  const pricing = getDisplayPricing(user.country_code);
+  const monthlyPrice = isIndia ? "₹99" : "$5";
+  const yearlyPrice = isIndia ? "₹499" : "$49";
 
   const handleUpgrade = async (plan) => {
     try {
@@ -45,6 +55,7 @@ export default function Pricing() {
 
         navigate("/dashboard", { replace: true });
       });
+
     } catch {
       setToast({
         type: "error",
@@ -70,7 +81,7 @@ export default function Pricing() {
             <h5 className="fw-bold mb-3">Monthly</h5>
 
             <div className="price mb-3">
-              {pricing.monthly}
+              {monthlyPrice}
               <span className="text-muted fs-6"> / month</span>
             </div>
 
@@ -98,7 +109,7 @@ export default function Pricing() {
             <h5 className="fw-bold mb-3">Yearly</h5>
 
             <div className="price mb-3">
-              {pricing.yearly}
+              {yearlyPrice}
               <span className="text-muted fs-6"> / year</span>
             </div>
 

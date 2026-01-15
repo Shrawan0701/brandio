@@ -2,17 +2,19 @@ import { startUpgrade } from "../lib/payments";
 import { useAuth } from "../context/AuthContext";
 import Toast from "./Toast";
 import { useState } from "react";
-import { getDisplayPricing } from "../utils/pricing"; // ✅ ADDED
 
 export default function UpgradeCard() {
   const { user, setUser } = useAuth();
   const [toast, setToast] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // ✅ GUARD
-  if (!user || !user.country_code) return null;
+  if (!user) return null;
 
-  const pricing = getDisplayPricing(user.country_code);
+  const countryCode = user.country_code || "IN";
+  const isIndia = countryCode === "IN";
+
+  const monthlyLabel = isIndia ? "₹99 / Month" : "$5 / Month";
+  const yearlyLabel = isIndia ? "₹499 / Year" : "$49 / Year";
 
   const handleUpgrade = async (plan) => {
     try {
@@ -25,7 +27,7 @@ export default function UpgradeCard() {
         type: "success",
         message: "🎉 Pro activated successfully!"
       });
-    } catch (err) {
+    } catch {
       setToast({
         type: "error",
         message: "Payment failed"
@@ -49,7 +51,7 @@ export default function UpgradeCard() {
             disabled={loading}
             onClick={() => handleUpgrade("monthly")}
           >
-            {pricing.monthly} / Month
+            {monthlyLabel}
           </button>
 
           <button
@@ -57,7 +59,7 @@ export default function UpgradeCard() {
             disabled={loading}
             onClick={() => handleUpgrade("yearly")}
           >
-            {pricing.yearly} / Year
+            {yearlyLabel}
           </button>
         </div>
       </div>
