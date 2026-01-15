@@ -18,7 +18,7 @@ import Analytics from "./pages/Analytics";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Features from "./pages/Features";
-import Faq from "./pages/FAQ";
+import Faq from "./pages/Faq";
 import Payment from "./pages/Payment";
 
 
