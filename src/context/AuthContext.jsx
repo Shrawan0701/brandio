@@ -7,22 +7,17 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchMe = async () => {
+ const fetchMe = async () => {
   try {
     const res = await api.get("/profile/me");
     const incoming = res.data;
 
-    setUser(prev => ({
-      ...prev,                 // keep previous values
-      ...incoming,             // overwrite with fresh backend data
+    // 🔒 HARD REQUIREMENT
+    if (!incoming.country_code) {
+      throw new Error("country_code missing from backend");
+    }
 
-      // 🔒 HARD GUARANTEE
-      country_code:
-        incoming.country_code ||
-        incoming.country ||
-        prev?.country_code ||
-        "null"                   // absolute fallback (only if all else fails)
-    }));
+    setUser(incoming);
   } catch {
     setUser(null);
   } finally {
