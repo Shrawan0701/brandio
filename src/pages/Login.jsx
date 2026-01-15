@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../lib/api";
 import { useAuth } from "../context/AuthContext";
@@ -7,18 +7,11 @@ import Toast from "../components/Toast";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { user, loading, refreshUser } = useAuth();
+  const { refreshUser } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [toast, setToast] = useState(null);
-
-  /* ✅ REDIRECT AFTER AUTH STATE IS READY */
-  useEffect(() => {
-    if (!loading && user) {
-      navigate("/dashboard", { replace: true });
-    }
-  }, [loading, user, navigate]);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -26,12 +19,9 @@ export default function Login() {
     try {
       await api.post("/auth/login", { email, password });
 
-      setToast({
-        type: "success",
-        message: "Welcome back"
-      });
+      await refreshUser(); // fetch fresh /me
 
-      await refreshUser(); // updates AuthContext
+      navigate("/dashboard", { replace: true }); // 🔥 FORCE REDIRECT
     } catch {
       setToast({
         type: "error",
@@ -60,7 +50,6 @@ export default function Login() {
           <input
             type="password"
             placeholder="Password"
-            autoComplete="new-password"
             onChange={(e) => setPassword(e.target.value)}
           />
 

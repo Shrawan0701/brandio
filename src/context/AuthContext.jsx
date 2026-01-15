@@ -8,16 +8,14 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const fetchMe = async () => {
-    setLoading(true); // 🔥 THIS WAS MISSING
     try {
-      const res = await api.get("/profile/me");
-      const incoming = res.data;
+      const res = await api.get("/profile/me", {
+        headers: {
+          "Cache-Control": "no-cache"
+        }
+      });
 
-      if (!incoming.country_code) {
-        throw new Error("country_code missing from backend");
-      }
-
-      setUser(incoming);
+      setUser(res.data || null);
     } catch {
       setUser(null);
     } finally {
@@ -28,8 +26,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     fetchMe();
   }, []);
-
-  
 
   return (
     <AuthContext.Provider
