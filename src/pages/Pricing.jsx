@@ -12,8 +12,14 @@ export default function Pricing() {
   const [toast, setToast] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  /* 🚫 HARD GUARD — do NOTHING until user is ready */
-  if (!user || !user.country_code) return null;
+  /* 🟡 SHOW LOADER instead of returning null */
+  if (!user) {
+    return (
+      <div className="container py-5 text-center">
+        <p className="text-muted">Loading pricing…</p>
+      </div>
+    );
+  }
 
   /* 🔒 Redirect Pro users */
   useEffect(() => {
@@ -24,11 +30,12 @@ export default function Pricing() {
 
   if (user.plan === "pro") return null;
 
-  /* ✅ SINGLE SOURCE OF TRUTH */
-  const isIndia = user.country_code === "IN";
+  /* ✅ SAFE COUNTRY FALLBACK */
+  const countryCode = user.country_code || "DEFAULT";
+  const isIndia = countryCode === "IN";
 
   const countryName =
-    COUNTRIES.find(c => c.code === user.country_code)?.name ||
+    COUNTRIES.find(c => c.code === countryCode)?.name ||
     "Your country";
 
   const monthlyPrice = isIndia ? "₹99" : "$5";
