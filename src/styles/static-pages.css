@@ -1,0 +1,238 @@
+/* ================================
+   GLOBAL STATIC PAGE LAYOUT
+================================ */
+.static-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 96px 24px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .static-page {
+    padding: 64px 20px;
+  }
+}
+
+/* ================================
+   TYPOGRAPHY
+================================ */
+.static-page h1 {
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  color: #0f172a;
+  text-align: center;
+}
+
+.static-page .subtitle {
+  text-align: center;
+  font-size: 18px;
+  color: #64748b;
+  max-width: 700px;
+  margin: 0 auto 64px;
+  line-height: 1.6;
+}
+
+.static-page h2 {
+  font-size: 32px;
+  margin-bottom: 12px;
+  color: #0f172a;
+}
+
+.static-page h3 {
+  font-size: 22px;
+  margin-bottom: 8px;
+  color: #0f172a;
+}
+
+.static-page h4 {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.static-page p {
+  font-size: 16px;
+  line-height: 1.75;
+  color: #334155;
+}
+
+/* ================================
+   SECTION SPACING
+================================ */
+.static-page section {
+  margin-bottom: 80px;
+}
+
+@media (max-width: 768px) {
+  .static-page section {
+    margin-bottom: 56px;
+  }
+}
+
+/* ================================
+   FEATURES PAGE
+================================ */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 48px;
+  margin-top: 64px;
+}
+
+@media (max-width: 900px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.feature-card {
+  padding: 32px;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+/* ================================
+   PRICING PAGE
+================================ */
+.pricing-section {
+  margin-bottom: 96px;
+}
+
+.region-title {
+  text-align: center;
+  font-size: 34px;
+  margin-bottom: 8px;
+}
+
+.region-subtitle {
+  text-align: center;
+  color: #64748b;
+  margin-bottom: 56px;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+@media (max-width: 1024px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}
+
+.pricing-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 40px 32px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.pricing-card.highlight {
+  border: 2px solid #0f172a;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+}
+
+.pricing-card h3 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.price {
+  font-size: 44px;
+  font-weight: 700;
+  margin: 16px 0 4px;
+}
+
+.billing {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 24px;
+}
+
+.pricing-card ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 24px;
+}
+
+.pricing-card li {
+  margin-bottom: 12px;
+  color: #334155;
+}
+
+/* ================================
+   FAQ PAGE
+================================ */
+.faq-item {
+  max-width: 800px;
+  margin: 0 auto 32px;
+  padding: 24px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.faq-item h4 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+/* ================================
+   CONTACT PAGE
+================================ */
+.text-center {
+  text-align: center;
+}
+
+.contact-button {
+  display: inline-block;
+  margin-top: 32px;
+  padding: 14px 36px;
+  border-radius: 999px;
+  background: #0f172a;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* ================================
+   LISTS (ABOUT / TERMS / PRIVACY)
+================================ */
+.static-page ul {
+  margin-top: 24px;
+  padding-left: 20px;
+}
+
+.static-page li {
+  margin-bottom: 10px;
+  color: #334155;
+}
+
+/* ================================
+   FOOT NOTES / SMALL TEXT
+================================ */
+.note {
+  margin-top: 40px;
+  font-size: 14px;
+  color: #64748b;
+  text-align: center;
+}

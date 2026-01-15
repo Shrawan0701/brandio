@@ -10,6 +10,7 @@ import "./styles/toast.css";
 import "./styles/dashboard.css";
 import "./styles/modal.css";
 import "./styles/profile.css";
+import "./styles/static-pages.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

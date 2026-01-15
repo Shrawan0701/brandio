@@ -17,6 +17,9 @@ import Terms from "./pages/Terms";
 import Analytics from "./pages/Analytics";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import Features from "./pages/Features";
+import Faq from "./pages/FAQ";
+import Payment from "./pages/Payment";
 
 
 
@@ -36,6 +39,10 @@ export default function App() {
 <Route path="/terms" element={<Terms />} />
 <Route path="/forgot-password" element={<ForgotPassword />} />
 <Route path="/reset-password" element={<ResetPassword />} />
+<Route path="/payment" element={<Payment />} />
+            <Route path="/features" element={<Features />} />
+            <Route path="/faq" element={<Faq />} />
+
 
 
 

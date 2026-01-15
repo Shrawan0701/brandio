@@ -1,0 +1,47 @@
+export default function Faq() {
+  return (
+    <div className="static-page">
+      <h1>Frequently Asked Questions</h1>
+
+      <div className="faq-item">
+        <h4>Who is Brandio for?</h4>
+        <p>
+          Brandio is built for creators, influencers, freelancers, and agencies
+          who work with brands and want to manage collaborations professionally.
+        </p>
+      </div>
+
+      <div className="faq-item">
+        <h4>Is there a free plan?</h4>
+        <p>
+          Yes. You can start for free with limited features and upgrade anytime
+          when your workload grows.
+        </p>
+      </div>
+
+      <div className="faq-item">
+        <h4>How do payments work?</h4>
+        <p>
+          Payments are securely processed via Razorpay. We do not store your card
+          or banking details.
+        </p>
+      </div>
+
+      <div className="faq-item">
+        <h4>Can I cancel anytime?</h4>
+        <p>
+          Yes. You can cancel your subscription anytime from your dashboard.
+          Your access remains active until the end of the billing period.
+        </p>
+      </div>
+
+      <div className="faq-item">
+        <h4>Need help?</h4>
+        <p>
+          Email us at <strong>support@brandio.world</strong> and we’ll help you
+          within 24-48 hours.
+        </p>
+      </div>
+    </div>
+  );
+}

@@ -16,6 +16,8 @@ export default function Navbar() {
 
   const isDashboard = pathname === "/dashboard";
   const isProfile = pathname === "/profile";
+  const isAnalytics = pathname === "/analytics";
+
 
   return (
     <nav className="navbar px-4 py-3 bg-white border-bottom sticky-top">
@@ -73,7 +75,7 @@ export default function Navbar() {
         Profile
       </Link>
     )}
-    {user.plan === "pro" && (
+    {user.plan === "pro" && !isAnalytics && (
   <Link
     to="/analytics"
     className="btn btn-sm btn-outline-secondary rounded-pill px-3"
@@ -81,6 +83,7 @@ export default function Navbar() {
     Analytics
   </Link>
 )}
+
 
 
     {/* Upgrade CTA */}

@@ -1,29 +1,29 @@
 export default function About() {
   return (
-    <div className="container py-5" style={{ maxWidth: "900px" }}>
-      <h1 className="fw-bold mb-4">About Brandio</h1>
+    <div className="static-page">
+      <h1>About Brandio</h1>
 
-      <p className="text-muted">
-        Brandio helps creators and freelancers stay in control of their brand
-        collaborations.
+      <p>
+        Brandio was built to help creators and freelancers treat their work like
+        a real business.
       </p>
 
-      <p className="text-muted">
-        We built Brandio to replace messy spreadsheets and scattered notes with a
-        simple, reliable way to track brand deals, payments, and deadlines - all
-        in one place.
+      <p>
+        Managing brand deals through spreadsheets, WhatsApp messages, and random
+        notes leads to missed payments and unnecessary stress. Brandio replaces
+        that chaos with a single, reliable system.
       </p>
 
-      <p className="text-muted">
+      <p>
         Whether you’re working with one brand or managing dozens of
-        collaborations, Brandio helps you run your creator work like a real
-        business.
+        collaborations, Brandio keeps everything organized so you can focus on
+        creating.
       </p>
 
-      <ul className="mt-4 text-muted">
-        <li>Track brand deals and payment status</li>
-        <li>Never miss posting or payment deadlines</li>
-        <li>Keep all collaborations organized</li>
+      <ul>
+        <li>Professional deal tracking</li>
+        <li>Clear payment visibility</li>
+        <li>Zero clutter, maximum control</li>
       </ul>
     </div>
   );

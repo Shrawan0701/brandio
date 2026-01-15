@@ -1,28 +1,28 @@
 export default function Privacy() {
   return (
-    <div className="container py-5" style={{ maxWidth: "900px" }}>
-      <h1 className="fw-bold mb-4">Privacy Policy</h1>
+    <div className="static-page">
+      <h1>Privacy Policy</h1>
 
-      <p className="text-muted">
-        Your privacy matters to us. Brandio only collects the information
-        necessary to provide and improve our services.
+      <p>
+        Brandio respects your privacy. We only collect data required to provide
+        and improve our services.
       </p>
 
-      <h5 className="mt-4 fw-semibold">What we collect</h5>
-      <ul className="text-muted">
-        <li>Account details such as email and authentication data</li>
-        <li>Brand deal information you choose to store</li>
-        <li>Basic usage data to improve the product</li>
+      <h3>Information We Collect</h3>
+      <ul>
+        <li>Email and authentication details</li>
+        <li>Brand deal data you enter</li>
+        <li>Basic usage analytics</li>
       </ul>
 
-      <h5 className="mt-4 fw-semibold">What we don’t do</h5>
-      <ul className="text-muted">
-        <li>We do not sell your personal data</li>
-        <li>We do not share data for marketing purposes</li>
+      <h3>What We Don’t Do</h3>
+      <ul>
+        <li>Sell your personal data</li>
+        <li>Share data with advertisers</li>
       </ul>
 
-      <p className="text-muted mt-3">
-        By using Brandio, you agree to this privacy policy.
+      <p>
+        If you have questions, contact us at support@brandio.world.
       </p>
     </div>
   );
