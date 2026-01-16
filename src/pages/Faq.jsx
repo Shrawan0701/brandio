@@ -3,7 +3,7 @@ export default function Faq() {
   return (
 <>
     <Helmet>
-        <title>Brandio FAQ – Brand Deal & Payment Tracker for Creators</title>
+        <title>Brandio FAQ - Brand Deal & Payment Tracker for Creators</title>
         <meta
           name="description"
           content="Frequently asked questions about Brandio. Learn how creators track brand deals, payments, deadlines, pricing, and security."
@@ -37,13 +37,7 @@ export default function Faq() {
         </p>
       </div>
 
-      <div className="faq-item">
-        <h4>Can I cancel anytime?</h4>
-        <p>
-          Yes. You can cancel your subscription anytime from your dashboard.
-          Your access remains active until the end of the billing period.
-        </p>
-      </div>
+      
 
       <div className="faq-item">
         <h4>Need help?</h4>
