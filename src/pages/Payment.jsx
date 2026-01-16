@@ -1,6 +1,20 @@
+import { Helmet } from "react-helmet-async";
+
 export default function Payment() {
   return (
-    <div className="static-page">
+    
+
+      <>
+      <Helmet>
+        <title>Brandio Pricing - Plans for Creators & Influencers</title>
+        <meta
+          name="description"
+          content="Brandio pricing plans for creators and influencers. Track brand deals, payments, deadlines, and earnings with affordable monthly and yearly plans."
+        />
+        <link rel="canonical" href="https://www.brandio.world/pricing" />
+      </Helmet>
+
+      <div className="static-page">
       <h1>Pricing</h1>
 
       <p className="subtitle">
@@ -115,5 +129,6 @@ export default function Payment() {
         </p>
       </div>
     </div>
+    </>
   );
 }

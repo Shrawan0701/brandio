@@ -1,5 +1,16 @@
+import { Helmet } from "react-helmet-async";
 export default function About() {
+  
   return (
+    <><Helmet>
+        <title>About Brandio - Creator Brand Deal Tracker</title>
+        <meta
+          name="description"
+          content="Learn why Brandio was built to help creators track brand deals, payments, and collaborations professionally."
+        />
+        <link rel="canonical" href="https://www.brandio.world/about" />
+      </Helmet>
+
     <div className="static-page">
       <h1>About Brandio</h1>
 
@@ -26,5 +37,6 @@ export default function About() {
         <li>Zero clutter, maximum control</li>
       </ul>
     </div>
+    </>
   );
 }

@@ -1,5 +1,15 @@
+import { Helmet } from "react-helmet-async";
 export default function Faq() {
   return (
+<>
+    <Helmet>
+        <title>Brandio FAQ – Brand Deal & Payment Tracker for Creators</title>
+        <meta
+          name="description"
+          content="Frequently asked questions about Brandio. Learn how creators track brand deals, payments, deadlines, pricing, and security."
+        />
+        <link rel="canonical" href="https://www.brandio.world/faq" />
+      </Helmet> 
     <div className="static-page">
       <h1>Frequently Asked Questions</h1>
 
@@ -43,5 +53,6 @@ export default function Faq() {
         </p>
       </div>
     </div>
+    </>
   );
 }
