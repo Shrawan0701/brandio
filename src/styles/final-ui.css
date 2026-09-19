@@ -1,0 +1,1534 @@
+/* Brandio final platform UI layer. Imported last on purpose. */
+
+:root {
+  --ui-bg: #f4f6fb;
+  --ui-surface: #ffffff;
+  --ui-ink: #090d18;
+  --ui-text: #182032;
+  --ui-muted: #556176;
+  --ui-line: #dde3ef;
+  --ui-line-soft: #edf1f7;
+  --ui-accent: #4f46e5;
+  --ui-accent-2: #2563eb;
+  --ui-accent-soft: #eef2ff;
+  --ui-radius: 12px;
+  --ui-shadow: 0 18px 45px rgba(21, 30, 50, 0.08);
+}
+
+html,
+body,
+#root {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--ui-bg);
+  color: var(--ui-text);
+}
+
+/* Public mobile nav: no menu drawer, just Login + Sign up. */
+.public-mobile-menu-trigger,
+.public-menu-button,
+.public-mobile-menu {
+  display: none !important;
+}
+
+.public-nav {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-bottom: 1px solid var(--ui-line) !important;
+  box-shadow: none !important;
+  display: flex !important;
+  gap: 20px !important;
+  padding-left: clamp(18px, 4vw, 56px) !important;
+  padding-right: clamp(18px, 4vw, 56px) !important;
+}
+
+.public-actions .btn-start,
+.public-actions .btn-signin {
+  border-radius: 10px !important;
+  font-size: 14px;
+  min-height: 38px;
+  padding: 8px 12px !important;
+}
+
+.public-actions .btn-signin {
+  background: transparent !important;
+  border: 1px solid var(--ui-line) !important;
+  color: var(--ui-text) !important;
+}
+
+.public-actions .btn-start {
+  background: var(--ui-ink) !important;
+  border: 1px solid var(--ui-ink) !important;
+  color: #fff !important;
+}
+
+.public-links {
+  flex: 1 1 auto;
+  justify-content: center;
+  min-width: 0;
+}
+
+.public-actions {
+  flex: 0 0 auto;
+  position: static !important;
+}
+
+@media (max-width: 1000px) {
+  .public-nav {
+    display: flex !important;
+    gap: 8px !important;
+    min-height: 58px;
+    padding: 10px 14px !important;
+    width: 100% !important;
+  }
+
+  .public-links {
+    display: none !important;
+  }
+
+  .public-brand {
+    flex: 1 1 auto;
+    max-width: 132px;
+    min-width: 0;
+  }
+
+  .public-brand strong {
+    font-size: 16px;
+  }
+
+  .public-brand span {
+    border-radius: 8px !important;
+    height: 32px !important;
+    width: 32px !important;
+  }
+
+  .public-actions {
+    display: flex !important;
+    flex: 0 0 auto;
+    gap: 7px !important;
+    margin-left: auto;
+    position: absolute !important;
+    right: 10px !important;
+    top: 10px !important;
+    z-index: 1500;
+  }
+
+  .public-actions .btn-start,
+  .public-actions .btn-signin {
+    display: inline-flex !important;
+    font-size: 13px;
+    min-height: 34px;
+    padding: 7px 9px !important;
+    white-space: nowrap;
+  }
+}
+
+/* App shell and sidebar */
+.app-shell {
+  background: var(--ui-bg) !important;
+  grid-template-columns: 232px minmax(0, 1fr) !important;
+}
+
+.app-sidebar {
+  background:
+    linear-gradient(180deg, #fbfcff 0%, #f1f4fb 100%) !important;
+  border-right: 1px solid var(--ui-line) !important;
+  box-shadow: 10px 0 35px rgba(15, 23, 42, 0.04);
+  padding: 18px 12px !important;
+}
+
+.app-sidebar .app-brand {
+  margin: 0 8px 18px !important;
+}
+
+.app-brand span {
+  background: linear-gradient(135deg, #111827, #4f46e5) !important;
+  border-radius: 9px !important;
+}
+
+.app-brand strong {
+  color: var(--ui-ink);
+  font-size: 16px !important;
+  line-height: 1;
+}
+
+.app-brand small {
+  color: var(--ui-muted) !important;
+  font-size: 11px !important;
+}
+
+.app-nav {
+  gap: 14px !important;
+}
+
+.app-nav p {
+  border-top: 1px solid var(--ui-line) !important;
+  color: #69758b !important;
+  font-size: 10px !important;
+  letter-spacing: 0.08em !important;
+  margin: 0 8px 6px !important;
+  padding-top: 12px !important;
+}
+
+.app-nav section:first-child p {
+  border-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.app-nav a {
+  background: transparent !important;
+  border: 1px solid transparent;
+  border-radius: 10px !important;
+  color: #253047 !important;
+  font-size: 13px !important;
+  font-weight: 760 !important;
+  gap: 8px !important;
+  margin-bottom: 1px !important;
+  padding: 8px 9px !important;
+}
+
+.app-nav a span {
+  background: transparent !important;
+  border: 0 !important;
+  color: #53617a !important;
+  font-size: 10px !important;
+  height: auto !important;
+  width: 26px !important;
+}
+
+.app-nav a:hover,
+.app-nav a.active {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.12), rgba(37, 99, 235, 0.08)) !important;
+  border-color: rgba(79, 70, 229, 0.18);
+  color: #111827 !important;
+  transform: none !important;
+}
+
+.app-topbar {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-bottom: 1px solid var(--ui-line) !important;
+  min-height: 62px !important;
+  padding: 10px 24px !important;
+}
+
+.app-topbar h1 {
+  color: var(--ui-ink);
+  font-size: 20px !important;
+}
+
+.app-topbar span {
+  color: var(--ui-accent) !important;
+  font-size: 11px !important;
+}
+
+.app-search,
+.notif-bell,
+.app-avatar {
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+
+/* Global app page scale and contrast */
+.dash-page,
+.deals-page,
+.brand-crm-page,
+.del-page,
+.money-page,
+.ct-page,
+.inb-page,
+.pf-page,
+.rate-page,
+.da-page,
+.dw-page,
+.profile-page,
+.billing-page,
+.bi-page,
+.roi-page {
+  background: var(--ui-bg) !important;
+  color: var(--ui-text) !important;
+  padding: 24px !important;
+}
+
+.app-content h1,
+.dash-hero h1,
+.deals-header h1,
+.brand-crm-hero h1,
+.del-page-hero h1,
+.money-hero h1,
+.ct-hero h1,
+.inb-hero h1,
+.pf-hero h1,
+.rate-hero h1,
+.da-hero h1,
+.dw-header h1,
+.profile-header h1,
+.billing-header h1,
+.bi-hero h1 {
+  color: var(--ui-ink) !important;
+  font-size: clamp(26px, 2.2vw, 34px) !important;
+  line-height: 1.15 !important;
+}
+
+.dash-hero p,
+.deals-header p,
+.brand-crm-hero p,
+.del-page-hero p,
+.money-hero p,
+.mk-page p,
+.mk-page span {
+  color: var(--ui-muted) !important;
+}
+
+/* Dashboard: force real responsive layout, no skinny vertical cards. */
+.dash-secondary {
+  display: none !important;
+}
+
+.dash-hero {
+  align-items: end !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--ui-line) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--ui-text) !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  margin-bottom: 18px !important;
+  padding: 0 0 18px !important;
+}
+
+.dash-kpis {
+  background: #fff !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 14px !important;
+  display: grid !important;
+  gap: 0 !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  margin-bottom: 18px !important;
+  overflow: hidden;
+}
+
+.dash-kpi {
+  background: linear-gradient(180deg, #fff, #fafbff) !important;
+  border: 0 !important;
+  border-right: 1px solid var(--ui-line) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  min-height: 92px !important;
+  padding: 16px !important;
+}
+
+.dash-kpi:last-child {
+  border-right: 0 !important;
+}
+
+.dash-kpi span,
+.dash-panel-head span,
+.dash-revenue-summary span,
+.dash-axis,
+.deal-card-value span,
+.deal-date-grid span {
+  color: #647086 !important;
+}
+
+.dash-kpi strong {
+  color: var(--ui-ink) !important;
+  font-size: clamp(24px, 2.4vw, 34px) !important;
+}
+
+.dash-main-grid {
+  align-items: start !important;
+  display: grid !important;
+  gap: 16px !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  max-width: 1120px;
+}
+
+.dash-panel {
+  background: #fff !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 14px 40px rgba(20, 28, 45, 0.05) !important;
+  min-width: 0 !important;
+  padding: 18px !important;
+  width: 100% !important;
+}
+
+.dash-revenue,
+.dash-active,
+.dash-work,
+.dash-brands,
+.dash-pipeline,
+.dash-payments,
+.dash-attention,
+.dash-intel,
+.dash-actions {
+  grid-column: 1 !important;
+}
+
+
+.dash-panel-head {
+  border-bottom: 1px solid var(--ui-line-soft) !important;
+  margin-bottom: 14px !important;
+  padding-bottom: 10px !important;
+}
+
+.dash-panel-head h2 {
+  color: var(--ui-ink) !important;
+  font-size: 22px !important;
+  margin: 0 !important;
+}
+
+.dash-revenue-summary {
+  background: #f7f8fd !important;
+  border: 1px solid var(--ui-line-soft) !important;
+  border-radius: 12px !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  margin-bottom: 14px !important;
+  padding: 10px !important;
+}
+
+.dash-revenue-summary div {
+  background: transparent !important;
+  border: 0 !important;
+  border-right: 1px solid var(--ui-line) !important;
+  padding: 8px 12px !important;
+}
+
+.dash-revenue-summary div:last-child {
+  border-right: 0 !important;
+}
+
+.dash-analytics-chart {
+  min-height: 190px !important;
+}
+
+.dash-analytics-chart svg {
+  max-height: 230px !important;
+  width: 100% !important;
+}
+
+.dash-line {
+  stroke: var(--ui-accent) !important;
+}
+
+.dash-area {
+  fill: rgba(79, 70, 229, 0.1) !important;
+}
+
+.dash-gridline {
+  stroke: #e7ebf3 !important;
+}
+
+.dash-chart-empty {
+  min-height: 150px !important;
+}
+
+.dash-pipeline-legend,
+.dash-payment-status,
+.dash-brand-bars {
+  min-width: 0 !important;
+}
+
+.dash-pipeline-legend {
+  grid-template-columns: 1fr 1fr !important;
+}
+
+.dash-work-row,
+.dash-deal-row,
+.dash-attention-item,
+.dash-insight {
+  border-bottom: 1px solid var(--ui-line-soft) !important;
+}
+
+/* Deals: compact CRM rows, no giant proof button. */
+.deals-header {
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--ui-line) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  padding: 0 0 16px !important;
+}
+
+.deals-toolbar {
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--ui-line) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 12px 0 !important;
+}
+
+.deals-filters button {
+  border-radius: 9px !important;
+  font-size: 14px !important;
+  padding: 8px 10px !important;
+}
+
+.deals-toolbar input {
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  min-height: 42px;
+}
+
+.deals-grid {
+  display: grid !important;
+  gap: 0 !important;
+  grid-template-columns: 1fr !important;
+}
+
+/* Other app pages: readable, less huge, less glass. */
+.brand-crm-hero,
+.del-page-hero,
+.money-hero {
+  background: transparent !important;
+  display: grid !important;
+  gap: 18px !important;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.55fr) !important;
+  margin-bottom: 18px !important;
+}
+
+.brand-crm-hero > div:first-child,
+.money-hero > div:first-child,
+.del-page-hero {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: var(--ui-text) !important;
+  padding: 0 !important;
+}
+
+.brand-crm-stats,
+.del-stat-grid,
+.money-stat-grid {
+  background: #fff !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+}
+
+.brand-crm-stats div,
+.del-stat-grid div,
+.money-stat {
+  background: transparent !important;
+  border: 0 !important;
+  border-right: 1px solid var(--ui-line) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.brand-crm-stats div:last-child,
+.del-stat-grid div:last-child,
+.money-stat:last-child {
+  border-right: 0 !important;
+}
+
+.brand-workspace,
+.brand-list,
+.brand-panel,
+.brand-metric,
+.money-panel,
+.money-reserve-card,
+.del-global-card {
+  background: #fff !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+
+.brand-list button {
+  border-radius: 10px !important;
+}
+
+@media (max-width: 1100px) {
+  .dash-main-grid,
+  .brand-crm-hero,
+  .del-page-hero,
+  .money-hero {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dash-revenue,
+  .dash-active,
+  .dash-work,
+  .dash-brands,
+  .dash-pipeline,
+  .dash-payments,
+  .dash-attention,
+  .dash-intel,
+  .dash-actions {
+    grid-column: 1 !important;
+  }
+}
+
+@media (max-width: 980px) {
+  .app-shell {
+    display: block !important;
+    padding-top: 58px !important;
+  }
+
+  .app-sidebar,
+  .app-topbar {
+    display: none !important;
+  }
+
+  .app-mobile-topbar {
+    background: #fff !important;
+    border-bottom: 1px solid var(--ui-line) !important;
+    display: flex !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .dash-page,
+  .deals-page,
+  .brand-crm-page,
+  .del-page,
+  .money-page,
+  .ct-page,
+  .inb-page,
+  .pf-page,
+  .rate-page,
+  .da-page,
+  .dw-page,
+  .profile-page,
+  .billing-page,
+  .bi-page,
+  .roi-page {
+    padding: 16px !important;
+  }
+
+  .dash-hero,
+  .deals-header {
+    display: block !important;
+  }
+
+  .dash-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .dash-kpi:nth-child(2n) {
+    border-right: 0 !important;
+  }
+
+  .dash-revenue-summary,
+  .dash-deal-row,
+  .dash-work-row {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .public-actions .btn-start,
+  .public-actions .btn-signin {
+    font-size: 12px !important;
+    padding: 7px 8px !important;
+  }
+
+  .dash-kpis {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dash-kpi {
+    border-right: 0 !important;
+  }
+}
+
+/* ========================================================================== 
+   Final responsive component ownership
+   These selectors intentionally own the deal list, workspace, media kit and
+   public mobile layout so page-level styles cannot split their internal grids.
+   ========================================================================== */
+
+/* Public navigation */
+.public-nav {
+  grid-template-columns: auto minmax(0, 1fr) auto !important;
+  min-width: 0 !important;
+}
+
+.public-brand,
+.public-links,
+.public-actions {
+  position: static !important;
+}
+
+@media (max-width: 760px) {
+  .public-nav {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    min-height: 56px !important;
+    padding: 9px 12px !important;
+  }
+
+  .public-brand {
+    max-width: none !important;
+    min-width: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .public-actions {
+    display: flex !important;
+    gap: 6px !important;
+    margin-left: auto !important;
+    min-width: max-content !important;
+    width: max-content !important;
+  }
+
+  .public-actions .btn-signin,
+  .public-actions .btn-start {
+    display: inline-flex !important;
+    font-size: 12px !important;
+    min-height: 34px !important;
+    padding: 7px 9px !important;
+  }
+}
+
+/* Deal list */
+.deals-page {
+  max-width: 1480px !important;
+}
+
+.deals-grid {
+  background: #fff !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+.deal-card-v2 {
+  display: block !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+.deal-card-summary {
+  align-items: center;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(170px, 1fr) minmax(110px, .42fr) minmax(120px, .5fr) minmax(150px, .65fr) auto;
+  min-width: 0;
+  padding: 14px 16px;
+}
+
+.deal-card-head,
+.deal-card-value,
+.deal-date-grid,
+.deal-action-row {
+  min-width: 0;
+}
+
+.deal-card-head {
+  align-items: center !important;
+  display: flex !important;
+  gap: 10px !important;
+  justify-content: space-between !important;
+}
+
+.deal-card-head h3,
+.deal-card-head p,
+.deal-card-value strong,
+.deal-card-value small {
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+.deal-card-head h3 {
+  color: var(--ui-ink) !important;
+  font-size: 16px !important;
+  line-height: 1.25 !important;
+}
+
+.deal-card-head p,
+.deal-card-value small {
+  margin: 2px 0 0 !important;
+}
+
+.deal-card-value {
+  border: 0 !important;
+  padding: 0 !important;
+}
+
+.deal-card-value strong {
+  color: var(--ui-ink) !important;
+  display: block !important;
+  font-size: 17px !important;
+  line-height: 1.25 !important;
+}
+
+.deal-card-summary > label.btn {
+  align-self: center !important;
+  background: #f8faff !important;
+  border: 1px solid #cfd7e8 !important;
+  color: #3446c5 !important;
+  justify-self: start !important;
+  line-height: 1.2 !important;
+  margin: 0 !important;
+  max-width: 126px !important;
+  min-height: 32px !important;
+  padding: 7px 9px !important;
+  white-space: normal !important;
+  width: auto !important;
+}
+
+.deal-date-grid {
+  display: grid !important;
+  gap: 6px 12px !important;
+  grid-template-columns: repeat(2, minmax(54px, 1fr)) !important;
+}
+
+.deal-date-grid span,
+.deal-date-grid strong {
+  display: block !important;
+  font-size: 11px !important;
+  line-height: 1.25 !important;
+  overflow-wrap: normal !important;
+  white-space: nowrap !important;
+}
+
+.deal-date-grid strong {
+  color: var(--ui-text) !important;
+  margin-top: 2px !important;
+}
+
+.deal-action-row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: flex-end !important;
+  opacity: 1 !important;
+}
+
+.deal-action-row button,
+.deal-action-row a,
+.deal-portfolio-btn {
+  background: #fff !important;
+  border: 1px solid #ccd4e2 !important;
+  color: var(--ui-text) !important;
+  font-weight: 750 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+.deal-action-row .primary {
+  background: var(--ui-ink) !important;
+  border-color: var(--ui-ink) !important;
+  color: #fff !important;
+}
+
+.deal-action-row .danger {
+  color: #b42318 !important;
+}
+
+.deal-money-breakdown,
+.deal-product-box,
+.deal-proof-strip,
+.deal-portfolio-btn {
+  grid-column: 1 / -1 !important;
+}
+
+.deal-card-expanded {
+  background: #f8faff;
+  border-top: 1px solid var(--ui-line);
+  color: var(--ui-text);
+  padding: 16px;
+  width: 100%;
+}
+
+.deal-card-expanded .ct-section,
+.deal-card-expanded .cr-section {
+  margin: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+}
+
+.deal-card-expanded .ct-section {
+  background: #fff !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 10px !important;
+  padding: 16px !important;
+}
+
+.ct-section-head,
+.ct-doc-title-row {
+  align-items: flex-start !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+}
+
+.ct-section-title,
+.ct-doc-title,
+.ct-doc-brand strong,
+.ct-doc-meta strong {
+  color: var(--ui-ink) !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+.ct-section-title {
+  font-size: 18px !important;
+}
+
+.ct-section-sub,
+.ct-doc-brand,
+.ct-doc-meta,
+.ct-fineprint,
+.ct-muted {
+  color: var(--ui-muted) !important;
+}
+
+.ct-doc-card {
+  align-items: flex-start !important;
+  background: #fff !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 10px !important;
+  display: grid !important;
+  gap: 14px !important;
+  grid-template-columns: 46px minmax(0, 1fr) !important;
+  padding: 14px !important;
+  width: 100% !important;
+}
+
+.ct-doc-main {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+.ct-doc-title {
+  font-size: 16px !important;
+  line-height: 1.3 !important;
+}
+
+.ct-doc-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+}
+
+.ct-btn {
+  border-radius: 8px !important;
+  min-height: 34px !important;
+  padding: 7px 10px !important;
+}
+
+/* Deal workspace */
+.dw-page {
+  background: #f3f5f9 !important;
+  color: var(--ui-text) !important;
+  min-height: 100vh !important;
+}
+
+.dw-header,
+.dw-grid,
+.dw-empty {
+  max-width: 1440px !important;
+}
+
+.dw-header {
+  align-items: center !important;
+  background: #fff !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  color: var(--ui-text) !important;
+  gap: 20px !important;
+  padding: 22px 24px !important;
+}
+
+.dw-back {
+  color: #4654c7 !important;
+  display: inline-block !important;
+  margin-bottom: 8px !important;
+}
+
+.dw-header h1 {
+  color: var(--ui-ink) !important;
+  font-size: clamp(26px, 3vw, 38px) !important;
+  margin: 0 0 4px !important;
+}
+
+.dw-header p,
+.dw-panel-head span,
+.dw-muted,
+.dw-files p {
+  color: var(--ui-muted) !important;
+}
+
+.dw-header-meta {
+  margin-top: 12px !important;
+}
+
+.dw-header-meta > span,
+.dw-health,
+.dw-status {
+  background: #f1f4f9 !important;
+  border: 1px solid #dce2ec !important;
+  border-radius: 7px !important;
+  color: var(--ui-text) !important;
+  font-size: 13px !important;
+  padding: 6px 9px !important;
+}
+
+.dw-status.active,
+.dw-health.active {
+  background: #eaf1ff !important;
+  border-color: #bed0ff !important;
+  color: #2445b8 !important;
+}
+
+.dw-status.completed,
+.dw-health.good {
+  background: #e8f8f0 !important;
+  border-color: #bce8d2 !important;
+  color: #176342 !important;
+}
+
+.dw-status.overdue,
+.dw-health.risk {
+  background: #fff0ee !important;
+  border-color: #f6c9c2 !important;
+  color: #a42e24 !important;
+}
+
+.dw-header-actions button,
+.dw-header-actions select,
+.dw-soft-btn {
+  background: #fff !important;
+  border: 1px solid #cbd4e2 !important;
+  border-radius: 8px !important;
+  color: var(--ui-text) !important;
+  min-height: 38px !important;
+  padding: 8px 11px !important;
+}
+
+.dw-header-actions select {
+  background-color: var(--ui-ink) !important;
+  border-color: var(--ui-ink) !important;
+  color: #fff !important;
+}
+
+.dw-grid {
+  align-items: start !important;
+  display: grid !important;
+  gap: 14px !important;
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+}
+
+.dw-panel {
+  background: #fff !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  color: var(--ui-text) !important;
+  grid-column: span 4 !important;
+  min-width: 0 !important;
+  padding: 18px !important;
+}
+
+.dw-wide,
+.dw-overview {
+  grid-column: span 8 !important;
+}
+
+.dw-panel h2,
+.dw-panel h3,
+.dw-panel h4,
+.dw-panel strong,
+.dw-panel label {
+  color: var(--ui-ink) !important;
+}
+
+.dw-panel-head {
+  border-bottom: 1px solid var(--ui-line-soft) !important;
+  margin-bottom: 12px !important;
+  padding-bottom: 10px !important;
+}
+
+.dw-panel-head h2 {
+  font-size: 19px !important;
+}
+
+.dw-facts {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+
+.dw-money {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.dw-fact {
+  background: #f7f9fc !important;
+  border: 1px solid #e7ebf2 !important;
+  border-radius: 9px !important;
+  min-width: 0 !important;
+  padding: 11px !important;
+}
+
+.dw-fact span {
+  color: #667187 !important;
+  font-size: 11px !important;
+}
+
+.dw-fact strong {
+  font-size: 15px !important;
+  line-height: 1.35 !important;
+}
+
+.dw-panel textarea {
+  background: #fff !important;
+  color: var(--ui-text) !important;
+}
+
+.dw-contract .ct-section {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+
+/* Public media kit */
+.mk-page {
+  background: #f3f5f9 !important;
+  color: var(--ui-text) !important;
+  padding: 24px !important;
+}
+
+.mk-page .mk-hero,
+.mk-page .mk-section,
+.mk-page .mk-footer-cta {
+  margin-bottom: 14px !important;
+  max-width: 1080px !important;
+}
+
+.mk-page .mk-hero {
+  align-items: center !important;
+  display: grid !important;
+  gap: clamp(22px, 4vw, 44px) !important;
+  grid-template-columns: minmax(0, 1.2fr) minmax(220px, .65fr) !important;
+  min-height: 0 !important;
+  padding: clamp(24px, 4vw, 42px) !important;
+}
+
+.mk-page .mk-brand {
+  color: #5c6780 !important;
+  font-size: 11px !important;
+  letter-spacing: .08em !important;
+}
+
+.mk-page .mk-hero h1 {
+  color: var(--ui-ink) !important;
+  font-size: clamp(36px, 5vw, 58px) !important;
+  line-height: 1.02 !important;
+  margin: 10px 0 !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+.mk-page .mk-headline {
+  color: #283247 !important;
+  font-size: clamp(18px, 2.2vw, 25px) !important;
+  line-height: 1.3 !important;
+  margin: 0 !important;
+}
+
+.mk-page .mk-bio {
+  color: var(--ui-muted) !important;
+  font-size: 15px !important;
+  line-height: 1.55 !important;
+  margin: 10px 0 0 !important;
+}
+
+.mk-page .mk-actions {
+  margin-top: 18px !important;
+}
+
+.mk-page .mk-tags span,
+.mk-page .mk-actions a,
+.mk-page .mk-brand-grid span {
+  background: #fff !important;
+  border: 1px solid #dce2ec !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  color: var(--ui-text) !important;
+  font-size: 13px !important;
+  padding: 8px 10px !important;
+}
+
+.mk-page .mk-actions a:first-child,
+.mk-page .mk-footer-cta a {
+  background: var(--ui-ink) !important;
+  border-color: var(--ui-ink) !important;
+  color: #fff !important;
+}
+
+.mk-page .mk-photo-wrap {
+  aspect-ratio: 4 / 5 !important;
+  border-radius: 12px !important;
+  justify-self: end !important;
+  max-height: 420px !important;
+  max-width: 320px !important;
+  width: 100% !important;
+}
+
+.mk-page .mk-section,
+.mk-page .mk-footer-cta {
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 12px !important;
+  padding: 22px !important;
+}
+
+.mk-page .mk-section h2,
+.mk-page .mk-footer-cta h2 {
+  color: var(--ui-ink) !important;
+  font-size: clamp(22px, 2.5vw, 30px) !important;
+  line-height: 1.2 !important;
+  margin: 0 0 14px !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+.mk-page .mk-split {
+  gap: 20px !important;
+}
+
+.mk-page .mk-card-list {
+  gap: 8px !important;
+}
+
+.mk-page .mk-card-list article,
+.mk-page .mk-stats div {
+  border-radius: 9px !important;
+  min-height: 0 !important;
+  padding: 14px !important;
+}
+
+.mk-page .mk-card-list h3,
+.mk-page .mk-work h3 {
+  color: var(--ui-ink) !important;
+  font-size: 17px !important;
+  line-height: 1.3 !important;
+}
+
+.mk-page .mk-card-list p {
+  font-size: 14px !important;
+  margin: 3px 0 0 !important;
+}
+
+.mk-page .mk-stats strong {
+  font-size: 26px !important;
+}
+
+.mk-page .mk-footer-cta {
+  min-height: 0 !important;
+}
+
+.mk-page .mk-footer-cta h2 {
+  margin: 0 !important;
+}
+
+.mk-page .mk-footer-cta a {
+  border-radius: 8px !important;
+  padding: 10px 14px !important;
+}
+
+/* Marketing landing: compact and continuous on small screens. */
+@media (max-width: 760px) {
+  .marketing-site .mk-hero {
+    display: grid !important;
+    gap: 24px !important;
+    grid-template-columns: 1fr !important;
+    min-height: 0 !important;
+    padding: 30px 16px 34px !important;
+  }
+
+  .marketing-site .mk-hero-copy {
+    max-width: none !important;
+    order: 1 !important;
+  }
+
+  .marketing-site .mk-hero h1 {
+    font-size: clamp(38px, 12vw, 52px) !important;
+    line-height: .98 !important;
+    margin: 12px 0 16px !important;
+  }
+
+  .marketing-site .mk-product-frame {
+    max-height: none !important;
+    min-height: 0 !important;
+    order: 2 !important;
+    overflow: visible !important;
+    padding: 8px !important;
+  }
+
+  .marketing-site .mk-browser,
+  .marketing-site .mk-dashboard {
+    min-height: 0 !important;
+  }
+
+  .marketing-site .mk-trust,
+  .marketing-site .mk-problem,
+  .marketing-site .mk-workflow,
+  .marketing-site .mk-showcase,
+  .marketing-site .mk-ai,
+  .marketing-site .mk-media,
+  .marketing-site .mk-inbound,
+  .marketing-site .mk-features,
+  .marketing-site .mk-different,
+  .marketing-site .mk-pricing,
+  .marketing-site .mk-faq,
+  .marketing-site .mk-final {
+    padding: 38px 16px !important;
+  }
+
+  .marketing-site .mk-trust {
+    padding-bottom: 28px !important;
+    padding-top: 24px !important;
+  }
+
+  .marketing-site .mk-chaos-board {
+    display: grid !important;
+    gap: 8px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .marketing-site .mk-mini-card,
+  .marketing-site .mk-brandio-core {
+    min-height: 74px !important;
+    padding: 12px !important;
+  }
+
+  .marketing-site .mk-brandio-core {
+    grid-column: 1 / -1 !important;
+  }
+}
+
+@media (max-width: 1180px) {
+  .deal-card-summary {
+    grid-template-columns: minmax(170px, 1fr) minmax(110px, .45fr) minmax(140px, .7fr) auto;
+  }
+
+  .deal-card-summary > label.btn {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .deal-date-grid {
+    grid-column: 1 / 3;
+    grid-row: 2;
+    justify-self: start;
+  }
+
+  .deal-action-row {
+    grid-column: 3 / -1;
+    grid-row: 2;
+  }
+}
+
+@media (max-width: 900px) {
+  .deal-card-summary {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .deal-card-head {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .deal-card-value {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: right;
+  }
+
+  .deal-card-summary > label.btn {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .deal-date-grid {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .deal-action-row {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    justify-content: flex-start !important;
+  }
+
+  .dw-panel,
+  .dw-wide,
+  .dw-overview {
+    grid-column: span 6 !important;
+  }
+
+  .dw-overview,
+  .dw-contract {
+    grid-column: 1 / -1 !important;
+  }
+
+  .dw-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .mk-page .mk-hero {
+    grid-template-columns: minmax(0, 1fr) minmax(180px, .55fr) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .deals-page,
+  .dw-page {
+    padding: 12px !important;
+  }
+
+  .deals-header {
+    display: grid !important;
+    gap: 12px !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .deals-toolbar {
+    align-items: stretch !important;
+    display: grid !important;
+  }
+
+  .deals-filters {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    padding-bottom: 3px !important;
+  }
+
+  .deal-card-summary {
+    gap: 12px !important;
+    grid-template-columns: 1fr !important;
+    padding: 14px !important;
+  }
+
+  .deal-card-head,
+  .deal-card-value,
+  .deal-card-summary > label.btn,
+  .deal-date-grid,
+  .deal-action-row {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    justify-self: stretch !important;
+    text-align: left !important;
+  }
+
+  .deal-card-summary > label.btn {
+    justify-self: start !important;
+  }
+
+  .deal-date-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .deal-action-row {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .deal-action-row button,
+  .deal-action-row a {
+    align-items: center !important;
+    display: inline-flex !important;
+    justify-content: center !important;
+    min-height: 36px !important;
+  }
+
+  .deal-card-expanded {
+    padding: 12px !important;
+  }
+
+  .ct-section-head,
+  .ct-doc-title-row {
+    flex-direction: column !important;
+  }
+
+  .ct-doc-card {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ct-doc-icon {
+    height: 42px !important;
+    width: 42px !important;
+  }
+
+  .dw-header {
+    display: grid !important;
+    padding: 18px !important;
+  }
+
+  .dw-header-actions {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    justify-content: stretch !important;
+    margin-top: 0 !important;
+  }
+
+  .dw-panel,
+  .dw-wide,
+  .dw-overview,
+  .dw-contract {
+    grid-column: 1 / -1 !important;
+    padding: 15px !important;
+  }
+
+  .dw-facts,
+  .dw-money {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dw-panel-head {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+  }
+
+  .mk-page {
+    padding: 10px !important;
+  }
+
+  .mk-page .mk-hero {
+    gap: 18px !important;
+    grid-template-columns: 1fr !important;
+    padding: 20px !important;
+  }
+
+  .mk-page .mk-hero h1 {
+    font-size: clamp(32px, 10vw, 42px) !important;
+  }
+
+  .mk-page .mk-photo-wrap {
+    aspect-ratio: 16 / 10 !important;
+    justify-self: stretch !important;
+    max-height: 280px !important;
+    max-width: none !important;
+  }
+
+  .mk-page .mk-section,
+  .mk-page .mk-footer-cta {
+    padding: 18px !important;
+  }
+
+  .mk-page .mk-split,
+  .mk-page .mk-portfolio {
+    grid-template-columns: 1fr !important;
+  }
+
+  .mk-page .mk-section h2,
+  .mk-page .mk-footer-cta h2 {
+    font-size: 24px !important;
+  }
+
+  .mk-page .mk-footer-cta {
+    align-items: flex-start !important;
+    gap: 14px !important;
+  }
+}

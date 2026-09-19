@@ -103,8 +103,10 @@ export default function Dashboard() {
   );
 
   const insights = useMemo(() => buildInsights({ intelligence, deals, money }), [intelligence, deals, money]);
-
-  const maxRevenue = Math.max(1, ...revenueTrend.map((item) => item.revenue));
+  const pipeline = useMemo(() => buildPipeline(deals), [deals]);
+  const paymentStatus = useMemo(() => buildPaymentStatus({ deals, money }), [deals, money]);
+  const upcomingWork = useMemo(() => buildUpcomingWork(deliverables), [deliverables]);
+  const brandPerformance = useMemo(() => buildBrandPerformance(deals), [deals]);
 
   const handleDealCreated = (newDeal) => {
     setDeals((prev) => [newDeal, ...prev]);
@@ -162,25 +164,27 @@ export default function Dashboard() {
 
           <main className="dash-main-grid">
             <section className="dash-panel dash-revenue">
-              <PanelHead title="Revenue" action="Recorded data" />
+              <PanelHead title="Revenue performance" action="6 months" />
               <div className="dash-revenue-summary">
                 <MiniStat label="Current month" value={formatMoney(currentMonthRevenue)} />
                 <MiniStat label="Previous month" value={formatMoney(previousMonthRevenue)} />
                 <MiniStat label="Year to date" value={formatMoney(ytd)} />
               </div>
-              <div className="dash-chart">
-                {revenueTrend.length ? revenueTrend.map((item) => (
-                  <div className="dash-bar" key={item.key}>
-                    <div><i style={{ height: `${Math.max(4, (item.revenue / maxRevenue) * 100)}%` }} /></div>
-                    <strong>{formatMoney(item.revenue)}</strong>
-                    <span>{item.label}</span>
-                  </div>
-                )) : <div className="dash-empty-inline">Complete deals to build a revenue chart.</div>}
-              </div>
+              <RevenueChart data={revenueTrend} />
+            </section>
+
+            <section className="dash-panel dash-pipeline">
+              <PanelHead title="Deal pipeline" action={`${totalDeals} total`} />
+              <PipelineChart data={pipeline} total={Math.max(1, totalDeals)} />
+            </section>
+
+            <section className="dash-panel dash-payments">
+              <PanelHead title="Payment status" action="Recorded value" />
+              <PaymentStatus data={paymentStatus} />
             </section>
 
             <section className="dash-panel dash-attention">
-              <PanelHead title="Attention Center" action={`${attention.length} item${attention.length === 1 ? "" : "s"}`} />
+              <PanelHead title="Needs attention" action={`${attention.length} item${attention.length === 1 ? "" : "s"}`} />
               {attention.length ? attention.map((item) => (
                 <Link className={`dash-attention-item ${item.tone}`} to={item.to} key={`${item.label}-${item.detail}`}>
                   <span>{item.label}</span>
@@ -190,7 +194,7 @@ export default function Dashboard() {
             </section>
 
             <section className="dash-panel dash-active">
-              <PanelHead title="Active deals" action={<Link to="/deals">View all deals</Link>} />
+              <PanelHead title="Active deals" action={<Link to="/deals">Open CRM</Link>} />
               {activeDeals.length ? activeDeals.slice(0, 6).map((deal) => (
                 <Link className="dash-deal-row" to={`/deals/${deal.id}`} key={deal.id}>
                   <div>
@@ -203,6 +207,25 @@ export default function Dashboard() {
                   <small>{deadlineFor(deal)}</small>
                 </Link>
               )) : <div className="dash-empty-inline">No active deals yet. <Link to="/deals">Open deals workspace</Link></div>}
+            </section>
+
+            <section className="dash-panel dash-work">
+              <PanelHead title="Upcoming work" action={<Link to="/deliverables">View timeline</Link>} />
+              {upcomingWork.length ? upcomingWork.map((item) => (
+                <Link className="dash-work-row" to={`/deals/${item.deal_id}`} key={item.id}>
+                  <time>{dateChip(item.due_date)}</time>
+                  <div>
+                    <strong>{item.title}</strong>
+                    <span>{item.brand_name} · {statusLabel(item.status)}</span>
+                  </div>
+                  <em>{deadlineFor({ posting_date: item.due_date })}</em>
+                </Link>
+              )) : <div className="dash-empty-inline">No dated deliverables coming up.</div>}
+            </section>
+
+            <section className="dash-panel dash-brands">
+              <PanelHead title="Brand performance" action="Recorded revenue" />
+              <BrandBars data={brandPerformance} />
             </section>
 
             <section className="dash-panel dash-intel">
@@ -235,6 +258,123 @@ export default function Dashboard() {
           plan={user.plan}
         />
       )}
+    </div>
+  );
+}
+
+function RevenueChart({ data }) {
+  if (!data.length) {
+    return (
+      <div className="dash-chart-empty">
+        <strong>No recorded revenue yet.</strong>
+        <span>Complete a deal with revenue to start building a trend.</span>
+      </div>
+    );
+  }
+
+  const width = 640;
+  const height = 250;
+  const pad = { top: 20, right: 18, bottom: 38, left: 58 };
+  const max = Math.max(1, ...data.map((item) => item.revenue));
+  const points = data.map((item, index) => {
+    const x = data.length === 1
+      ? (width - pad.left - pad.right) / 2 + pad.left
+      : pad.left + (index / (data.length - 1)) * (width - pad.left - pad.right);
+    const y = pad.top + (1 - item.revenue / max) * (height - pad.top - pad.bottom);
+    return { ...item, x, y };
+  });
+  const line = points.map((point, index) => `${index ? "L" : "M"} ${point.x} ${point.y}`).join(" ");
+  const area = `${line} L ${points.at(-1).x} ${height - pad.bottom} L ${points[0].x} ${height - pad.bottom} Z`;
+  const ticks = [0, 0.5, 1].map((ratio) => ({
+    y: pad.top + (1 - ratio) * (height - pad.top - pad.bottom),
+    value: max * ratio
+  }));
+
+  return (
+    <div className="dash-analytics-chart">
+      <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Revenue over time">
+        <defs>
+          <linearGradient id="dashRevenueFill" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="#6d4aff" stopOpacity="0.24" />
+            <stop offset="100%" stopColor="#365cff" stopOpacity="0.02" />
+          </linearGradient>
+        </defs>
+        {ticks.map((tick) => (
+          <g key={tick.y}>
+            <line className="dash-gridline" x1={pad.left} x2={width - pad.right} y1={tick.y} y2={tick.y} />
+            <text className="dash-axis" x={pad.left - 10} y={tick.y + 4} textAnchor="end">{formatCompact(tick.value)}</text>
+          </g>
+        ))}
+        <path className="dash-area" d={area} />
+        <path className="dash-line" d={line} />
+        {points.map((point) => (
+          <g className="dash-point" key={point.key}>
+            <circle cx={point.x} cy={point.y} r="5" />
+            <title>{point.label}: {formatMoney(point.revenue)}</title>
+          </g>
+        ))}
+        {points.map((point) => (
+          <text className="dash-axis" x={point.x} y={height - 12} textAnchor="middle" key={`${point.key}-label`}>{point.label}</text>
+        ))}
+      </svg>
+      {data.length === 1 && <p>Only one completed revenue point is available, so Brandio is showing it without inventing a trend.</p>}
+    </div>
+  );
+}
+
+function PipelineChart({ data, total }) {
+  return (
+    <div className="dash-pipeline-chart">
+      <div className="dash-pipeline-track">
+        {data.map((item) => (
+          <span
+            className={item.key}
+            style={{ width: `${Math.max(item.count ? 8 : 0, (item.count / total) * 100)}%` }}
+            title={`${item.label}: ${item.count}`}
+            key={item.key}
+          />
+        ))}
+      </div>
+      <div className="dash-pipeline-legend">
+        {data.map((item) => (
+          <div key={item.key}>
+            <i className={item.key} />
+            <strong>{item.count}</strong>
+            <span>{item.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function PaymentStatus({ data }) {
+  const total = Math.max(1, data.reduce((sum, item) => sum + item.value, 0));
+  return (
+    <div className="dash-payment-status">
+      {data.map((item) => (
+        <div className={item.key} key={item.key}>
+          <span>{item.label}</span>
+          <strong>{formatMoney(item.value)}</strong>
+          <i><b style={{ width: `${(item.value / total) * 100}%` }} /></i>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function BrandBars({ data }) {
+  if (!data.length) return <div className="dash-empty-inline">Complete deals to compare brand revenue.</div>;
+  const max = Math.max(1, ...data.map((item) => item.revenue));
+  return (
+    <div className="dash-brand-bars">
+      {data.map((item) => (
+        <div key={item.brand}>
+          <span>{item.brand}</span>
+          <i><b style={{ width: `${Math.max(3, (item.revenue / max) * 100)}%` }} /></i>
+          <strong>{formatMoney(item.revenue)}</strong>
+        </div>
+      ))}
     </div>
   );
 }
@@ -298,6 +438,50 @@ function buildAttention({ deals, deliverables, contracts }) {
   return items.slice(0, 8);
 }
 
+function buildPipeline(deals) {
+  const stages = [
+    { key: "pending", label: "Pending", count: 0 },
+    { key: "active", label: "Active", count: 0 },
+    { key: "completed", label: "Completed", count: 0 },
+    { key: "overdue", label: "Overdue", count: 0 }
+  ];
+  for (const deal of deals) {
+    const stage = stages.find((item) => item.key === deal.status);
+    if (stage) stage.count += 1;
+  }
+  return stages;
+}
+
+function buildPaymentStatus({ deals, money }) {
+  const paid = deals
+    .filter((deal) => deal.status === "completed")
+    .reduce((sum, deal) => sum + totalEarned(deal), 0);
+  return [
+    { key: "paid", label: "Paid", value: paid },
+    { key: "pending", label: "Pending", value: money?.summary?.pending || 0 },
+    { key: "overdue", label: "Overdue", value: money?.summary?.overdue || 0 }
+  ];
+}
+
+function buildUpcomingWork(deliverables) {
+  return [...deliverables]
+    .filter((item) => item.due_date && daysUntil(item.due_date) >= -1 && !["approved", "published", "completed"].includes(item.status))
+    .sort((a, b) => new Date(a.due_date) - new Date(b.due_date))
+    .slice(0, 6);
+}
+
+function buildBrandPerformance(deals) {
+  const map = new Map();
+  for (const deal of deals) {
+    if (deal.status !== "completed") continue;
+    map.set(deal.brand_name, (map.get(deal.brand_name) || 0) + totalEarned(deal));
+  }
+  return [...map.entries()]
+    .map(([brand, revenue]) => ({ brand, revenue }))
+    .sort((a, b) => b.revenue - a.revenue)
+    .slice(0, 6);
+}
+
 function buildInsights({ intelligence, deals, money }) {
   const insights = [];
   const totals = intelligence?.totals || {};
@@ -332,4 +516,19 @@ function deadlineFor(deal) {
 function daysUntil(date) {
   if (!date) return 9999;
   return Math.ceil((new Date(date) - new Date()) / 86400000);
+}
+
+function statusLabel(status) {
+  return String(status || "pending").replaceAll("_", " ");
+}
+
+function dateChip(value) {
+  if (!value) return "No date";
+  return new Date(value).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+}
+
+function formatCompact(value) {
+  if (value >= 1000000) return `${Math.round(value / 100000) / 10}m`;
+  if (value >= 1000) return `${Math.round(value / 100) / 10}k`;
+  return String(Math.round(value));
 }

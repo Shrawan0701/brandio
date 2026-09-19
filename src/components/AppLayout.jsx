@@ -96,6 +96,13 @@ export default function AppLayout({ children }) {
             </div>
           </header>
           <main className="app-content">{children}</main>
+          <nav className="app-bottom-nav" aria-label="Mobile primary navigation">
+            <NavLink to="/dashboard" end>Overview</NavLink>
+            <NavLink to="/deals">Deals</NavLink>
+            <NavLink to="/money">Money</NavLink>
+            <NavLink to="/inbound">Inbox</NavLink>
+            <button onClick={() => setMenuOpen(true)}>More</button>
+          </nav>
         </div>
       </div>
     );

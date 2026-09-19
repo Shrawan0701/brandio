@@ -112,7 +112,7 @@ export default function DealWorkspace() {
 
       <header className="dw-header">
         <div>
-          <Link to="/dashboard" className="dw-back">Back to deals</Link>
+          <Link to="/deals" className="dw-back">Back to deals</Link>
           <h1>{deal.brand_name}</h1>
           <p>{deal.product_name || deal.campaign_title || `${deal.platform} campaign`}</p>
           <div className="dw-header-meta">

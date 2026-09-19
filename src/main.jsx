@@ -24,6 +24,7 @@ import "./styles/deliverables.css";
 import "./styles/intelligence.css";
 import "./styles/roi.css";
 import "./styles/static-pages.css";
+import "./styles/final-ui.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

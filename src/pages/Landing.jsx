@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MarketingFooter from "../components/MarketingFooter";
 
 const workflow = [
@@ -35,9 +35,33 @@ const faqs = [
 export default function Landing() {
   const [openFaq, setOpenFaq] = useState(0);
   const [workflowIndex, setWorkflowIndex] = useState(0);
+  const [workflowPaused, setWorkflowPaused] = useState(false);
+  const touchStartX = useRef(null);
   const visibleWorkflow = [0, 1, 2].map((offset) => workflow[(workflowIndex + offset) % workflow.length]);
   const nextWorkflow = () => setWorkflowIndex((index) => (index + 1) % workflow.length);
   const prevWorkflow = () => setWorkflowIndex((index) => (index - 1 + workflow.length) % workflow.length);
+
+  useEffect(() => {
+    if (workflowPaused) return undefined;
+    const timer = window.setInterval(nextWorkflow, 3600);
+    return () => window.clearInterval(timer);
+  }, [workflowPaused]);
+
+  const handleWorkflowTouchStart = (event) => {
+    touchStartX.current = event.touches[0]?.clientX ?? null;
+    setWorkflowPaused(true);
+  };
+
+  const handleWorkflowTouchEnd = (event) => {
+    const start = touchStartX.current;
+    const end = event.changedTouches[0]?.clientX ?? null;
+    touchStartX.current = null;
+    if (start != null && end != null && Math.abs(start - end) > 36) {
+      if (start > end) nextWorkflow();
+      else prevWorkflow();
+    }
+    window.setTimeout(() => setWorkflowPaused(false), 900);
+  };
 
   return (
     <div className="marketing-site">
@@ -96,7 +120,15 @@ export default function Landing() {
           <span className="mk-eyebrow">Workflow</span>
           <h2>From first opportunity to final payment.</h2>
         </div>
-        <div className="mk-workflow-carousel">
+        <div
+          className="mk-workflow-carousel"
+          onMouseEnter={() => setWorkflowPaused(true)}
+          onMouseLeave={() => setWorkflowPaused(false)}
+          onFocus={() => setWorkflowPaused(true)}
+          onBlur={() => setWorkflowPaused(false)}
+          onTouchStart={handleWorkflowTouchStart}
+          onTouchEnd={handleWorkflowTouchEnd}
+        >
           <button onClick={prevWorkflow} aria-label="Previous workflow step">←</button>
           <div className="mk-workflow-window">
             {visibleWorkflow.map(([number, title, text], index) => (
@@ -220,14 +252,48 @@ export default function Landing() {
           <span className="mk-eyebrow">Feature overview</span>
           <h2>One operating system for the business side of creating.</h2>
         </div>
-        <div className="mk-feature-grid">
-          {features.map(([title, text], index) => (
-            <article className={index === 0 || index === 3 || index === 5 ? "large" : ""} key={title}>
-              <span>{String(index + 1).padStart(2, "0")} — {featureLabel(title)}</span>
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </article>
-          ))}
+        <div className="mk-feature-showcase">
+          <article className="mk-feature-editorial">
+            <div>
+              <span className="mk-eyebrow">Deal management</span>
+              <h3>Run every collaboration like a real pipeline.</h3>
+              <p>Keep campaign scope, value, status, contract context and delivery dates in one working view.</p>
+            </div>
+            <DealMockup />
+          </article>
+          <article className="mk-feature-split">
+            <MoneyMockup />
+            <div>
+              <span className="mk-eyebrow">Money</span>
+              <h3>Separate earned, pending and overdue income.</h3>
+              <p>Brandio keeps the financial side of creator work visible without inventing numbers or hiding behind dashboards.</p>
+            </div>
+          </article>
+          <article className="mk-feature-ai-strip">
+            <div>
+              <span className="mk-eyebrow">AI workspace</span>
+              <h3>Analyze a deal before you say yes.</h3>
+              <p>Review deal terms, payment timing, deliverables, risks and negotiation angles in a focused workspace.</p>
+            </div>
+            <div className="mk-ai-mini">
+              <b>Extracted terms</b>
+              <span>4 deliverables</span>
+              <span>Usage rights requested</span>
+              <span>Payment after publishing</span>
+            </div>
+          </article>
+          <article className="mk-feature-duo">
+            <div>
+              <span className="mk-eyebrow">Inbound</span>
+              <h3>Turn interest into opportunities.</h3>
+              <p>Inquiry status, budget, campaign details and next actions stay together.</p>
+            </div>
+            <div>
+              <span className="mk-eyebrow">Media kit</span>
+              <h3>Show selected work with business context.</h3>
+              <p>Publish a creator profile that helps brands understand what you offer.</p>
+            </div>
+          </article>
         </div>
       </section>
 

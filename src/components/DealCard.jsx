@@ -67,6 +67,7 @@ export default function DealCard({ deal, onDeleted, onUpdated }) {
   return (
     <>
       <article className="deal-card-v2">
+        <div className="deal-card-summary">
         <div className="deal-card-head">
           <div>
             <h3>{deal.brand_name}</h3>
@@ -129,9 +130,10 @@ export default function DealCard({ deal, onDeleted, onUpdated }) {
           <button onClick={() => setShowRoi((v) => !v)}>{showRoi ? "Hide ROI" : "Deal ROI"}</button>
           {user.plan === "pro" && <button className="danger" onClick={() => setShowConfirm(true)}>Delete</button>}
         </div>
+        </div>
 
-        {showContract && <DealContractSection deal={deal} />}
-        {showRoi && <DealRoiSection deal={deal} onUpdated={onUpdated} />}
+        {showContract && <div className="deal-card-expanded"><DealContractSection deal={deal} /></div>}
+        {showRoi && <div className="deal-card-expanded"><DealRoiSection deal={deal} onUpdated={onUpdated} /></div>}
       </article>
 
       {showEdit && <EditDealModal deal={deal} onClose={() => setShowEdit(false)} onUpdated={onUpdated} />}

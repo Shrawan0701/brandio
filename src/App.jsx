@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 
 import Landing from "./pages/Landing";
@@ -35,6 +35,7 @@ import DealAnalyzer from "./pages/DealAnalyzer";
 import DealWorkspace from "./pages/DealWorkspace";
 import Deliverables from "./pages/Deliverables";
 import BillingPlans from "./pages/BillingPlans";
+import { useAuth } from "./context/AuthContext";
 
 
 
@@ -44,7 +45,7 @@ export default function App() {
       <BrowserRouter>
         <AppLayout>
           <Routes>
-            <Route path="/" element={<Landing />} />
+            <Route path="/" element={<HomeRoute />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/upgrade" element={<Upgrade />} />
@@ -219,4 +220,10 @@ export default function App() {
       </BrowserRouter>
     </AuthProvider>
   );
+}
+
+function HomeRoute() {
+  const { user, loading } = useAuth();
+  if (loading) return <div className="route-loading">Loading Brandio...</div>;
+  return user ? <Navigate to="/dashboard" replace /> : <Landing />;
 }
