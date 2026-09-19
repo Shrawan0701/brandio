@@ -1,0 +1,329 @@
+.del-section h2,
+.del-page h1,
+.del-page h3 {
+  letter-spacing: 0;
+}
+
+.del-head {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.del-head h2 {
+  font-size: 24px;
+  font-weight: 950;
+  margin: 0;
+}
+
+.del-head p,
+.del-empty,
+.del-desc,
+.del-meta,
+.del-page-hero p {
+  color: #64748b;
+}
+
+.del-progress {
+  min-width: 160px;
+}
+
+.del-progress strong {
+  display: block;
+  font-weight: 950;
+  text-align: right;
+}
+
+.del-progress span {
+  background: #e5e7eb;
+  border-radius: 999px;
+  display: block;
+  height: 9px;
+  overflow: hidden;
+}
+
+.del-progress i {
+  background: linear-gradient(90deg, #111827, #22c55e);
+  display: block;
+  height: 100%;
+}
+
+.del-list {
+  display: grid;
+  gap: 12px;
+}
+
+.del-item {
+  align-items: flex-start;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: auto 1fr auto;
+  padding: 14px;
+}
+
+.del-check {
+  color: #94a3b8;
+  font-size: 24px;
+  font-weight: 950;
+}
+
+.del-check.done {
+  color: #16a34a;
+}
+
+.del-item h3 {
+  font-size: 18px;
+  font-weight: 950;
+  margin: 0 0 4px;
+}
+
+.del-item p {
+  margin: 0;
+}
+
+.del-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.del-meta span,
+.del-meta a {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 6px 8px;
+  text-decoration: none;
+}
+
+.del-meta .overdue,
+.del-global-meta .overdue {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.del-meta .soon,
+.del-global-meta .soon {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.del-meta .done,
+.del-global-meta .done {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.del-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.del-actions select,
+.del-actions button,
+.del-form input,
+.del-form select,
+.del-form textarea,
+.del-global-actions select {
+  border: 1px solid #dbe3ee;
+  border-radius: 10px;
+  font: inherit;
+  padding: 9px;
+}
+
+.del-actions button,
+.del-form button,
+.del-global-actions a {
+  background: #111827;
+  border: 0;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 900;
+  padding: 9px 11px;
+  text-decoration: none;
+}
+
+.del-form {
+  border-top: 1px solid #eef2f7;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 18px;
+  padding-top: 18px;
+}
+
+.del-form h3,
+.del-form textarea,
+.del-form div {
+  grid-column: 1 / -1;
+}
+
+.del-form h3 {
+  font-size: 18px;
+  font-weight: 950;
+  margin: 0;
+}
+
+.del-secondary {
+  background: #e5e7eb !important;
+  color: #111827 !important;
+  margin-right: 8px;
+}
+
+.del-page {
+  background: #f8fafc;
+  min-height: 100vh;
+  padding: 34px 18px;
+}
+
+.del-page-hero,
+.del-filters,
+.del-page-list,
+.del-empty-page {
+  margin: 0 auto 18px;
+  max-width: 1240px;
+}
+
+.del-page-hero {
+  background: linear-gradient(135deg, #111827, #334d5c);
+  border-radius: 22px;
+  color: #fff;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  padding: 34px;
+}
+
+.del-page-hero span {
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.del-page-hero h1 {
+  font-size: clamp(34px, 5vw, 62px);
+  font-weight: 950;
+  line-height: 1;
+  margin: 14px 0 10px;
+}
+
+.del-stat-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.del-stat-grid div {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.del-stat-grid strong {
+  display: block;
+  font-size: 26px;
+  font-weight: 950;
+}
+
+.del-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.del-filters button {
+  background: #fff;
+  border: 1px solid #dbe3ee;
+  border-radius: 999px;
+  color: #334155;
+  font-weight: 900;
+  padding: 9px 12px;
+}
+
+.del-filters button.active {
+  background: #111827;
+  color: #fff;
+}
+
+.del-page-list {
+  display: grid;
+  gap: 14px;
+}
+
+.del-global-card {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px;
+}
+
+.del-global-card h3 {
+  font-size: 21px;
+  font-weight: 950;
+  margin: 0;
+}
+
+.del-global-card p {
+  color: #64748b;
+  margin: 4px 0 0;
+}
+
+.del-global-meta,
+.del-global-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.del-global-meta span {
+  background: #f1f5f9;
+  border-radius: 999px;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 6px 8px;
+}
+
+.del-empty-page {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  color: #64748b;
+  padding: 28px;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .del-page-hero,
+  .del-form {
+    grid-template-columns: 1fr;
+  }
+
+  .del-item,
+  .del-global-card {
+    display: block;
+  }
+
+  .del-actions,
+  .del-global-actions {
+    margin-top: 12px;
+  }
+}

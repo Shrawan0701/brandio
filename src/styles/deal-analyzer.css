@@ -1,0 +1,279 @@
+.da-page {
+  background: #f8fafc;
+  color: #111827;
+  min-height: 100vh;
+  padding: 34px 18px;
+}
+
+.da-hero,
+.da-layout,
+.da-panel,
+.da-sections {
+  margin: 0 auto 18px;
+  max-width: 1240px;
+}
+
+.da-hero {
+  background: linear-gradient(135deg, #111827, #354f5e);
+  border-radius: 22px;
+  color: #fff;
+  padding: 36px;
+}
+
+.da-hero span {
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.da-hero h1 {
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 1;
+  margin: 16px 0 12px;
+}
+
+.da-hero p {
+  color: #dbeafe;
+  margin: 0;
+  max-width: 760px;
+}
+
+.da-layout {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 1.15fr 0.85fr;
+}
+
+.da-panel {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  padding: 22px;
+}
+
+.da-panel-head {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.da-panel h2,
+.da-panel h3 {
+  font-size: 24px;
+  font-weight: 950;
+  margin: 0;
+}
+
+.da-panel-head p,
+.da-muted,
+.da-empty,
+.da-summary small,
+.da-summary-grid span,
+.da-apply p {
+  color: #64748b;
+}
+
+.da-input textarea {
+  border: 1px solid #dbe3ee;
+  border-radius: 14px;
+  font: inherit;
+  min-height: 360px;
+  padding: 14px;
+  resize: vertical;
+  width: 100%;
+}
+
+.da-upload,
+.da-primary,
+.da-apply button {
+  background: #111827;
+  border: 0;
+  border-radius: 12px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 900;
+  padding: 11px 14px;
+}
+
+.da-primary {
+  margin-top: 12px;
+  width: 100%;
+}
+
+.da-primary:disabled {
+  opacity: 0.5;
+}
+
+.da-progress {
+  background: #eef2ff;
+  border-radius: 12px;
+  color: #3730a3;
+  font-weight: 800;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.da-error {
+  background: #fee2e2;
+  border-radius: 12px;
+  color: #991b1b;
+  font-weight: 800;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.da-summary p {
+  color: #334155;
+  line-height: 1.6;
+}
+
+.da-summary-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  margin: 16px 0;
+}
+
+.da-summary-grid div {
+  background: #f8fafc;
+  border: 1px solid #eef2f7;
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.da-summary-grid span {
+  display: block;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.da-summary-grid strong {
+  display: block;
+  font-size: 22px;
+  font-weight: 950;
+  margin-top: 6px;
+}
+
+.da-field-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.da-field {
+  border: 1px solid #eef2f7;
+  border-radius: 14px;
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+}
+
+.da-field span {
+  align-items: center;
+  color: #334155;
+  display: flex;
+  font-size: 13px;
+  font-weight: 900;
+  gap: 8px;
+}
+
+.da-field textarea {
+  border: 1px solid #dbe3ee;
+  border-radius: 10px;
+  font: inherit;
+  min-height: 88px;
+  padding: 10px;
+}
+
+.da-sections {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.da-sections ul {
+  margin: 12px 0 0;
+  padding-left: 18px;
+}
+
+.da-sections li {
+  color: #334155;
+  margin-bottom: 8px;
+}
+
+.da-missing {
+  background: #fffaf0;
+  border-color: #fde68a;
+}
+
+.da-apply {
+  align-items: center;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr 280px auto;
+}
+
+.da-apply select {
+  border: 1px solid #dbe3ee;
+  border-radius: 12px;
+  font: inherit;
+  padding: 12px;
+}
+
+.da-apply span {
+  color: #64748b;
+  grid-column: 2 / 4;
+}
+
+@media (max-width: 1000px) {
+  .da-layout,
+  .da-field-grid,
+  .da-sections,
+  .da-apply {
+    grid-template-columns: 1fr;
+  }
+
+  .da-apply span {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .da-page {
+    padding: 16px 12px;
+  }
+
+  .da-hero {
+    padding: 24px;
+  }
+
+  .da-hero h1 {
+    font-size: 34px;
+  }
+
+  .da-panel {
+    border-radius: 14px;
+    padding: 16px;
+  }
+
+  .da-panel-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .da-input textarea {
+    min-height: 260px;
+  }
+
+  .da-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
