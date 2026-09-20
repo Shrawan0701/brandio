@@ -1,347 +1,154 @@
 import { Link } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import MarketingFooter from "../components/MarketingFooter";
 
-const workflow = [
-  ["01", "Opportunity", "Capture brand interest before it gets buried."],
-  ["02", "Deal", "Track campaign scope, value, status, and deadlines."],
-  ["03", "Contract", "Keep agreement context attached to the work."],
-  ["04", "Deliverables", "Know what needs approval, publishing, or follow-up."],
-  ["05", "Publish", "Move work from draft to live without losing context."],
-  ["06", "Payment", "See pending, overdue, expected, and earned money."]
+const revenueData = [
+  { month: "Jan", revenue: 2400, deals: 2 },
+  { month: "Feb", revenue: 3600, deals: 3 },
+  { month: "Mar", revenue: 3100, deals: 2 },
+  { month: "Apr", revenue: 5200, deals: 5 },
+  { month: "May", revenue: 4700, deals: 4 },
+  { month: "Jun", revenue: 6900, deals: 6 },
+  { month: "Jul", revenue: 8100, deals: 7 },
+  { month: "Aug", revenue: 7600, deals: 5 }
 ];
 
-const features = [
-  ["Deal Management", "Campaign, amount, deadline, payment terms, and status in one view."],
-  ["Brand CRM", "Relationship context, contacts, notes, and deal history."],
-  ["Deliverables", "Upcoming, in progress, completed, and overdue work."],
-  ["Money Cockpit", "Earned, pending, overdue, and expected collaboration income."],
-  ["Contracts", "Documents and signing status beside the deal."],
-  ["AI Deal Intelligence", "Analyze deal value, risk, and next actions."],
-  ["Rate Intelligence", "Make pricing decisions with more context."],
-  ["Portfolio", "Present selected work with brand context."],
-  ["Media Kit", "Publish a professional creator business profile."],
-  ["Inbound", "Turn brand interest into organized opportunities."],
-  ["Analytics", "Understand momentum across revenue and collaborations."]
-];
-
-const faqs = [
-  ["Who is Brandio for?", "Brandio is built for creators, influencers, freelancers, and creator teams who manage brand collaborations."],
-  ["Can I start free?", "Yes. You can start free and upgrade when you need more advanced creator-business tools."],
-  ["Does Brandio replace spreadsheets?", "Brandio gives brand deals, deliverables, payments, contracts, and opportunities a structured home so you do not have to run the workflow across scattered tools."],
-  ["How are payments processed?", "Plan payments are processed through Razorpay. Brandio does not store card or banking details."]
-];
+const workflow = ["Opportunity", "Deal", "Contract", "Deliverables", "Payment", "Portfolio"];
 
 export default function Landing() {
-  const [openFaq, setOpenFaq] = useState(0);
-  const [workflowIndex, setWorkflowIndex] = useState(0);
-  const [workflowPaused, setWorkflowPaused] = useState(false);
-  const touchStartX = useRef(null);
-  const visibleWorkflow = [0, 1, 2].map((offset) => workflow[(workflowIndex + offset) % workflow.length]);
-  const nextWorkflow = () => setWorkflowIndex((index) => (index + 1) % workflow.length);
-  const prevWorkflow = () => setWorkflowIndex((index) => (index - 1 + workflow.length) % workflow.length);
+  const [activeMonth, setActiveMonth] = useState(5);
+  const [activeFlow, setActiveFlow] = useState(1);
 
   useEffect(() => {
-    if (workflowPaused) return undefined;
-    const timer = window.setInterval(nextWorkflow, 3600);
+    const revealables = document.querySelectorAll(".bl-reveal");
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add("is-visible")),
+      { threshold: 0.16 }
+    );
+    revealables.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setActiveFlow((index) => (index + 1) % workflow.length), 2800);
     return () => window.clearInterval(timer);
-  }, [workflowPaused]);
-
-  const handleWorkflowTouchStart = (event) => {
-    touchStartX.current = event.touches[0]?.clientX ?? null;
-    setWorkflowPaused(true);
-  };
-
-  const handleWorkflowTouchEnd = (event) => {
-    const start = touchStartX.current;
-    const end = event.changedTouches[0]?.clientX ?? null;
-    touchStartX.current = null;
-    if (start != null && end != null && Math.abs(start - end) > 36) {
-      if (start > end) nextWorkflow();
-      else prevWorkflow();
-    }
-    window.setTimeout(() => setWorkflowPaused(false), 900);
-  };
+  }, []);
 
   return (
-    <div className="marketing-site">
-      <section className="mk-hero">
-        <div className="mk-hero-copy">
-          <span className="mk-eyebrow">The business OS for creators</span>
-          <h1>Your <span>creator business</span>, finally in one place.</h1>
-          <p>
-            <span className="hero-copy-desktop">Manage brand deals, deliverables, contracts, payments, and opportunities from one powerful workspace.</span>
-            <span className="hero-copy-mobile">Manage deals, payments, deliverables, and opportunities in one workspace.</span>
-          </p>
-          <div className="mk-hero-actions">
-            <Link to="/register" className="mk-btn primary">Start free</Link>
-            <a href="#workflow" className="mk-btn secondary">See how it works</a>
-          </div>
-          <small>Built for creators who treat collaborations like a real business.</small>
-        </div>
-
-        <HeroProductMockup />
-      </section>
-
-      <section className="mk-trust">
-        <p>Built for creators who manage serious collaboration workflows</p>
-        <div>
-          <span>Deals</span>
-          <span>Deliverables</span>
-          <span>Contracts</span>
-          <span>Money</span>
-          <span>Media Kit</span>
-          <span>AI</span>
-        </div>
-      </section>
-
-      <section className="mk-problem">
-        <div>
-          <span className="mk-eyebrow">The old way</span>
-          <h2>Your business is growing. Your workflow should not be falling apart.</h2>
-          <p>Brand collaborations usually start in one place, move through three more, and get paid somewhere else. Brandio turns that scattered work into a single lifecycle.</p>
-        </div>
-        <div className="mk-chaos-board">
-          {["Instagram DMs", "Email threads", "Spreadsheets", "Notes", "Contracts", "Invoices", "Payment reminders"].map((item, index) => (
-            <div className={`mk-mini-card c${index}`} key={item}>
-              <span>{item.slice(0, 2).toUpperCase()}</span>
-              <strong>{item}</strong>
-            </div>
-          ))}
-          <div className="mk-brandio-core">
-            <b>Brandio</b>
-            <small>One collaboration workspace</small>
+    <div className="brandio-landing">
+      <section className="bl-hero bl-reveal">
+        <div className="bl-hero-copy">
+          <span className="bl-kicker">Brandio for creator operators</span>
+          <h1>The business layer between your inbox and your income.</h1>
+          <p>Run brand work through one polished workspace for opportunities, deal terms, contracts, deliverables, payments, and public proof.</p>
+          <div className="bl-actions">
+            <Link to="/register" className="bl-btn bl-btn-primary">Start free</Link>
+            <a href="#product" className="bl-btn bl-btn-text">Explore product</a>
           </div>
         </div>
+        <HeroConsole />
       </section>
 
-      <section className="mk-workflow" id="workflow">
-        <div className="mk-section-head">
-          <span className="mk-eyebrow">Workflow</span>
-          <h2>From first opportunity to final payment.</h2>
+      <section className="bl-problem bl-reveal">
+        <div className="bl-section-copy narrow">
+          <span className="bl-kicker">The scattered middle</span>
+          <h2>Brand work rarely breaks in one place. It frays between all the places.</h2>
         </div>
-        <div
-          className="mk-workflow-carousel"
-          onMouseEnter={() => setWorkflowPaused(true)}
-          onMouseLeave={() => setWorkflowPaused(false)}
-          onFocus={() => setWorkflowPaused(true)}
-          onBlur={() => setWorkflowPaused(false)}
-          onTouchStart={handleWorkflowTouchStart}
-          onTouchEnd={handleWorkflowTouchEnd}
-        >
-          <button onClick={prevWorkflow} aria-label="Previous workflow step">←</button>
-          <div className="mk-workflow-window">
-            {visibleWorkflow.map(([number, title, text], index) => (
-              <article className={index === 0 ? "active" : "is-secondary"} key={`${number}-${title}`}>
-                <span>{number} / {title}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </article>
-            ))}
-          </div>
-          <button onClick={nextWorkflow} aria-label="Next workflow step">→</button>
+        <ChaosMap />
+      </section>
+
+      <section className="bl-dark-showcase bl-reveal" id="product">
+        <div className="bl-section-copy inverted">
+          <span className="bl-kicker">Product command center</span>
+          <h2>A real operating view for every collaboration in motion.</h2>
         </div>
-        <div className="mk-workflow-dots" aria-label={`Workflow step ${workflowIndex + 1} of ${workflow.length}`}>
-          {workflow.map(([, title], index) => (
-            <button
-              className={index === workflowIndex ? "active" : ""}
-              onClick={() => setWorkflowIndex(index)}
-              aria-label={`Show ${title}`}
-              key={title}
-            />
-          ))}
+        <ProductBoard />
+      </section>
+
+      <section className="bl-deals bl-reveal">
+        <DealDesk />
+        <div className="bl-section-copy compact">
+          <span className="bl-kicker">Deals</span>
+          <h2>Negotiate, activate, deliver, and collect without losing context.</h2>
+          <p>Brandio treats each deal as a working record: brand, scope, value, deadlines, contract status, delivery progress, and payment health.</p>
         </div>
       </section>
 
-      <section className="mk-showcase" id="product">
-        <ProductBlock
-          eyebrow="01 Deals"
-          title="Every collaboration, under control."
-          text="See the brand, campaign, value, deadline, next action, and payment status without hunting through old messages."
-          visual={<DealMockup />}
-        />
-        <ProductBlock
-          eyebrow="02 Money Cockpit"
-          title="Know what you have earned. Know what is coming next."
-          text="Separate earned, pending, overdue, and expected money so brand work feels financially organized."
-          visual={<MoneyMockup />}
-          flip
-        />
-        <ProductBlock
-          eyebrow="03 Deliverables"
-          title="Never lose track of what needs to go live."
-          text="Track content requirements, approval state, campaign context, due dates, and overdue work."
-          visual={<DeliverableMockup />}
-        />
-        <ProductBlock
-          eyebrow="04 Brand CRM"
-          title="Turn every collaboration into a relationship."
-          text="Keep brand contacts, notes, history, and revenue context together for future work."
-          visual={<BrandMockup />}
-          flip
-        />
+      <section className="bl-analytics bl-reveal">
+        <div className="bl-section-copy compact">
+          <span className="bl-kicker">Analytics</span>
+          <h2>Revenue momentum with readable context.</h2>
+          <p>Hover the chart to inspect monthly revenue and deal count. It is a product view, not an empty dashboard prop.</p>
+        </div>
+        <RevenueChart activeMonth={activeMonth} setActiveMonth={setActiveMonth} />
       </section>
 
-      <section className="mk-ai">
-        <div>
-          <span className="mk-eyebrow">Brandio Intelligence</span>
-          <h2>Meet the intelligence layer behind your creator business.</h2>
-          <p>Analyze deal quality, payment terms, effective rates, risks, and suggested responses without turning your workflow into a chatbot.</p>
+      <section className="bl-deliverables bl-reveal">
+        <div className="bl-section-copy compact">
+          <span className="bl-kicker">Deliverables</span>
+          <h2>Campaign obligations in calendar form.</h2>
         </div>
-        <div className="mk-ai-panel">
-          <span>AI Deal Analyzer</span>
-          <h3>Is this campaign worth accepting?</h3>
-          <div className="mk-ai-grid">
-            <Metric label="Deal value" value="$1,200" />
-            <Metric label="Deliverables" value="4 items" />
-            <Metric label="Effective rate" value="$300/item" />
-            <Metric label="Payment terms" value="Net 30" />
-          </div>
-          <div className="mk-risk">Risk: payment date is after all content goes live. Suggested next step: ask for milestone or partial upfront payment.</div>
+        <DeliverableTimeline />
+      </section>
+
+      <section className="bl-contracts bl-reveal">
+        <ContractAnalyzer />
+        <div className="bl-section-copy compact">
+          <span className="bl-kicker">Contracts + analyzer</span>
+          <h2>Extract the deal hiding inside the document.</h2>
+          <p>Review payment terms, usage rights, deadlines, exclusivity, and risk before a campaign becomes a problem.</p>
         </div>
       </section>
 
-      <section className="mk-media">
-        <div className="mk-media-card">
-          <div className="mk-media-hero">
-            <div className="mk-avatar">CR</div>
-            <div>
-              <h3>Creator Name</h3>
-              <p>Beauty and lifestyle creator helping brands launch practical, high-converting campaigns.</p>
-            </div>
-          </div>
-          <div className="mk-media-stats">
-            <div><span>Niche</span><strong>Lifestyle</strong></div>
-            <div><span>Services</span><strong>UGC, Reels</strong></div>
-            <div><span>Brands</span><strong>Featured</strong></div>
-          </div>
-          <div className="mk-work-grid">
-            <span><b>Selected Work</b><small>Reels campaign</small></span>
-            <span><b>Starting Rate</b><small>Available on request</small></span>
-            <span><b>Contact</b><small>Work With Me</small></span>
-          </div>
+      <section className="bl-media bl-reveal">
+        <div className="bl-section-copy compact">
+          <span className="bl-kicker">Media kit</span>
+          <h2>A public creator profile that feels like a business surface.</h2>
+          <p>Give brands a clean view of your audience, work, services, rates, and collaboration path.</p>
+          <Link to="/register" className="bl-media-cta">Create your media kit</Link>
         </div>
-        <div>
-          <span className="mk-eyebrow">Media Kit</span>
-          <h2>Your work deserves more than a link in your bio.</h2>
-          <p>Create a premium public profile with services, rates, selected work, featured brands, and a clear contact path.</p>
-          <Link to="/register" className="mk-btn primary">Create your media kit</Link>
+        <MediaKitPreview />
+      </section>
+
+      <section className="bl-inbound bl-reveal">
+        <InboundFlow />
+        <div className="bl-section-copy compact">
+          <span className="bl-kicker">Inbound</span>
+          <h2>Brand interest becomes a tracked opportunity.</h2>
+          <p>Inquiry details, budget, decision status, deal creation, and payment all stay connected.</p>
         </div>
       </section>
 
-      <section className="mk-inbound">
-        <div className="mk-section-head">
-          <span className="mk-eyebrow">Inbound Opportunities</span>
-          <h2>Turn brand interest into organized opportunities.</h2>
+      <section className="bl-relationships bl-reveal">
+        <div className="bl-section-copy compact">
+          <span className="bl-kicker">Brand relationships</span>
+          <h2>History is leverage.</h2>
+          <p>See relationship notes, past campaigns, revenue, contacts, and the next useful follow-up in one editorial CRM view.</p>
         </div>
-        <div className="mk-inbound-grid">
-          <div className="mk-inquiry">
-            <span>New collaboration</span>
-            <h3>Skincare launch campaign</h3>
-            <p>Budget, deliverables, contact, message, status, and next action all stay attached.</p>
-            <b>$2,500 budget</b>
-          </div>
-          <div className="mk-status-flow">
-            {["New", "Reviewing", "Negotiating", "Accepted"].map((status) => <span key={status}>{status}</span>)}
-          </div>
-        </div>
+        <RelationshipLedger />
       </section>
 
-      <section className="mk-features">
-        <div className="mk-section-head">
-          <span className="mk-eyebrow">Feature overview</span>
-          <h2>One operating system for the business side of creating.</h2>
+      <section className="bl-workflow bl-reveal">
+        <div className="bl-section-copy centered">
+          <span className="bl-kicker">Workflow</span>
+          <h2>One flowing lifecycle, not six disconnected tools.</h2>
         </div>
-        <div className="mk-feature-showcase">
-          <article className="mk-feature-editorial">
-            <div>
-              <span className="mk-eyebrow">Deal management</span>
-              <h3>Run every collaboration like a real pipeline.</h3>
-              <p>Keep campaign scope, value, status, contract context and delivery dates in one working view.</p>
-            </div>
-            <DealMockup />
-          </article>
-          <article className="mk-feature-split">
-            <MoneyMockup />
-            <div>
-              <span className="mk-eyebrow">Money</span>
-              <h3>Separate earned, pending and overdue income.</h3>
-              <p>Brandio keeps the financial side of creator work visible without inventing numbers or hiding behind dashboards.</p>
-            </div>
-          </article>
-          <article className="mk-feature-ai-strip">
-            <div>
-              <span className="mk-eyebrow">AI workspace</span>
-              <h3>Analyze a deal before you say yes.</h3>
-              <p>Review deal terms, payment timing, deliverables, risks and negotiation angles in a focused workspace.</p>
-            </div>
-            <div className="mk-ai-mini">
-              <b>Extracted terms</b>
-              <span>4 deliverables</span>
-              <span>Usage rights requested</span>
-              <span>Payment after publishing</span>
-            </div>
-          </article>
-          <article className="mk-feature-duo">
-            <div>
-              <span className="mk-eyebrow">Inbound</span>
-              <h3>Turn interest into opportunities.</h3>
-              <p>Inquiry status, budget, campaign details and next actions stay together.</p>
-            </div>
-            <div>
-              <span className="mk-eyebrow">Media kit</span>
-              <h3>Show selected work with business context.</h3>
-              <p>Publish a creator profile that helps brands understand what you offer.</p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section className="mk-different">
-        <div className="mk-column scattered">
-          <span>Scattered workflow</span>
-          {["DMs", "Spreadsheet", "Email", "Notes", "Invoice", "Calendar"].map((item) => <b key={item}>{item}</b>)}
-        </div>
-        <div className="mk-arrow">to</div>
-        <div className="mk-column unified">
-          <span>Brandio</span>
-          {["Deals", "Brands", "Deliverables", "Contracts", "Money", "AI", "Media Kit"].map((item) => <b key={item}>{item}</b>)}
-        </div>
-      </section>
-
-      <section className="mk-pricing">
-        <div>
-          <span className="mk-eyebrow">Pricing</span>
-          <h2>Start simple. Upgrade when your creator business needs more room.</h2>
-          <p>Keep the same Brandio workflow while choosing the plan that fits your current stage.</p>
-        </div>
-        <div className="mk-price-card">
-          <span>Creator</span>
-          <h3>Free to start</h3>
-          <p>Track your workflow, then upgrade for more advanced business tools.</p>
-          <Link to="/payment" className="mk-btn primary">View pricing</Link>
-        </div>
-      </section>
-
-      <section className="mk-faq">
-        <div className="mk-section-head">
-          <span className="mk-eyebrow">FAQ</span>
-          <h2>Questions creators ask before switching.</h2>
-        </div>
-        <div className="mk-faq-list">
-          {faqs.map(([question, answer], index) => (
-            <button className={openFaq === index ? "open" : ""} onClick={() => setOpenFaq(openFaq === index ? -1 : index)} key={question}>
-              <strong>{question}</strong>
-              <p>{answer}</p>
+        <div className="bl-flowline" aria-label="Brandio workflow">
+          {workflow.map((step, index) => (
+            <button className={activeFlow === index ? "active" : ""} onClick={() => setActiveFlow(index)} key={step}>
+              <span>{step}</span>
             </button>
           ))}
         </div>
       </section>
 
-      <section className="mk-final">
-        <h2>Run your creator business like a real business.</h2>
-        <p>Deals, money, deliverables, brands, and opportunities, all in one place.</p>
-        <Link to="/register" className="mk-btn primary">Start free</Link>
+      <section className="bl-final bl-reveal">
+        <div>
+          <span className="bl-kicker">Start clean</span>
+          <h2>Put the business side of creating somewhere worthy of the work.</h2>
+          <Link to="/register" className="bl-btn bl-btn-primary light">Start free</Link>
+        </div>
+        <FinalMiniUi />
       </section>
 
       <MarketingFooter />
@@ -349,127 +156,130 @@ export default function Landing() {
   );
 }
 
-function featureLabel(title) {
-  return title
-    .replace(" Management", "")
-    .replace(" Cockpit", "")
-    .replace("AI Deal Intelligence", "AI")
-    .toUpperCase();
-}
-
-function HeroProductMockup() {
+function HeroConsole() {
   return (
-    <div className="mk-product-frame">
-      <div className="mk-browser">
-        <span />
-        <span />
-        <span />
-      </div>
-      <div className="mk-dashboard">
-        <div className="mk-dashboard-main">
-          <Metric label="Revenue this month" value="$8,240" />
-          <Metric label="Active deals" value="12" />
-          <Metric label="Pending payments" value="$3,600" />
-          <div className="mk-chart">
-            {[35, 58, 44, 76, 62, 90].map((height, index) => <i style={{ height: `${height}%` }} key={index} />)}
+    <div className="bl-console" aria-label="Brandio dashboard preview">
+      <div className="bl-console-top"><b>Brandio</b><span>Live workspace</span></div>
+      <div className="bl-console-grid">
+        <div className="bl-pipeline-panel">
+          <div className="bl-panel-title"><span>Deals</span><b>$18.4k active</b></div>
+          {["Nova Beauty", "AeroFit", "Hearth Studio"].map((brand, index) => (
+            <div className="bl-deal-row" key={brand}>
+              <i>{brand.slice(0, 1)}</i><strong>{brand}</strong><span>{["Contract", "Delivering", "Payment"][index]}</span><em>{["$4,200", "$7,800", "$2,100"][index]}</em>
+            </div>
+          ))}
+        </div>
+        <div className="bl-next-panel">
+          <span>Next action</span><strong>Approve Reel draft</strong><p>Skincare launch campaign due Friday</p>
+        </div>
+        <div className="bl-mini-chart">
+          <div className="bl-chart-head"><span>Revenue</span><b>$8.1k</b></div>
+          <div className="bl-chart-bars">
+            {[42, 64, 50, 78, 69, 92].map((h, i) => <i style={{ height: `${h}%` }} key={i} />)}
           </div>
-        </div>
-        <div className="mk-dashboard-side">
-          <h3>Upcoming</h3>
-          <p>Reel draft due tomorrow</p>
-          <p>Contract awaiting signature</p>
-          <p>Payment follow-up due</p>
-        </div>
-        <div className="mk-pipeline">
-          {["New", "Negotiating", "Active", "Payment"].map((stage) => <span key={stage}>{stage}</span>)}
+          <div className="bl-chart-meta"><span>Paid 62%</span><span>Pending 38%</span></div>
         </div>
       </div>
     </div>
   );
 }
 
-function ProductBlock({ eyebrow, title, text, visual, flip }) {
-  return (
-    <article className={`mk-product-block ${flip ? "flip" : ""}`}>
-      <div>
-        <span className="mk-eyebrow">{eyebrow}</span>
-        <h2>{title}</h2>
-        <p>{text}</p>
-      </div>
-      {visual}
-    </article>
-  );
+function ChaosMap() {
+  const nodes = ["Instagram DM", "Email", "Rate sheet", "Calendar", "Contract PDF", "Payment note", "Approval thread"];
+  return <div className="bl-chaos-map">{nodes.map((node, index) => <span className={`n${index}`} key={node}>{node}</span>)}<b>Brandio workspace</b></div>;
 }
 
-function Metric({ label, value }) {
-  return (
-    <div className="mk-metric">
-      <span>{label}</span>
-      <strong>{value}</strong>
-    </div>
-  );
+function ProductBoard() {
+  return <div className="bl-product-board"><aside><b>Deals</b><b>Deliverables</b><b>Payments</b><b>Contracts</b></aside><main><div className="bl-board-head"><span>Nova Beauty launch</span><strong>$4,200</strong></div><div className="bl-board-columns"><section><h3>Deal</h3><p>3 Reels, 6 stories, 30-day usage</p></section><section><h3>Deliverables</h3><p>2 approved, 1 scheduled</p></section><section><h3>Payment</h3><p>50% upfront received</p></section></div></main></div>;
 }
 
-function DealMockup() {
-  return (
-    <div className="mk-ui-card">
-      <h3>Deal Workspace</h3>
-      {["Nova Beauty", "AeroFit", "Studio Home"].map((brand, index) => (
-        <div className="mk-row" key={brand}>
-          <b>{brand}</b>
-          <span>{["Reels package", "Launch video", "UGC bundle"][index]}</span>
-          <em>{["$1,200", "$2,400", "$850"][index]}</em>
-          <i>{["Active", "Pending", "Paid"][index]}</i>
-        </div>
-      ))}
-    </div>
-  );
+function DealDesk() {
+  return <div className="bl-deal-desk"><div className="bl-table-head"><span>Brand</span><span>Stage</span><span>Due</span><span>Value</span></div>{[["Luma Skin", "Negotiating", "Sep 28", "$3,600"], ["AeroFit", "Delivering", "Oct 04", "$7,800"], ["Field Notes", "Awaiting contract", "Oct 12", "$2,450"]].map((row) => <div className="bl-table-row" key={row[0]}>{row.map((cell) => <span key={cell}>{cell}</span>)}</div>)}</div>;
 }
 
-function MoneyMockup() {
-  return (
-    <div className="mk-ui-card dark">
-      <h3>Money Cockpit</h3>
-      <div className="mk-money-grid">
-        <Metric label="Earned" value="$12.8k" />
-        <Metric label="Pending" value="$4.2k" />
-        <Metric label="Overdue" value="$900" />
-        <Metric label="Expected" value="$7.1k" />
-      </div>
-      <div className="mk-line-chart" />
-    </div>
-  );
+function RevenueChart({ activeMonth, setActiveMonth }) {
+  const max = Math.max(...revenueData.map((d) => d.revenue));
+  const points = revenueData.map((d, i) => `${(i / (revenueData.length - 1)) * 100},${100 - (d.revenue / max) * 82 - 8}`).join(" ");
+  const active = revenueData[activeMonth];
+  const x = (activeMonth / (revenueData.length - 1)) * 100;
+  const y = 100 - (active.revenue / max) * 82 - 8;
+  return <div className="bl-chart-wrap"><svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img" aria-label="Revenue chart"><g className="grid">{[20,40,60,80].map((v) => <line x1="0" x2="100" y1={v} y2={v} key={v} />)}</g><polyline points={points} /><circle cx={x} cy={y} r="1.8" /></svg><div className="bl-chart-tooltip" style={{ left: `${x}%`, top: `${y}%` }}><b>${active.revenue.toLocaleString()}</b><span>{active.month} · {active.deals} deals</span></div><div className="bl-bars">{revenueData.map((d, i) => <button className={i === activeMonth ? "active" : ""} onMouseEnter={() => setActiveMonth(i)} onFocus={() => setActiveMonth(i)} onClick={() => setActiveMonth(i)} key={d.month}><i style={{ height: `${(d.revenue / max) * 100}%` }} /><span>{d.month}</span></button>)}</div><div className="bl-axis"><span>$0</span><span>$4k</span><span>$8k</span></div></div>;
 }
 
-function DeliverableMockup() {
-  return (
-    <div className="mk-ui-card">
-      <h3>Deliverables</h3>
-      {["Draft script", "Instagram Reel", "Usage rights approval"].map((item, index) => (
-        <div className="mk-task" key={item}>
-          <span>{item}</span>
-          <b>{["In progress", "Due Friday", "Completed"][index]}</b>
-          <i><em style={{ width: `${[45, 70, 100][index]}%` }} /></i>
-        </div>
-      ))}
-    </div>
-  );
+function DeliverableTimeline() {
+  return <div className="bl-calendar"><div className="bl-days">{["Mon","Tue","Wed","Thu","Fri"].map((d) => <b key={d}>{d}</b>)}</div>{["Script draft", "Brand review", "Shoot day", "Reel publish", "Usage report"].map((item, i) => <button className={`bl-cal-item s${i}`} key={item}><strong>{item}</strong><span>{["Writing", "Waiting", "Production", "Scheduled", "Proof sent"][i]}</span></button>)}</div>;
 }
 
-function BrandMockup() {
+function ContractAnalyzer() {
+  return <div className="bl-contract-view"><article><span>CONTRACT_PREVIEW.pdf</span><h3>Campaign Services Agreement</h3><p>Creator grants brand paid usage rights for thirty days after final asset delivery...</p><p>Payment issued Net 30 after all content is published and links are submitted.</p></article><aside><b>Extracted deal info</b><span>Deliverables: 3 Reels, 6 Stories</span><span>Payment: Net 30</span><span>Usage: 30 days paid social</span><em>Risk: payment after publishing</em></aside></div>;
+}
+
+function MediaKitPreview() {
   return (
-    <div className="mk-ui-card">
-      <h3>Brand CRM</h3>
-      {["Nova Beauty", "Craft Coffee", "AeroFit"].map((brand, index) => (
-        <div className="mk-brand-row" key={brand}>
-          <span>{brand.slice(0, 1)}</span>
+    <div className="bl-media-preview">
+      <div className="bl-media-paper">
+        <header className="bl-media-head">
+          <div className="bl-profile-mark">
+            <span>CN</span>
+          </div>
           <div>
-            <b>{brand}</b>
-            <small>{[4, 2, 1][index]} collaborations</small>
+            <span>@creatorname</span>
+            <h3>Creator Name</h3>
+            <p>Beauty and lifestyle creator for skincare launches, UGC systems, and clean product storytelling.</p>
           </div>
-          <em>{["$6.4k", "$2.1k", "$2.4k"][index]}</em>
+          <a href="/register">Work with me</a>
+        </header>
+
+        <div className="bl-media-summary">
+          <span><b>Beauty</b>Niche</span>
+          <span><b>148k</b>Audience</span>
+          <span><b>6.8%</b>Engagement</span>
         </div>
-      ))}
+
+        <section className="bl-selected-work" aria-label="Selected media kit work">
+          <div>
+            <i><em>01</em></i>
+            <span><b>Skincare launch</b><small>3 reels · product story</small></span>
+          </div>
+          <div>
+            <i><em>02</em></i>
+            <span><b>Morning routine</b><small>Reel · 6.8% engagement</small></span>
+          </div>
+          <div>
+            <i><em>03</em></i>
+            <span><b>UGC product demo</b><small>Usage-ready asset</small></span>
+          </div>
+        </section>
+
+        <div className="bl-media-bottom">
+          <section>
+            <small>Services</small>
+            <p><b>Reel package</b><span>from $1.2k</span></p>
+            <p><b>UGC bundle</b><span>from $850</span></p>
+          </section>
+          <section>
+            <small>Featured brands</small>
+            <div className="bl-brand-tags">
+              <span>Nova</span>
+              <span>Glow Co</span>
+              <span>AeroFit</span>
+            </div>
+          </section>
+        </div>
+      </div>
     </div>
   );
 }
+
+function InboundFlow() {
+  return <div className="bl-inbound-flow">{["Brand interest", "Inquiry", "Deal", "Payment"].map((step, index) => <div key={step}><span>{step}</span>{index < 3 && <i />}</div>)}</div>;
+}
+
+function RelationshipLedger() {
+  return <div className="bl-ledger"><header><b>Hearth Studio</b><span>4 collaborations · $12,600 lifetime</span></header>{["Spring launch completed", "Holiday brief discussed", "Net 15 terms negotiated"].map((event, index) => <p key={event}><span>{["Apr", "Jul", "Sep"][index]}</span>{event}</p>)}</div>;
+}
+
+function FinalMiniUi() {
+  return <div className="bl-final-ui"><span>Today</span><b>2 payments ready to follow up</b><i /><p>Contract signed · Deliverables scheduled · Portfolio updated</p></div>;
+}
+

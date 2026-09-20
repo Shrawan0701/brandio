@@ -143,7 +143,7 @@ const navGroups = [
     items: [
       ["Profile", "/profile", "PR"],
       ["Billing / Plans", "/billing", "BP"],
-      ["Settings", "/pricing", "ST"]
+      ["Pricing", "/pricing", "ST"]
     ]
   }
 ];
