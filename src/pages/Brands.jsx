@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { fetchBrandRelationships } from "../lib/api";
 import { formatMoney, num } from "../utils/deals";
@@ -53,22 +53,35 @@ export default function Brands() {
         <main className="brand-crm-layout">
           <section className="brand-list">
             {brands.map((brand) => (
-              <button
-                key={brand.brand}
-                className={selected?.brand === brand.brand ? "active" : ""}
-                onClick={() => setSelected(brand)}
-              >
-                <div>
-                  <strong>{brand.brand}</strong>
-                  <span>{brand.total_deals} collaboration{brand.total_deals === 1 ? "" : "s"}</span>
-                </div>
-                <em>{formatMoney(brand.total_revenue)}</em>
-                <i><b style={{ width: `${Math.max(4, (num(brand.total_revenue) / maxRevenue) * 100)}%` }} /></i>
-              </button>
+              <Fragment key={brand.brand}>
+                <button
+                  className={selected?.brand === brand.brand ? "active" : ""}
+                  onClick={() => setSelected(brand)}
+                >
+                  <div>
+                    <strong>{brand.brand}</strong>
+                    <span>{brand.total_deals} collaboration{brand.total_deals === 1 ? "" : "s"}</span>
+                  </div>
+                  <div className="brand-list-meta">
+                    <em>{formatMoney(brand.total_revenue)}</em>
+                    <span className="brand-open-label">{selected?.brand === brand.brand ? "Open" : "View"}</span>
+                  </div>
+                  <i><b style={{ width: `${Math.max(4, (num(brand.total_revenue) / maxRevenue) * 100)}%` }} /></i>
+                </button>
+                {selected?.brand === brand.brand && (
+                  <div className="brand-mobile-detail">
+                    <BrandWorkspace brand={selected} />
+                  </div>
+                )}
+              </Fragment>
             ))}
           </section>
 
-          {selected && <BrandWorkspace brand={selected} />}
+          {selected && (
+            <div className="brand-desktop-detail">
+              <BrandWorkspace brand={selected} />
+            </div>
+          )}
         </main>
       )}
     </div>
@@ -91,11 +104,11 @@ function BrandWorkspace({ brand }) {
       <div className="brand-metric-grid">
         <Metric label="Total deals" value={brand.total_deals} />
         <Metric label="Total recorded revenue" value={formatMoney(brand.total_revenue)} />
-        <Metric label="Average deal value" value={formatMoney(brand.average_deal_value)} note="total revenue / total deals" />
+        <Metric label="Average deal value" value={formatMoney(brand.average_deal_value)} />
         <Metric label="Completed campaigns" value={brand.completed_campaigns} />
-        <Metric label="Payment timing" value={brand.average_payment_days === null ? "No data" : `${brand.average_payment_days} days`} note="average recorded paid_date minus campaign date" />
+        <Metric label="Payment timing" value={brand.average_payment_days === null ? "No data" : `${brand.average_payment_days} days`} />
         <Metric label="Number of revisions" value={brand.revisions} />
-        <Metric label="Repeat collaborations" value={brand.repeat_collaborations} note="total deals minus first collaboration" />
+        <Metric label="Repeat collaborations" value={brand.repeat_collaborations} />
         <Metric label="Active deals" value={brand.active_deals} />
         <Metric label="Last collaboration" value={formatDate(brand.last_collaboration_at)} />
         <Metric label="Last contact" value={formatDate(brand.last_contact_at)} note={brand.last_contact_source || ""} />

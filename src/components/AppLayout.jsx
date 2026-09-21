@@ -13,7 +13,7 @@ export default function AppLayout({ children }) {
   const appPaths = new Set([
     "/login", "/register", "/upgrade", "/about", "/contact", "/privacy",
     "/terms", "/forgot-password", "/reset-password", "/payment", "/features",
-    "/faq", "/dashboard", "/deals", "/pricing", "/analytics", "/deliverables", "/deal-analyzer", "/rates", "/brands", "/money", "/inbound", "/portfolio",
+    "/faq", "/dashboard", "/deals", "/pricing", "/analytics", "/deliverables", "/deal-analyzer", "/rates", "/brands", "/money", "/inbound", "/portfolio", "/media-kit",
     "/contracts", "/intelligence", "/roi", "/profile", "/billing"
   ]);
   const publicSingleSegment = /^\/[^/]+\/?$/.test(location.pathname);
@@ -23,10 +23,11 @@ export default function AppLayout({ children }) {
 
   const shellPaths = new Set([
     "/dashboard", "/deals", "/analytics", "/deliverables", "/deal-analyzer", "/rates",
-    "/brands", "/money", "/inbound", "/portfolio", "/contracts",
+    "/brands", "/money", "/inbound", "/portfolio", "/media-kit", "/contracts",
     "/intelligence", "/roi", "/profile", "/pricing", "/billing"
   ]);
-  const useShell = user && shellPaths.has(location.pathname) && !hideNav;
+  const isDealWorkspace = /^\/deals\/[^/]+\/?$/.test(location.pathname);
+  const useShell = user && (shellPaths.has(location.pathname) || isDealWorkspace) && !hideNav;
   const pageMeta = getPageMeta(location.pathname);
 
   if (useShell) {
@@ -34,7 +35,7 @@ export default function AppLayout({ children }) {
       <div className="app-shell">
         <aside className="app-sidebar">
           <Link to="/dashboard" className="app-brand">
-            <span>B</span>
+            <img src="/brandio-logo.png" alt="Brandio" className="brandio-nav-logo" />
             <div>
               <strong>Brandio</strong>
               <small>Business OS</small>
@@ -45,7 +46,7 @@ export default function AppLayout({ children }) {
 
         <div className="app-mobile-topbar">
           <Link to="/dashboard" className="app-brand compact">
-            <span>B</span>
+            <img src="/brandio-logo.png" alt="Brandio" className="brandio-nav-logo" />
             <strong>Brandio</strong>
           </Link>
           <div className="app-mobile-actions">
@@ -71,7 +72,7 @@ export default function AppLayout({ children }) {
             <div className="app-drawer-panel">
               <div className="app-drawer-head">
                 <Link to="/dashboard" className="app-brand compact" onClick={() => setMenuOpen(false)}>
-                  <span>B</span>
+                  <img src="/brandio-logo.png" alt="Brandio" className="brandio-nav-logo" />
                   <strong>Brandio</strong>
                 </Link>
                 <button onClick={() => setMenuOpen(false)} aria-label="Close navigation">Close</button>
@@ -133,6 +134,7 @@ const navGroups = [
     items: [
       ["Contracts", "/contracts", "CT"],
       ["Portfolio", "/portfolio", "PF"],
+      ["Media Kit", "/media-kit", "MK"],
       ["Inbound", "/inbound", "IN"],
       ["Rate Intelligence", "/rates", "RI"],
       ["Deal Analyzer", "/deal-analyzer", "DA"]
@@ -183,9 +185,10 @@ function getPageMeta(pathname) {
     "/deal-analyzer": ["Intelligence", "AI Deal Analyzer"],
     "/rates": ["Intelligence", "Rate Intelligence"],
     "/brands": ["Main", "Brands"],
-    "/money": ["Main", "Money Cockpit"],
+    "/money": ["Main", "Money"],
     "/inbound": ["Workspace", "Inbound"],
     "/portfolio": ["Workspace", "Portfolio"],
+    "/media-kit": ["Workspace", "Media Kit"],
     "/contracts": ["Workspace", "Contracts"],
     "/intelligence": ["Main", "Intelligence"],
     "/roi": ["Intelligence", "Deal ROI"],

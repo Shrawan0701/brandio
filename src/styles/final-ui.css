@@ -15,6 +15,336 @@
   --ui-shadow: 0 18px 45px rgba(21, 30, 50, 0.08);
 }
 
+/* Targeted app UX polish: calmer page headings and denser money/intelligence visuals. */
+.app-shell .brand-crm-hero h1,
+.app-shell .del-page-hero h1,
+.app-shell .bi-hero h1 {
+  color: var(--type-ink) !important;
+  font-size: clamp(26px, 2.25vw, 34px) !important;
+  font-weight: 680 !important;
+  line-height: 1.18 !important;
+  max-width: 760px !important;
+}
+
+.app-shell .brand-crm-hero p,
+.app-shell .del-page-hero p,
+.app-shell .bi-hero p {
+  font-size: 15px !important;
+  line-height: 1.45 !important;
+  max-width: 720px !important;
+}
+
+.app-shell .brand-crm-hero > div:first-child,
+.app-shell .del-page-hero {
+  padding: 28px !important;
+}
+
+.app-shell .bi-title span {
+  background: none !important;
+  color: var(--type-muted) !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+}
+
+.app-shell .money-grid-two .money-panel:first-child {
+  min-height: 0 !important;
+}
+
+.app-shell .money-trend-chart {
+  min-height: 220px !important;
+}
+
+.app-shell .money-trend-chart svg {
+  max-height: 230px !important;
+}
+
+.app-shell .money-trend-axis,
+.app-shell .money-trend-value {
+  font-size: 10px !important;
+}
+
+.app-shell .money-trend-line {
+  stroke-width: 3 !important;
+}
+
+.app-shell .money-trend-point circle {
+  r: 4px !important;
+  stroke-width: 2.5 !important;
+}
+
+.app-shell .bi-card {
+  padding: 16px !important;
+}
+
+.app-shell .bi-card-value {
+  font-size: clamp(22px, 1.8vw, 28px) !important;
+  font-weight: 680 !important;
+  line-height: 1.15 !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell .brand-crm-hero h1,
+  .app-shell .del-page-hero h1,
+  .app-shell .bi-hero h1 {
+    font-size: clamp(24px, 6.6vw, 31px) !important;
+    line-height: 1.18 !important;
+  }
+
+  .app-shell .brand-crm-hero > div:first-child,
+  .app-shell .del-page-hero {
+    padding: 22px !important;
+  }
+
+  .app-shell .money-trend-chart {
+    min-height: 190px !important;
+  }
+
+  .app-shell .money-trend-chart svg {
+    max-height: 200px !important;
+  }
+
+  .app-shell .bi-card-value {
+    font-size: clamp(20px, 6vw, 26px) !important;
+  }
+}
+
+/* Absolute final Rate Intelligence override: match Money page calm type. */
+.app-shell .rate-page .rate-hero h1 {
+  color: var(--type-ink) !important;
+  font-size: clamp(24px, 1.8vw, 30px) !important;
+  font-weight: 560 !important;
+  line-height: 1.22 !important;
+  max-width: 620px !important;
+}
+
+.app-shell .rate-page .rate-hero p {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 1.4 !important;
+}
+
+.app-shell .rate-page .rate-hero span {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+}
+
+.app-shell .rate-page .rate-panel h2 {
+  font-size: 18px !important;
+  font-weight: 560 !important;
+  line-height: 1.25 !important;
+}
+
+.app-shell .rate-page .rate-form label,
+.app-shell .rate-page .rate-message,
+.app-shell .rate-page .rate-checks label {
+  font-size: 12px !important;
+  font-weight: 560 !important;
+}
+
+.app-shell .rate-page .rate-form input,
+.app-shell .rate-page .rate-form select {
+  font-weight: 500 !important;
+}
+
+.app-shell .rate-page .rate-range strong,
+.app-shell .rate-page .rate-historical strong,
+.app-shell .rate-page .rate-table em,
+.app-shell .rate-page .rate-saved strong {
+  color: var(--type-ink) !important;
+  font-size: 17px !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+.app-shell .rate-page .rate-saved button {
+  align-items: center !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell .rate-page .rate-hero h1 {
+    font-size: clamp(23px, 6.2vw, 30px) !important;
+    font-weight: 560 !important;
+  }
+
+  .app-shell .rate-page .rate-range strong,
+  .app-shell .rate-page .rate-historical strong,
+  .app-shell .rate-page .rate-table em,
+  .app-shell .rate-page .rate-saved strong {
+    font-size: 17px !important;
+    font-weight: 500 !important;
+  }
+}
+
+/* Absolute final Rate Intelligence override: match Money page calm type. */
+.app-shell .rate-page .rate-hero h1 {
+  color: var(--type-ink) !important;
+  font-size: clamp(24px, 1.8vw, 30px) !important;
+  font-weight: 560 !important;
+  line-height: 1.22 !important;
+  max-width: 620px !important;
+}
+
+.app-shell .rate-page .rate-hero p {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 1.4 !important;
+}
+
+.app-shell .rate-page .rate-hero span {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+}
+
+.app-shell .rate-page .rate-panel h2 {
+  font-size: 18px !important;
+  font-weight: 560 !important;
+  line-height: 1.25 !important;
+}
+
+.app-shell .rate-page .rate-form label,
+.app-shell .rate-page .rate-message,
+.app-shell .rate-page .rate-checks label {
+  font-size: 12px !important;
+  font-weight: 560 !important;
+}
+
+.app-shell .rate-page .rate-form input,
+.app-shell .rate-page .rate-form select {
+  font-weight: 500 !important;
+}
+
+.app-shell .rate-page .rate-range strong,
+.app-shell .rate-page .rate-historical strong,
+.app-shell .rate-page .rate-table em,
+.app-shell .rate-page .rate-saved strong {
+  color: var(--type-ink) !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+.app-shell .rate-page .rate-saved button {
+  align-items: center !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell .rate-page .rate-hero h1 {
+    font-size: clamp(23px, 6.2vw, 30px) !important;
+    font-weight: 560 !important;
+  }
+
+  .app-shell .rate-page .rate-range strong,
+  .app-shell .rate-page .rate-historical strong,
+  .app-shell .rate-page .rate-table em,
+  .app-shell .rate-page .rate-saved strong {
+    font-size: 20px !important;
+    font-weight: 500 !important;
+  }
+}
+
+/* Mobile card and Rate Intelligence typography polish. */
+.app-shell .rate-hero h1 {
+  font-size: clamp(25px, 2.4vw, 34px) !important;
+  font-weight: 620 !important;
+  line-height: 1.18 !important;
+  max-width: 720px !important;
+}
+
+.app-shell .rate-panel h2 {
+  font-size: clamp(16px, 1.15vw, 19px) !important;
+  font-weight: 600 !important;
+}
+
+.app-shell .rate-form label,
+.app-shell .rate-message,
+.app-shell .rate-checks label {
+  font-weight: 560 !important;
+}
+
+.app-shell .rate-range strong,
+.app-shell .rate-historical strong,
+.app-shell .rate-table em,
+.app-shell .rate-saved strong {
+  font-size: clamp(16px, 1.3vw, 20px) !important;
+  font-weight: 560 !important;
+  line-height: 1.25 !important;
+}
+
+.app-shell .rate-range {
+  border-radius: 14px !important;
+  padding: 16px !important;
+}
+
+.app-shell .rate-saved button {
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.app-shell .bi-cards {
+  gap: 12px !important;
+}
+
+.app-shell .bi-card {
+  border-radius: 14px !important;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06) !important;
+  min-width: 0 !important;
+  padding: 14px !important;
+}
+
+.app-shell .bi-card-label {
+  font-size: 10px !important;
+  letter-spacing: 0.04em !important;
+}
+
+.app-shell .bi-card-value {
+  font-size: clamp(19px, 1.55vw, 24px) !important;
+  font-weight: 560 !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell .bi-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .app-shell .bi-card {
+    min-height: 104px !important;
+    padding: 13px !important;
+  }
+
+  .app-shell .bi-card-value {
+    font-size: clamp(18px, 5.1vw, 23px) !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .app-shell .bi-card-sub {
+    font-size: 12px !important;
+    line-height: 1.35 !important;
+  }
+
+  .app-shell .rate-hero {
+    padding: 22px !important;
+  }
+
+  .app-shell .rate-hero h1 {
+    font-size: clamp(24px, 6.2vw, 30px) !important;
+    font-weight: 600 !important;
+  }
+
+  .app-shell .rate-range strong,
+  .app-shell .rate-historical strong,
+  .app-shell .rate-table em,
+  .app-shell .rate-saved strong {
+    font-size: 16px !important;
+    font-weight: 560 !important;
+  }
+
+  .app-shell .rate-saved button {
+    min-height: 46px !important;
+    padding: 10px 12px !important;
+  }
+}
+
 /* ==========================================================================
    Landing hero investor polish
    Scoped to the public landing hero only. App pages are untouched.
@@ -200,6 +530,2037 @@
   .brandio-landing .bl-console {
     border-radius: 20px;
     transform: none;
+  }
+}
+
+/* Deal workspace fact cards: keep values readable, never headline-sized. */
+.app-shell .dw-page .dw-panel .dw-facts,
+.app-shell .dw-page .dw-panel .dw-money,
+.app-shell .dw-page .dw-brand-box {
+  gap: 10px !important;
+}
+
+.app-shell .dw-page .dw-panel .dw-fact {
+  align-content: start !important;
+  background: #f8faff !important;
+  border: 1px solid #e3e8f2 !important;
+  border-radius: 10px !important;
+  min-height: 82px !important;
+  padding: 12px 14px !important;
+}
+
+.app-shell .dw-page .dw-panel .dw-fact span {
+  color: #667085 !important;
+  display: block !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  margin-bottom: 8px !important;
+  text-transform: none !important;
+}
+
+.app-shell .dw-page .dw-panel .dw-fact strong {
+  color: #0f172a !important;
+  display: block !important;
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  line-height: 1.28 !important;
+  margin: 0 !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+}
+
+.app-shell .dw-page .dw-panel .dw-money .dw-fact strong,
+.app-shell .dw-page .dw-panel .dw-brand-box .dw-fact strong {
+  font-size: 16px !important;
+}
+
+.app-shell .dw-page .dw-panel-head h2 {
+  font-size: 20px !important;
+  font-weight: 620 !important;
+}
+
+.app-shell .dw-page .dw-panel-head span {
+  font-size: 13px !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell .dw-page .dw-panel .dw-facts,
+  .app-shell .dw-page .dw-panel .dw-money {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .app-shell .dw-page .dw-panel .dw-fact strong,
+  .app-shell .dw-page .dw-panel .dw-money .dw-fact strong {
+    font-size: 15px !important;
+  }
+}
+
+/* Brand CRM metric cards: same compact treatment as workspace fact cards. */
+.app-shell .brand-crm-page .brand-workspace {
+  padding: 20px !important;
+}
+
+.app-shell .brand-crm-page .brand-workspace h2 {
+  font-size: 20px !important;
+  font-weight: 620 !important;
+  line-height: 1.25 !important;
+}
+
+.app-shell .brand-crm-page .brand-workspace-head p {
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+}
+
+.app-shell .brand-crm-page .brand-metric-grid {
+  gap: 10px !important;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+}
+
+.app-shell .brand-crm-page .brand-metric {
+  align-content: start !important;
+  background: #f8faff !important;
+  border: 1px solid #e3e8f2 !important;
+  border-radius: 10px !important;
+  min-height: 110px !important;
+  padding: 14px !important;
+}
+
+.app-shell .brand-crm-page .brand-metric span {
+  color: #667085 !important;
+  display: block !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  margin-bottom: 8px !important;
+  text-transform: none !important;
+}
+
+.app-shell .brand-crm-page .brand-metric strong {
+  color: #0f172a !important;
+  display: block !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  margin: 0 !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+}
+
+.app-shell .brand-crm-page .brand-metric small {
+  color: #667085 !important;
+  display: block !important;
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+  margin-top: 7px !important;
+}
+
+.app-shell .brand-crm-page .brand-indicators span {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell .brand-crm-page .brand-metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .app-shell .brand-crm-page .brand-metric {
+    min-height: 96px !important;
+    padding: 12px !important;
+  }
+
+  .app-shell .brand-crm-page .brand-metric strong {
+    font-size: 15px !important;
+  }
+}
+
+.app-shell .brand-mobile-detail {
+  display: none !important;
+}
+
+.app-shell .brand-desktop-detail {
+  min-width: 0 !important;
+}
+
+.app-shell .brand-list-meta {
+  align-items: center !important;
+  display: flex !important;
+  gap: 10px !important;
+  justify-content: space-between !important;
+}
+
+.app-shell .brand-open-label {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell .brand-crm-layout {
+    display: block !important;
+  }
+
+  .app-shell .brand-desktop-detail {
+    display: none !important;
+  }
+
+  .app-shell .brand-mobile-detail {
+    display: block !important;
+  }
+
+  .app-shell .brand-mobile-detail .brand-workspace {
+    border: 1px solid #dbe3ee !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    margin: -2px 0 12px !important;
+    padding: 16px !important;
+  }
+
+  .app-shell .brand-list {
+    gap: 8px !important;
+  }
+
+  .app-shell .brand-list button {
+    border-radius: 12px !important;
+    padding: 14px !important;
+  }
+
+  .app-shell .brand-list button > div:first-child {
+    align-items: flex-start !important;
+  }
+
+  .app-shell .brand-list-meta {
+    margin-top: 2px !important;
+  }
+
+  .app-shell .brand-open-label {
+    align-items: center !important;
+    background: #eef2ff !important;
+    border: 1px solid #cfd7ff !important;
+    border-radius: 999px !important;
+    color: #3446c5 !important;
+    display: inline-flex !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    min-height: 28px !important;
+    padding: 5px 10px !important;
+  }
+
+  .app-shell .brand-mobile-detail .brand-workspace-head {
+    display: grid !important;
+    gap: 10px !important;
+  }
+
+  .app-shell .brand-mobile-detail .brand-indicators {
+    justify-content: flex-start !important;
+  }
+
+  .app-shell .brand-mobile-detail .brand-workspace-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Deal add/edit modal spacing polish. */
+.app-shell .modal-card.add-deal-modal {
+  max-width: 860px !important;
+}
+
+.app-shell .add-deal-sections {
+  gap: 18px !important;
+  padding: 20px 26px !important;
+}
+
+.app-shell .add-deal-section {
+  display: grid !important;
+  gap: 14px !important;
+  padding: 18px !important;
+}
+
+.app-shell .add-deal-section h6 {
+  margin: 0 !important;
+}
+
+.app-shell .add-deal-grid,
+.app-shell .add-money-row,
+.app-shell .deal-type-grid {
+  gap: 12px !important;
+}
+
+.app-shell .add-deal-section .form-control,
+.app-shell .add-deal-section .form-select,
+.app-shell .modal-card:not(.add-deal-modal) .form-control,
+.app-shell .modal-card:not(.add-deal-modal) .form-select {
+  min-height: 42px !important;
+}
+
+.app-shell .add-deal-section textarea.form-control,
+.app-shell .modal-card:not(.add-deal-modal) textarea.form-control {
+  margin-top: 2px !important;
+  min-height: 72px !important;
+}
+
+.app-shell .add-deal-section .form-label,
+.app-shell .modal-card:not(.add-deal-modal) .form-label {
+  display: block !important;
+  margin-bottom: 7px !important;
+}
+
+.app-shell .deal-form-panel {
+  display: grid !important;
+  gap: 12px !important;
+  margin-top: 2px !important;
+  padding: 14px !important;
+}
+
+.app-shell .modal-card:not(.add-deal-modal) {
+  display: grid !important;
+  gap: 12px !important;
+  max-width: 620px !important;
+  padding: 24px !important;
+}
+
+.app-shell .modal-card:not(.add-deal-modal) .deal-type-grid {
+  margin-bottom: 4px !important;
+}
+
+.app-shell .modal-card:not(.add-deal-modal) .d-flex.gap-2 {
+  gap: 12px !important;
+  margin-bottom: 4px !important;
+}
+
+.app-shell .modal-card:not(.add-deal-modal) .mb-2,
+.app-shell .modal-card:not(.add-deal-modal) .mb-3 {
+  margin-bottom: 4px !important;
+}
+
+@media (max-width: 640px) {
+  .app-shell .add-deal-sections {
+    padding: 16px !important;
+  }
+
+  .app-shell .add-deal-section {
+    gap: 12px !important;
+    padding: 14px !important;
+  }
+
+  .app-shell .add-deal-grid,
+  .app-shell .add-money-row,
+  .app-shell .deal-type-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .app-shell .modal-card:not(.add-deal-modal) .d-flex.gap-2 {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .app-shell .modal-card:not(.add-deal-modal) .form-select.w-25 {
+    width: 100% !important;
+  }
+}
+
+/* Compact mobile deal cards. */
+@media (max-width: 640px) {
+  .app-shell .deal-card-v2 {
+    border-radius: 12px !important;
+  }
+
+  .app-shell .deal-card-summary {
+    gap: 10px !important;
+    padding: 14px !important;
+  }
+
+  .app-shell .deal-card-head {
+    padding-bottom: 10px !important;
+  }
+
+  .app-shell .deal-card-value {
+    padding: 11px 12px !important;
+  }
+
+  .app-shell .deal-card-value strong {
+    font-size: 20px !important;
+  }
+
+  .app-shell .deal-card-summary > label.btn {
+    min-height: 38px !important;
+    padding: 8px 10px !important;
+  }
+
+  .app-shell .deal-date-grid {
+    gap: 8px !important;
+  }
+
+  .app-shell .deal-date-grid div {
+    padding: 9px 10px !important;
+  }
+
+  .app-shell .deal-action-row {
+    gap: 8px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    padding-top: 10px !important;
+  }
+
+  .app-shell .deal-action-row button,
+  .app-shell .deal-action-row a,
+  .app-shell .deal-portfolio-btn {
+    min-height: 36px !important;
+    padding: 8px 10px !important;
+  }
+}
+
+/* Deal ROI opens as a modal from deal cards. */
+.app-shell .deal-roi-modal-backdrop {
+  align-items: center !important;
+  background: rgba(15, 23, 42, 0.48) !important;
+  display: flex !important;
+  inset: 0 !important;
+  justify-content: center !important;
+  padding: 22px !important;
+  position: fixed !important;
+  z-index: 2200 !important;
+}
+
+.app-shell .deal-roi-modal-card {
+  background: #f8faff !important;
+  border: 1px solid #dbe3ee !important;
+  border-radius: 14px !important;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.28) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  max-height: min(86vh, 820px) !important;
+  max-width: 920px !important;
+  overflow: hidden !important;
+  width: min(920px, calc(100vw - 44px)) !important;
+}
+
+.app-shell .deal-roi-modal-head {
+  align-items: center !important;
+  background: #fff !important;
+  border-bottom: 1px solid #e3e8f2 !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  padding: 16px 18px !important;
+}
+
+.app-shell .deal-roi-modal-head span {
+  color: #64748b !important;
+  display: block !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+
+.app-shell .deal-roi-modal-head h2 {
+  color: #0f172a !important;
+  font-size: 20px !important;
+  font-weight: 650 !important;
+  line-height: 1.2 !important;
+  margin: 2px 0 0 !important;
+}
+
+.app-shell .deal-roi-modal-head button {
+  align-items: center !important;
+  background: #fff !important;
+  border: 1px solid #cbd4e2 !important;
+  border-radius: 9px !important;
+  color: #0f172a !important;
+  display: inline-flex !important;
+  font-size: 18px !important;
+  height: 36px !important;
+  justify-content: center !important;
+  width: 36px !important;
+}
+
+.app-shell .deal-roi-modal-card .cr-section {
+  margin: 0 !important;
+  overflow: auto !important;
+  padding: 18px !important;
+}
+
+.app-shell .deal-roi-modal-card .cr-section-head {
+  margin-bottom: 14px !important;
+}
+
+.app-shell .deal-roi-modal-card .cr-section-title {
+  display: none !important;
+}
+
+.app-shell .deal-roi-modal-card .cr-grid {
+  gap: 10px !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+.app-shell .deal-roi-modal-card .cr-row {
+  display: grid !important;
+  gap: 10px !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+
+.app-shell .deal-roi-modal-card .cr-card {
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  min-height: 86px !important;
+  padding: 13px !important;
+}
+
+.app-shell .deal-roi-modal-card .cr-card:hover {
+  transform: none !important;
+}
+
+.app-shell .deal-roi-modal-card .cr-card-label {
+  color: #667085 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  text-transform: none !important;
+}
+
+.app-shell .deal-roi-modal-card .cr-card-value {
+  color: #0f172a !important;
+  font-size: 18px !important;
+  font-weight: 620 !important;
+  line-height: 1.25 !important;
+  overflow-wrap: anywhere !important;
+}
+
+.app-shell .deal-roi-modal-card .cr-card-note,
+.app-shell .deal-roi-modal-card .cr-fineprint {
+  color: #64748b !important;
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell .deal-roi-modal-backdrop {
+    align-items: flex-end !important;
+    padding: 10px !important;
+  }
+
+  .app-shell .deal-roi-modal-card {
+    border-radius: 14px 14px 0 0 !important;
+    max-height: calc(92dvh - env(safe-area-inset-top, 0px)) !important;
+    width: 100% !important;
+  }
+
+  .app-shell .deal-roi-modal-card .cr-section {
+    padding: 14px !important;
+  }
+
+  .app-shell .deal-roi-modal-card .cr-grid,
+  .app-shell .deal-roi-modal-card .cr-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .app-shell .deal-roi-modal-card .cr-card {
+    min-height: 78px !important;
+    padding: 12px !important;
+  }
+
+  .app-shell .deal-roi-modal-card .cr-card-value {
+    font-size: 16px !important;
+  }
+}
+
+/* Deal workspace inline ROI section: compact values. */
+.app-shell .dw-page .dw-panel .cr-section {
+  margin: 0 !important;
+}
+
+.app-shell .dw-page .dw-panel .cr-section-head {
+  margin-bottom: 14px !important;
+}
+
+.app-shell .dw-page .dw-panel .cr-section-title {
+  font-size: 18px !important;
+  font-weight: 620 !important;
+  line-height: 1.25 !important;
+}
+
+.app-shell .dw-page .dw-panel .cr-section-sub {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  line-height: 1.35 !important;
+}
+
+.app-shell .dw-page .dw-panel .cr-grid {
+  gap: 10px !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.app-shell .dw-page .dw-panel .cr-row {
+  display: grid !important;
+  gap: 10px !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+
+.app-shell .dw-page .dw-panel .cr-card {
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  min-height: 86px !important;
+  padding: 13px !important;
+}
+
+.app-shell .dw-page .dw-panel .cr-card:hover {
+  transform: none !important;
+}
+
+.app-shell .dw-page .dw-panel .cr-card-label {
+  color: #667085 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  text-transform: none !important;
+}
+
+.app-shell .dw-page .dw-panel .cr-card-value {
+  color: #0f172a !important;
+  font-size: 18px !important;
+  font-weight: 620 !important;
+  line-height: 1.22 !important;
+  overflow-wrap: anywhere !important;
+}
+
+.app-shell .dw-page .dw-panel .cr-card-note,
+.app-shell .dw-page .dw-panel .cr-fineprint {
+  color: #64748b !important;
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell .dw-page .dw-panel .cr-grid,
+  .app-shell .dw-page .dw-panel .cr-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .app-shell .dw-page .dw-panel .cr-card {
+    min-height: 78px !important;
+    padding: 12px !important;
+  }
+
+  .app-shell .dw-page .dw-panel .cr-card-value {
+    font-size: 16px !important;
+  }
+}
+
+/* Money page desktop polish. */
+@media (min-width: 761px) {
+  .app-shell .money-page {
+    padding-top: 24px !important;
+  }
+
+  .app-shell .money-hero {
+    align-items: center !important;
+    gap: 18px !important;
+    grid-template-columns: minmax(0, 1fr) 360px !important;
+    margin-bottom: 18px !important;
+  }
+
+  .app-shell .money-hero h1 {
+    font-size: clamp(26px, 2.4vw, 36px) !important;
+    font-weight: 620 !important;
+    line-height: 1.18 !important;
+    max-width: 720px !important;
+  }
+
+  .app-shell .money-hero p {
+    font-size: 14px !important;
+    max-width: 680px !important;
+  }
+
+  .app-shell .money-reserve-card {
+    border-radius: 12px !important;
+    padding: 20px !important;
+  }
+
+  .app-shell .money-reserve-card strong {
+    font-size: 22px !important;
+    font-weight: 620 !important;
+  }
+
+  .app-shell .money-stat-grid {
+    border-radius: 12px !important;
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  }
+
+  .app-shell .money-stat {
+    min-height: 104px !important;
+    padding: 18px 20px !important;
+  }
+
+  .app-shell .money-stat strong {
+    font-size: 22px !important;
+    font-weight: 620 !important;
+  }
+
+  .app-shell .money-grid-two {
+    align-items: stretch !important;
+    grid-template-columns: minmax(0, 1.35fr) minmax(360px, 0.65fr) !important;
+  }
+
+  .app-shell .money-panel {
+    border-radius: 12px !important;
+    padding: 22px !important;
+  }
+
+  .app-shell .money-panel h2 {
+    font-size: 20px !important;
+    font-weight: 620 !important;
+  }
+
+  .app-shell .money-panel-head {
+    align-items: start !important;
+    display: grid !important;
+    gap: 4px !important;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 0.7fr) !important;
+  }
+
+  .app-shell .money-panel-head p {
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+  }
+
+  .app-shell .money-break-row strong,
+  .app-shell .money-flow-list strong {
+    font-size: 18px !important;
+    font-weight: 620 !important;
+  }
+}
+
+.app-shell .money-trend-chart {
+  min-height: 280px !important;
+  width: 100% !important;
+}
+
+.app-shell .money-trend-chart svg {
+  display: block !important;
+  height: auto !important;
+  max-height: 300px !important;
+  width: 100% !important;
+}
+
+.app-shell .money-trend-gridline {
+  stroke: #e7edf5 !important;
+  stroke-width: 1 !important;
+}
+
+.app-shell .money-trend-axis {
+  fill: #64748b !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+
+.app-shell .money-trend-value {
+  fill: #0f172a !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+.app-shell .money-trend-area {
+  fill: url(#moneyTrendFill) !important;
+}
+
+.app-shell .money-trend-line {
+  fill: none !important;
+  stroke: #10b981 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  stroke-width: 4 !important;
+}
+
+.app-shell .money-trend-point circle {
+  fill: #fff !important;
+  stroke: #10b981 !important;
+  stroke-width: 3 !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell .money-trend-chart {
+    min-height: 220px !important;
+    overflow: hidden !important;
+  }
+
+  .app-shell .money-trend-chart svg {
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+}
+
+/* Final Money page type override. */
+.app-shell .money-page .money-hero h1 {
+  font-size: clamp(24px, 1.8vw, 30px) !important;
+  font-weight: 560 !important;
+  line-height: 1.22 !important;
+  max-width: 620px !important;
+}
+
+.app-shell .money-page .money-hero p {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}
+
+.app-shell .money-page .money-hero span,
+.app-shell .money-page .money-label {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+}
+
+.app-shell .money-page .money-stat strong,
+.app-shell .money-page .money-reserve-card strong,
+.app-shell .money-page .money-flow-list strong,
+.app-shell .money-page .money-break-row strong {
+  font-size: 20px !important;
+  font-weight: 560 !important;
+  line-height: 1.2 !important;
+}
+
+.app-shell .money-page .money-panel h2 {
+  font-size: 18px !important;
+  font-weight: 560 !important;
+  line-height: 1.25 !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+.app-shell .money-page .money-stat span,
+.app-shell .money-page .money-flow-list span,
+.app-shell .money-page .money-break-row span,
+.app-shell .money-page .money-settings label {
+  font-size: 12px !important;
+  font-weight: 560 !important;
+}
+
+.app-shell .money-page .money-stat small,
+.app-shell .money-page .money-reserve-card p,
+.app-shell .money-page .money-reserve-card small,
+.app-shell .money-page .money-panel p {
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  line-height: 1.4 !important;
+}
+
+.app-shell .money-page .money-grid-two {
+  grid-template-columns: minmax(0, 1fr) minmax(420px, 0.56fr) !important;
+}
+
+.app-shell .money-page .money-panel-head {
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 0.55fr) !important;
+}
+
+.app-shell .money-page .money-panel-head p {
+  max-width: 260px !important;
+}
+
+@media (max-width: 1180px) {
+  .app-shell .money-page .money-grid-two {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .app-shell .money-page .money-hero h1 {
+    font-size: clamp(23px, 6.2vw, 30px) !important;
+    font-weight: 600 !important;
+  }
+
+  .app-shell .money-page .money-stat strong,
+  .app-shell .money-page .money-reserve-card strong,
+  .app-shell .money-page .money-flow-list strong,
+  .app-shell .money-page .money-break-row strong {
+    font-size: 20px !important;
+  }
+
+  .app-shell .money-page .money-panel-head {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .app-shell .money-page .money-panel-head p {
+    max-width: none !important;
+  }
+}
+
+/* Intelligence analytics chart cleanup. */
+.app-shell .bi-trend-chart {
+  min-height: 260px !important;
+  width: 100% !important;
+}
+
+.app-shell .bi-trend-chart svg {
+  display: block !important;
+  height: auto !important;
+  max-height: 300px !important;
+  width: 100% !important;
+}
+
+.app-shell .bi-trend-gridline {
+  stroke: #e7edf5 !important;
+  stroke-width: 1 !important;
+}
+
+.app-shell .bi-trend-axis {
+  fill: #64748b !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+
+.app-shell .bi-trend-area {
+  fill: url(#biRevenueArea) !important;
+}
+
+.app-shell .bi-trend-line {
+  fill: none !important;
+  stroke: #10b981 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  stroke-width: 4 !important;
+}
+
+.app-shell .bi-trend-point circle {
+  fill: #fff !important;
+  stroke: #10b981 !important;
+  stroke-width: 3 !important;
+}
+
+.app-shell .bi-avg-rows {
+  display: grid !important;
+  gap: 12px !important;
+}
+
+.app-shell .bi-avg-row {
+  align-items: center !important;
+  display: grid !important;
+  gap: 12px !important;
+  grid-template-columns: 74px minmax(0, 1fr) 76px !important;
+}
+
+.app-shell .bi-avg-row span {
+  color: #64748b !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.app-shell .bi-avg-row div {
+  background: #edf2f7 !important;
+  border-radius: 999px !important;
+  height: 10px !important;
+  overflow: hidden !important;
+}
+
+.app-shell .bi-avg-row i {
+  background: linear-gradient(90deg, #f59e0b, #10b981) !important;
+  border-radius: 999px !important;
+  display: block !important;
+  height: 100% !important;
+}
+
+.app-shell .bi-avg-row strong {
+  color: #0f172a !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  text-align: right !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell .bi-trend-chart {
+    min-height: 210px !important;
+    overflow: hidden !important;
+  }
+
+  .app-shell .bi-trend-chart svg {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .app-shell .bi-avg-row {
+    grid-template-columns: 64px minmax(0, 1fr) 70px !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .app-shell .bi-trend-chart {
+    min-height: 190px !important;
+  }
+
+  .app-shell .bi-trend-chart svg {
+    max-height: 190px !important;
+  }
+
+  .app-shell .bi-trend-axis {
+    font-size: 14px !important;
+  }
+}
+
+/* Contracts page: cleaner cards and mobile-friendly controls */
+.app-shell .ct-shell {
+  max-width: 1120px !important;
+  padding: 0 !important;
+}
+
+.app-shell .ct-hero {
+  align-items: end !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  display: grid !important;
+  gap: 18px !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  margin-bottom: 18px !important;
+}
+
+.app-shell .ct-title {
+  font-size: clamp(26px, 2.2vw, 34px) !important;
+  font-weight: 720 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.14 !important;
+  margin-bottom: 8px !important;
+}
+
+.app-shell .ct-title span {
+  background: none !important;
+  color: #647086 !important;
+  font-size: 13px !important;
+  font-weight: 650 !important;
+}
+
+.app-shell .ct-subtitle {
+  color: #526078 !important;
+  font-size: 15px !important;
+  line-height: 1.55 !important;
+  max-width: 720px !important;
+}
+
+.app-shell .ct-stats {
+  display: grid !important;
+  gap: 10px !important;
+  grid-template-columns: repeat(4, minmax(88px, 1fr)) !important;
+}
+
+.app-shell .ct-stat {
+  background: #fff !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  min-width: 0 !important;
+  padding: 14px 16px !important;
+}
+
+.app-shell .ct-stat-value {
+  font-size: 24px !important;
+  font-weight: 720 !important;
+  line-height: 1 !important;
+}
+
+.app-shell .ct-stat-label {
+  color: #7a8498 !important;
+  font-size: 11px !important;
+  font-weight: 650 !important;
+  letter-spacing: 0 !important;
+  margin-top: 8px !important;
+  text-transform: none !important;
+}
+
+.app-shell .ct-filters {
+  align-items: center !important;
+  display: flex !important;
+  gap: 10px !important;
+  margin-bottom: 18px !important;
+  overflow-x: auto !important;
+  padding-bottom: 2px !important;
+  scrollbar-width: none !important;
+}
+
+.app-shell .ct-filters::-webkit-scrollbar {
+  display: none !important;
+}
+
+.app-shell .ct-filter {
+  border-radius: 11px !important;
+  flex: 0 0 auto !important;
+  font-size: 14px !important;
+  min-height: 42px !important;
+  padding: 9px 13px !important;
+  white-space: nowrap !important;
+}
+
+.app-shell .ct-row-card {
+  align-items: start !important;
+  background: #fff !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 14px 36px rgba(20, 28, 45, 0.05) !important;
+  display: grid !important;
+  gap: 16px !important;
+  grid-template-columns: 48px minmax(0, 1fr) !important;
+  padding: 16px !important;
+  transform: none !important;
+}
+
+.app-shell .ct-row-card:hover {
+  box-shadow: 0 16px 42px rgba(20, 28, 45, 0.08) !important;
+  transform: none !important;
+}
+
+.app-shell .ct-row-icon {
+  border-radius: 12px !important;
+  height: 48px !important;
+  width: 48px !important;
+}
+
+.app-shell .ct-row-title {
+  font-size: 16px !important;
+  font-weight: 650 !important;
+  line-height: 1.25 !important;
+}
+
+.app-shell .ct-row-brand,
+.app-shell .ct-row-meta {
+  color: #5f6b80 !important;
+  font-size: 14px !important;
+  font-weight: 450 !important;
+}
+
+.app-shell .ct-row-brand strong,
+.app-shell .ct-row-meta strong {
+  color: #1f2937 !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
+
+.app-shell .ct-row-meta {
+  gap: 12px 18px !important;
+}
+
+.app-shell .ct-row-actions {
+  border-top: 1px solid var(--ui-line-soft) !important;
+  display: grid !important;
+  gap: 8px !important;
+  grid-template-columns: repeat(5, max-content) !important;
+  margin-top: 14px !important;
+  padding-top: 12px !important;
+}
+
+.app-shell .ct-btn {
+  align-items: center !important;
+  border-radius: 9px !important;
+  display: inline-flex !important;
+  font-size: 13px !important;
+  font-weight: 680 !important;
+  justify-content: center !important;
+  min-height: 38px !important;
+  padding: 8px 12px !important;
+  text-align: center !important;
+}
+
+.app-shell .ct-pill {
+  border-radius: 999px !important;
+  font-size: 12px !important;
+  letter-spacing: 0 !important;
+  padding: 7px 12px !important;
+  text-transform: none !important;
+}
+
+.app-shell .ct-fineprint-page {
+  color: #647086 !important;
+  font-size: 13px !important;
+  margin-top: 14px !important;
+}
+
+@media (max-width: 960px) {
+  .app-shell .ct-hero {
+    align-items: stretch !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .app-shell .ct-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-shell .ct-shell {
+    max-width: none !important;
+  }
+
+  .app-shell .ct-hero {
+    gap: 14px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .app-shell .ct-title {
+    font-size: 24px !important;
+  }
+
+  .app-shell .ct-subtitle {
+    font-size: 14px !important;
+  }
+
+  .app-shell .ct-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .app-shell .ct-stat {
+    padding: 12px !important;
+  }
+
+  .app-shell .ct-filters {
+    margin-left: -16px !important;
+    margin-right: -16px !important;
+    padding: 0 16px 4px !important;
+  }
+
+  .app-shell .ct-row-card {
+    display: block !important;
+    padding: 16px !important;
+  }
+
+  .app-shell .ct-row-icon {
+    margin-bottom: 12px !important;
+  }
+
+  .app-shell .ct-row-top {
+    align-items: flex-start !important;
+    display: grid !important;
+    gap: 10px !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+  }
+
+  .app-shell .ct-row-title {
+    font-size: 15px !important;
+  }
+
+  .app-shell .ct-row-brand,
+  .app-shell .ct-row-meta {
+    font-size: 13px !important;
+  }
+
+  .app-shell .ct-row-brand strong,
+  .app-shell .ct-row-meta strong {
+    font-size: 14px !important;
+  }
+
+  .app-shell .ct-row-meta {
+    display: grid !important;
+    gap: 6px !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .app-shell .ct-row-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .app-shell .ct-btn {
+    width: 100% !important;
+  }
+
+  .app-shell .ct-btn-success,
+  .app-shell .ct-btn-danger {
+    grid-column: span 2 !important;
+  }
+
+  .app-shell .ct-fineprint-page {
+    text-align: left !important;
+  }
+}
+
+/* Portfolio page: smaller showcase cards and stable mobile stats */
+.app-shell .pf-shell {
+  max-width: 1120px !important;
+  padding: 0 !important;
+}
+
+.app-shell .pf-hero {
+  align-items: center !important;
+  gap: 24px !important;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr) !important;
+  margin-bottom: 24px !important;
+}
+
+.app-shell .pf-title {
+  font-size: clamp(26px, 2.2vw, 34px) !important;
+  font-weight: 720 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.14 !important;
+  margin-bottom: 8px !important;
+}
+
+.app-shell .pf-title span {
+  background: none !important;
+  color: #4f7cff !important;
+  font-size: 13px !important;
+  font-weight: 650 !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+.app-shell .pf-subtitle {
+  color: #526078 !important;
+  font-size: 15px !important;
+  line-height: 1.55 !important;
+  margin-bottom: 22px !important;
+  max-width: 620px !important;
+}
+
+.app-shell .pf-stats {
+  display: grid !important;
+  gap: 12px !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.app-shell .pf-stat {
+  background: #fff !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+  min-height: 92px !important;
+  padding: 16px !important;
+  transform: none !important;
+}
+
+.app-shell .pf-stat:hover {
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.app-shell .pf-stat-value {
+  font-size: 25px !important;
+  font-weight: 720 !important;
+  line-height: 1 !important;
+}
+
+.app-shell .pf-stat-label {
+  color: #7a8498 !important;
+  font-size: 11px !important;
+  letter-spacing: 0 !important;
+  margin-top: 9px !important;
+  text-transform: none !important;
+}
+
+.app-shell .pf-toolbar {
+  gap: 12px !important;
+  margin-bottom: 22px !important;
+}
+
+.app-shell .pf-filters {
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+  max-width: 100% !important;
+}
+
+.app-shell .pf-chip {
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  min-height: 38px !important;
+  padding: 8px 13px !important;
+}
+
+.app-shell .pf-grid {
+  gap: 18px !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 380px)) !important;
+}
+
+.app-shell .pf-card {
+  background: #fff !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 14px 36px rgba(20, 28, 45, 0.06) !important;
+  max-width: 380px !important;
+  overflow: hidden !important;
+  transform: none !important;
+}
+
+.app-shell .pf-card:hover {
+  box-shadow: 0 16px 42px rgba(20, 28, 45, 0.09) !important;
+  transform: none !important;
+}
+
+.app-shell .pf-thumb {
+  aspect-ratio: 16 / 8.4 !important;
+}
+
+.app-shell .pf-thumb-initial {
+  font-size: 42px !important;
+}
+
+.app-shell .pf-thumb-brand {
+  font-size: 11px !important;
+}
+
+.app-shell .pf-badge-visibility,
+.app-shell .pf-platform-pill,
+.app-shell .pf-badge-featured {
+  font-size: 11px !important;
+  padding: 6px 10px !important;
+}
+
+.app-shell .pf-body {
+  padding: 16px !important;
+}
+
+.app-shell .pf-brand {
+  font-size: 11px !important;
+  letter-spacing: 0 !important;
+  margin-bottom: 6px !important;
+}
+
+.app-shell .pf-campaign {
+  font-size: 18px !important;
+  font-weight: 720 !important;
+  line-height: 1.25 !important;
+  margin-bottom: 12px !important;
+}
+
+.app-shell .pf-foot {
+  align-items: end !important;
+  display: grid !important;
+  gap: 8px !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+}
+
+.app-shell .pf-foot-meta {
+  color: #5f6b80 !important;
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+}
+
+.app-shell .pf-amount {
+  font-size: 17px !important;
+  font-weight: 720 !important;
+}
+
+.app-shell .pf-actions {
+  background: #fafbff !important;
+  display: grid !important;
+  gap: 8px !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  padding: 12px 16px 14px !important;
+}
+
+.app-shell .pf-action {
+  border-radius: 10px !important;
+  font-size: 13px !important;
+  min-height: 38px !important;
+  padding: 8px 10px !important;
+  width: 100% !important;
+}
+
+@media (max-width: 960px) {
+  .app-shell .pf-hero {
+    grid-template-columns: 1fr !important;
+  }
+
+  .app-shell .pf-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  }
+
+  .app-shell .pf-card {
+    max-width: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-shell .pf-shell {
+    max-width: none !important;
+  }
+
+  .app-shell .pf-hero {
+    gap: 16px !important;
+    margin-bottom: 18px !important;
+  }
+
+  .app-shell .pf-stats {
+    gap: 10px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .app-shell .pf-stat {
+    min-height: 92px !important;
+    padding: 14px !important;
+  }
+
+  .app-shell .pf-stat-value {
+    font-size: 24px !important;
+  }
+
+  .app-shell .pf-toolbar {
+    align-items: stretch !important;
+    flex-direction: column !important;
+  }
+
+  .app-shell .pf-filters {
+    display: grid !important;
+    gap: 6px !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    padding: 6px !important;
+  }
+
+  .app-shell .pf-chip {
+    font-size: 12px !important;
+    min-width: 0 !important;
+    padding: 8px 6px !important;
+  }
+
+  .app-shell .pf-chip-count {
+    margin-left: 3px !important;
+  }
+
+  .app-shell .pf-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .app-shell .pf-thumb {
+    aspect-ratio: 16 / 9 !important;
+  }
+
+  .app-shell .pf-body {
+    padding: 14px 16px !important;
+  }
+
+  .app-shell .pf-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Inbound page: compact mobile stats, cards and inquiry detail modal */
+.app-shell .inb-shell {
+  max-width: 1120px !important;
+}
+
+.app-shell .inb-head {
+  align-items: center !important;
+  gap: 24px !important;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr) !important;
+  margin-bottom: 22px !important;
+}
+
+.app-shell .inb-stats {
+  gap: 12px !important;
+}
+
+.app-shell .inb-stats div {
+  background: #fff !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+  min-height: 92px !important;
+  padding: 16px !important;
+}
+
+.app-shell .inb-stats strong {
+  font-size: 25px !important;
+  font-weight: 720 !important;
+  line-height: 1 !important;
+}
+
+.app-shell .inb-stats span {
+  color: #647086 !important;
+  display: block !important;
+  font-size: 13px !important;
+  line-height: 1.3 !important;
+  margin-top: 10px !important;
+}
+
+.app-shell .inb-filters {
+  gap: 10px !important;
+  margin-bottom: 18px !important;
+}
+
+.app-shell .inb-filters button {
+  border-radius: 11px !important;
+  font-size: 14px !important;
+  min-height: 40px !important;
+  padding: 8px 12px !important;
+}
+
+.app-shell .inb-card {
+  background: #fff !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 14px 36px rgba(20, 28, 45, 0.05) !important;
+  gap: 14px !important;
+  grid-template-columns: minmax(190px, 1.05fr) minmax(140px, 0.62fr) minmax(220px, 1fr) auto !important;
+  padding: 16px !important;
+}
+
+.app-shell .inb-card h3 {
+  font-size: 17px !important;
+  font-weight: 680 !important;
+  line-height: 1.25 !important;
+}
+
+.app-shell .inb-card-top p,
+.app-shell .inb-meta,
+.app-shell .inb-desc {
+  color: #5f6b80 !important;
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+}
+
+.app-shell .inb-card-top span {
+  border-radius: 999px !important;
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  padding: 7px 11px !important;
+  word-break: normal !important;
+}
+
+.app-shell .inb-actions {
+  display: grid !important;
+  gap: 8px !important;
+  grid-template-columns: repeat(4, max-content) !important;
+}
+
+.app-shell .inb-actions button {
+  border-radius: 10px !important;
+  font-size: 13px !important;
+  min-height: 38px !important;
+  padding: 8px 12px !important;
+}
+
+.app-shell .inb-modal {
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 24px 70px rgba(8, 12, 26, 0.28) !important;
+  margin: 24px auto !important;
+  max-height: calc(100vh - 48px) !important;
+  max-width: 520px !important;
+  overflow-y: auto !important;
+  padding: 22px !important;
+}
+
+.app-shell .inb-modal h2 {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  margin: 0 28px 6px 0 !important;
+}
+
+.app-shell .inb-modal dl {
+  border-bottom: 1px solid var(--ui-line-soft) !important;
+  display: grid !important;
+  gap: 10px 14px !important;
+  grid-template-columns: 110px minmax(0, 1fr) !important;
+  margin: 16px 0 !important;
+  padding-bottom: 16px !important;
+}
+
+.app-shell .inb-modal dt {
+  color: #667085 !important;
+  font-size: 13px !important;
+  font-weight: 650 !important;
+}
+
+.app-shell .inb-modal dd {
+  color: #1f2937 !important;
+  font-size: 14px !important;
+  margin: 0 !important;
+}
+
+.app-shell .inb-modal textarea {
+  font-size: 14px !important;
+  min-height: 94px !important;
+}
+
+.app-shell .inb-save-confirm {
+  background: #ecfdf5;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  color: #166534;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 10px;
+  padding: 9px 10px;
+}
+
+@media (max-width: 960px) {
+  .app-shell .inb-head {
+    grid-template-columns: 1fr !important;
+  }
+
+  .app-shell .inb-card {
+    grid-template-columns: 1fr !important;
+  }
+
+  .app-shell .inb-actions {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-shell .inb-head {
+    gap: 16px !important;
+  }
+
+  .app-shell .inb-stats {
+    gap: 10px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .app-shell .inb-stats div {
+    min-height: 92px !important;
+    padding: 14px !important;
+  }
+
+  .app-shell .inb-stats strong {
+    font-size: 24px !important;
+  }
+
+  .app-shell .inb-filters {
+    display: grid !important;
+    gap: 8px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .app-shell .inb-filters button {
+    width: 100% !important;
+  }
+
+  .app-shell .inb-card {
+    padding: 16px !important;
+  }
+
+  .app-shell .inb-card-top {
+    display: grid !important;
+    gap: 10px !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+  }
+
+  .app-shell .inb-meta {
+    gap: 6px !important;
+  }
+
+  .app-shell .inb-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .app-shell .inb-actions button {
+    width: 100% !important;
+  }
+
+  .app-shell .modal-backdrop-custom:has(.inb-modal) {
+    align-items: flex-end !important;
+    padding: 10px !important;
+  }
+
+  .app-shell .inb-modal {
+    border-radius: 18px 18px 0 0 !important;
+    margin: 0 !important;
+    max-height: min(82vh, 720px) !important;
+    max-width: 100% !important;
+    padding: 18px !important;
+    width: 100% !important;
+  }
+
+  .app-shell .inb-modal dl {
+    grid-template-columns: 1fr !important;
+  }
+
+  .app-shell .inb-modal dt {
+    margin-top: 4px !important;
+  }
+
+  .app-shell .inb-modal .inb-actions {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Absolute final in-app typography reset.
+   This intentionally sits last so older page-specific bold styles cannot leak back in. */
+.app-shell {
+  --type-ui: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --type-ink: #0f172a;
+  --type-muted: #64748b;
+  font-family: var(--type-ui) !important;
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+}
+
+.app-shell *,
+.app-shell *::before,
+.app-shell *::after {
+  font-family: var(--type-ui) !important;
+  letter-spacing: 0 !important;
+}
+
+.app-shell h1,
+.app-shell h2,
+.app-shell h3,
+.app-shell h4,
+.app-shell h5,
+.app-shell h6,
+.app-shell p {
+  margin-top: 0 !important;
+}
+
+.app-shell h1,
+.app-shell .app-topbar h1,
+.app-shell .dash-hero h1,
+.app-shell .deals-header h1,
+.app-shell .brand-crm-hero h1,
+.app-shell .del-page-hero h1,
+.app-shell .money-hero h1,
+.app-shell .ct-hero h1,
+.app-shell .inb-head h1,
+.app-shell .pf-hero h1,
+.app-shell .rate-hero h1,
+.app-shell .da-hero h1,
+.app-shell .dw-header h1,
+.app-shell .profile-header h1,
+.app-shell .billing-header h1,
+.app-shell .bi-hero h1,
+.app-shell .roi-hero h1 {
+  color: var(--type-ink) !important;
+  font-size: clamp(21px, 1.85vw, 28px) !important;
+  font-weight: 620 !important;
+  line-height: 1.2 !important;
+}
+
+.app-shell .app-topbar h1 {
+  font-size: 17px !important;
+}
+
+.app-shell h2,
+.app-shell .dash-panel-head h2,
+.app-shell .money-panel h2,
+.app-shell .profile-section-head h2,
+.app-shell .dw-panel-head h2,
+.app-shell .rate-panel h2,
+.app-shell .da-panel h2,
+.app-shell .da-panel h3,
+.app-shell .brand-workspace h2,
+.app-shell .ct-panel h2,
+.app-shell .pf-section h2,
+.app-shell .del-head h2,
+.app-shell .inb-card h3 {
+  color: var(--type-ink) !important;
+  font-size: clamp(16px, 1.15vw, 19px) !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+}
+
+.app-shell h3,
+.app-shell .deal-card-head h3,
+.app-shell .profile-preview h2,
+.app-shell .brand-list h3,
+.app-shell .ct-doc-title {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+}
+
+.app-shell p,
+.app-shell li,
+.app-shell input,
+.app-shell textarea,
+.app-shell select,
+.app-shell button,
+.app-shell a,
+.app-shell span,
+.app-shell em,
+.app-shell small,
+.app-shell td,
+.app-shell th {
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+}
+
+.app-shell small,
+.app-shell .dash-eyebrow,
+.app-shell .deals-header span,
+.app-shell .brand-crm-hero span,
+.app-shell .del-page-hero span,
+.app-shell .money-hero span,
+.app-shell .ct-hero span,
+.app-shell .inb-head span,
+.app-shell .pf-hero span,
+.app-shell .rate-hero span,
+.app-shell .da-hero span,
+.app-shell .profile-kicker,
+.app-shell .billing-header span,
+.app-shell .bi-hero span,
+.app-shell .app-topbar span,
+.app-shell .app-nav p,
+.app-shell .dash-kpi span,
+.app-shell .money-stat span,
+.app-shell .stat-label,
+.app-shell .deal-card-value span,
+.app-shell .deal-date-grid span,
+.app-shell .dw-fact span {
+  color: var(--type-muted) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  text-transform: none !important;
+}
+
+.app-shell strong,
+.app-shell b,
+.app-shell .dash-kpi strong,
+.app-shell .money-stat strong,
+.app-shell .stat-value,
+.app-shell .inb-stats strong,
+.app-shell .brand-metric strong,
+.app-shell .rate-range strong,
+.app-shell .deal-card-value strong,
+.app-shell .money-break-row strong,
+.app-shell .money-flow-list strong {
+  color: var(--type-ink) !important;
+  font-size: clamp(18px, 1.55vw, 24px) !important;
+  font-weight: 620 !important;
+  line-height: 1.2 !important;
+}
+
+.app-shell .dw-fact strong,
+.app-shell .dw-money strong,
+.app-shell .dw-panel strong,
+.app-shell .da-summary-grid strong,
+.app-shell .rate-historical strong,
+.app-shell .profile-panel strong,
+.app-shell .ct-doc-meta strong,
+.app-shell .ct-doc-brand strong {
+  color: var(--type-ink) !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+}
+
+.app-shell .dw-facts,
+.app-shell .dw-money {
+  gap: 10px !important;
+}
+
+.app-shell .dw-fact {
+  min-height: 92px !important;
+  padding: 12px !important;
+}
+
+.app-shell .dw-fact strong {
+  display: block !important;
+  margin-top: 6px !important;
+}
+
+.app-shell .dash-hero p,
+.app-shell .deals-header p,
+.app-shell .brand-crm-hero p,
+.app-shell .del-page-hero p,
+.app-shell .money-hero p,
+.app-shell .ct-hero p,
+.app-shell .inb-head p,
+.app-shell .pf-hero p,
+.app-shell .rate-hero p,
+.app-shell .da-hero p,
+.app-shell .dw-header p,
+.app-shell .profile-header p,
+.app-shell .billing-header p,
+.app-shell .bi-hero p {
+  color: var(--type-muted) !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  max-width: 820px !important;
+}
+
+.app-shell .dash-page,
+.app-shell .deals-page,
+.app-shell .brand-crm-page,
+.app-shell .del-page,
+.app-shell .money-page,
+.app-shell .ct-page,
+.app-shell .inb-page,
+.app-shell .pf-page,
+.app-shell .rate-page,
+.app-shell .da-page,
+.app-shell .dw-page,
+.app-shell .profile-page,
+.app-shell .billing-page,
+.app-shell .bi-page,
+.app-shell .roi-page {
+  padding-top: 20px !important;
+}
+
+.app-shell .dash-hero,
+.app-shell .deals-header,
+.app-shell .brand-crm-hero,
+.app-shell .del-page-hero,
+.app-shell .money-hero,
+.app-shell .ct-hero,
+.app-shell .inb-hero,
+.app-shell .pf-hero,
+.app-shell .rate-hero,
+.app-shell .da-hero,
+.app-shell .dw-header,
+.app-shell .profile-header,
+.app-shell .billing-header,
+.app-shell .bi-hero {
+  margin-bottom: 18px !important;
+}
+
+.app-shell .app-nav a,
+.app-shell .app-search,
+.app-shell .dash-hero-actions button,
+.app-shell .dash-hero-actions a,
+.app-shell .deals-header button,
+.app-shell .deal-action-row button,
+.app-shell .deal-action-row a,
+.app-shell .deal-portfolio-btn,
+.app-shell .dw-header-actions button,
+.app-shell .dw-header-actions select,
+.app-shell .dw-soft-btn {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+.app-shell .notif-panel h2 {
+  font-size: 17px !important;
+  font-weight: 600 !important;
+}
+
+.app-shell .notif-item strong,
+.app-shell .notif-item em,
+.app-shell .notif-panel header button,
+.app-shell .notif-load-more {
+  font-size: 12px !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    font-size: 13px !important;
+  }
+
+  .app-shell h1,
+  .app-shell .dash-hero h1,
+  .app-shell .deals-header h1,
+  .app-shell .brand-crm-hero h1,
+  .app-shell .del-page-hero h1,
+  .app-shell .money-hero h1,
+  .app-shell .ct-hero h1,
+  .app-shell .inb-head h1,
+  .app-shell .pf-hero h1,
+  .app-shell .rate-hero h1,
+  .app-shell .da-hero h1,
+  .app-shell .dw-header h1,
+  .app-shell .profile-header h1,
+  .app-shell .billing-header h1,
+  .app-shell .bi-hero h1 {
+    font-size: clamp(20px, 5.5vw, 27px) !important;
+  }
+
+  .app-shell p,
+  .app-shell li,
+  .app-shell input,
+  .app-shell textarea,
+  .app-shell select,
+  .app-shell button,
+  .app-shell a,
+  .app-shell span,
+  .app-shell em,
+  .app-shell small {
+    font-size: 13px !important;
+  }
+
+  .app-shell .dw-facts,
+  .app-shell .dw-money {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
 
@@ -2259,6 +4620,204 @@
   }
 }
 
+/* Final compact type scale for authenticated pages. */
+.app-shell .app-topbar h1 {
+  font-size: 19px !important;
+  line-height: 1.2 !important;
+}
+
+.app-shell h1,
+.app-shell .dash-hero h1,
+.app-shell .deals-header h1,
+.app-shell .brand-crm-hero h1,
+.app-shell .del-page-hero h1,
+.app-shell .money-hero h1,
+.app-shell .ct-hero h1,
+.app-shell .inb-head h1,
+.app-shell .pf-hero h1,
+.app-shell .rate-hero h1,
+.app-shell .da-hero h1,
+.app-shell .dw-header h1,
+.app-shell .profile-header h1,
+.app-shell .billing-header h1,
+.app-shell .bi-hero h1 {
+  font-size: clamp(24px, 2.45vw, 34px) !important;
+  font-weight: 680 !important;
+  line-height: 1.18 !important;
+}
+
+.app-shell .dash-hero h1,
+.app-shell .brand-crm-hero h1,
+.app-shell .money-hero h1,
+.app-shell .rate-hero h1,
+.app-shell .da-hero h1,
+.app-shell .inb-head h1 {
+  max-width: 900px !important;
+}
+
+.app-shell h2,
+.app-shell .dash-panel-head h2,
+.app-shell .money-panel h2,
+.app-shell .profile-section-head h2,
+.app-shell .dw-panel-head h2,
+.app-shell .rate-panel h2,
+.app-shell .da-panel h2,
+.app-shell .da-panel h3,
+.app-shell .brand-workspace h2,
+.app-shell .ct-panel h2,
+.app-shell .pf-section h2 {
+  font-size: clamp(17px, 1.35vw, 21px) !important;
+  font-weight: 660 !important;
+  line-height: 1.25 !important;
+}
+
+.app-shell .dash-hero p,
+.app-shell .deals-header p,
+.app-shell .brand-crm-hero p,
+.app-shell .del-page-hero p,
+.app-shell .money-hero p,
+.app-shell .ct-hero p,
+.app-shell .inb-head p,
+.app-shell .pf-hero p,
+.app-shell .rate-hero p,
+.app-shell .da-hero p,
+.app-shell .dw-header p,
+.app-shell .profile-header p,
+.app-shell .billing-header p,
+.app-shell .bi-hero p {
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+}
+
+.app-shell .dash-eyebrow,
+.app-shell .deals-header span,
+.app-shell .brand-crm-hero span,
+.app-shell .del-page-hero span,
+.app-shell .money-hero span,
+.app-shell .ct-hero span,
+.app-shell .inb-head span,
+.app-shell .pf-hero span,
+.app-shell .rate-hero span,
+.app-shell .da-hero span,
+.app-shell .profile-kicker,
+.app-shell .billing-header span,
+.app-shell .bi-hero span {
+  font-size: 11px !important;
+}
+
+.app-shell .dash-kpi strong,
+.app-shell .money-stat strong,
+.app-shell .stat-value,
+.app-shell .inb-stats strong,
+.app-shell .brand-metric strong,
+.app-shell .dw-fact strong,
+.app-shell .rate-range strong {
+  font-size: clamp(22px, 2.2vw, 30px) !important;
+}
+
+.app-shell .dash-page,
+.app-shell .deals-page,
+.app-shell .brand-crm-page,
+.app-shell .del-page,
+.app-shell .money-page,
+.app-shell .ct-page,
+.app-shell .inb-page,
+.app-shell .pf-page,
+.app-shell .rate-page,
+.app-shell .da-page,
+.app-shell .dw-page,
+.app-shell .profile-page,
+.app-shell .billing-page,
+.app-shell .bi-page,
+.app-shell .roi-page {
+  padding-top: 22px !important;
+}
+
+.app-shell .notif-panel {
+  width: min(340px, calc(100vw - 28px)) !important;
+}
+
+.app-shell .notif-panel header {
+  padding: 12px 14px !important;
+}
+
+.app-shell .notif-panel h2 {
+  font-size: 18px !important;
+  font-weight: 680 !important;
+}
+
+.app-shell .notif-panel header button,
+.app-shell .notif-state button {
+  font-size: 12px !important;
+  font-weight: 650 !important;
+}
+
+.app-shell .notif-item {
+  gap: 8px !important;
+  padding: 11px 14px !important;
+}
+
+.app-shell .notif-item strong {
+  font-size: 12px !important;
+  font-weight: 680 !important;
+  line-height: 1.25 !important;
+}
+
+.app-shell .notif-item em {
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+}
+
+.app-shell .notif-item small {
+  font-size: 10.5px !important;
+}
+
+.app-shell .notif-load-more {
+  background: #fff !important;
+  border: 0 !important;
+  border-top: 1px solid var(--ui-line-soft) !important;
+  color: #334155 !important;
+  font-size: 12px !important;
+  font-weight: 650 !important;
+  min-height: 42px !important;
+  padding: 11px 14px !important;
+  text-align: center !important;
+  width: 100% !important;
+}
+
+.app-shell .notif-load-more:hover {
+  background: #f8faff !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell h1,
+  .app-shell .dash-hero h1,
+  .app-shell .deals-header h1,
+  .app-shell .brand-crm-hero h1,
+  .app-shell .del-page-hero h1,
+  .app-shell .money-hero h1,
+  .app-shell .ct-hero h1,
+  .app-shell .inb-head h1,
+  .app-shell .pf-hero h1,
+  .app-shell .rate-hero h1,
+  .app-shell .da-hero h1,
+  .app-shell .dw-header h1,
+  .app-shell .profile-header h1,
+  .app-shell .billing-header h1,
+  .app-shell .bi-hero h1 {
+    font-size: clamp(23px, 6.2vw, 30px) !important;
+  }
+
+  .app-shell .dash-hero p,
+  .app-shell .deals-header p,
+  .app-shell .brand-crm-hero p,
+  .app-shell .money-hero p,
+  .app-shell .rate-hero p,
+  .app-shell .da-hero p {
+    font-size: 14px !important;
+  }
+}
+
 html,
 body,
 #root {
@@ -2882,6 +5441,397 @@ body {
 
   .dash-kpi {
     border-right: 0 !important;
+  }
+}
+
+/* Softer authenticated app typography and readable deal cards. */
+.app-shell {
+  --app-heading-weight: 720;
+  --app-strong-weight: 680;
+  --app-label-weight: 640;
+}
+
+.app-shell,
+.app-shell button,
+.app-shell input,
+.app-shell select,
+.app-shell textarea {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+}
+
+.app-shell h1,
+.app-shell h2,
+.app-shell h3,
+.app-shell h4,
+.app-shell h5,
+.app-shell h6,
+.app-shell .dw-header h1,
+.app-shell .dash-hero h1,
+.app-shell .deals-header h1,
+.app-shell .brand-crm-hero h1,
+.app-shell .del-page-hero h1,
+.app-shell .money-hero h1,
+.app-shell .ct-hero h1,
+.app-shell .inb-head h1,
+.app-shell .pf-hero h1,
+.app-shell .rate-hero h1,
+.app-shell .da-hero h1,
+.app-shell .profile-header h1,
+.app-shell .billing-header h1,
+.app-shell .bi-hero h1 {
+  font-weight: var(--app-heading-weight) !important;
+  letter-spacing: 0 !important;
+}
+
+.app-shell h1,
+.app-shell .dash-hero h1,
+.app-shell .deals-header h1,
+.app-shell .brand-crm-hero h1,
+.app-shell .money-hero h1,
+.app-shell .rate-hero h1,
+.app-shell .da-hero h1 {
+  font-size: clamp(28px, 3.2vw, 42px) !important;
+  line-height: 1.16 !important;
+}
+
+.app-shell h2,
+.app-shell .dash-panel-head h2,
+.app-shell .money-panel h2,
+.app-shell .profile-section-head h2,
+.app-shell .dw-panel-head h2 {
+  font-size: clamp(18px, 1.7vw, 24px) !important;
+  font-weight: 700 !important;
+}
+
+.app-shell strong,
+.app-shell b,
+.app-shell .dash-kpi strong,
+.app-shell .money-stat strong,
+.app-shell .stat-value,
+.app-shell .brand-metric strong,
+.app-shell .dw-fact strong {
+  font-weight: var(--app-strong-weight) !important;
+}
+
+.app-shell .dash-eyebrow,
+.app-shell .deals-header span,
+.app-shell .brand-crm-hero span,
+.app-shell .money-hero span,
+.app-shell .rate-hero span,
+.app-shell .da-hero span,
+.app-shell .profile-kicker,
+.app-shell .app-topbar span,
+.app-shell .app-nav p,
+.app-shell .dash-kpi span,
+.app-shell .money-stat span,
+.app-shell .stat-label,
+.app-shell .deal-card-value span,
+.app-shell .deal-date-grid span {
+  font-weight: var(--app-label-weight) !important;
+  letter-spacing: 0.04em !important;
+}
+
+.app-shell p,
+.app-shell small,
+.app-shell span,
+.app-shell a,
+.app-shell button,
+.app-shell input,
+.app-shell select,
+.app-shell textarea {
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-shell .app-nav a,
+.app-shell .deals-filters button,
+.app-shell .dash-hero-actions button,
+.app-shell .dash-hero-actions a,
+.app-shell .deals-header button,
+.app-shell .deal-action-row button,
+.app-shell .deal-action-row a,
+.app-shell .deal-portfolio-btn {
+  font-weight: 650 !important;
+}
+
+.app-shell .deals-page {
+  max-width: 1360px !important;
+}
+
+.app-shell .deals-grid {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  display: grid !important;
+  gap: 14px !important;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+  overflow: visible !important;
+}
+
+.app-shell .deal-card-v2 {
+  background: #fff !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+.app-shell .deal-card-summary {
+  align-items: stretch !important;
+  display: grid !important;
+  gap: 14px !important;
+  grid-template-columns: 1fr !important;
+  padding: 16px !important;
+}
+
+.app-shell .deal-card-head {
+  align-items: flex-start !important;
+  border-bottom: 1px solid var(--ui-line-soft) !important;
+  display: flex !important;
+  gap: 12px !important;
+  justify-content: space-between !important;
+  padding-bottom: 12px !important;
+}
+
+.app-shell .deal-card-head h3 {
+  color: var(--ui-ink) !important;
+  font-size: 19px !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+  margin: 0 !important;
+}
+
+.app-shell .deal-card-head p {
+  color: var(--ui-muted) !important;
+  font-size: 14px !important;
+  font-weight: 560 !important;
+  margin: 3px 0 0 !important;
+}
+
+.app-shell .deal-status-pill {
+  align-items: center !important;
+  background: #f6f8fb !important;
+  border: 1px solid #d8dfeb !important;
+  border-radius: 999px !important;
+  color: var(--ui-text) !important;
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  font-size: 12px !important;
+  font-weight: 650 !important;
+  min-height: 30px !important;
+  padding: 6px 10px !important;
+  text-transform: capitalize !important;
+}
+
+.app-shell .deal-status-pill.active {
+  background: #eef5ff !important;
+  border-color: #c6d8ff !important;
+  color: #2445b8 !important;
+}
+
+.app-shell .deal-status-pill.completed {
+  background: #eaf8f1 !important;
+  border-color: #bfe8d4 !important;
+  color: #176342 !important;
+}
+
+.app-shell .deal-status-pill.overdue {
+  background: #fff0ee !important;
+  border-color: #f5c9c2 !important;
+  color: #a42e24 !important;
+}
+
+.app-shell .deal-card-value {
+  background: #f8faff !important;
+  border: 1px solid var(--ui-line-soft) !important;
+  border-radius: 10px !important;
+  display: grid !important;
+  gap: 2px !important;
+  padding: 13px !important;
+  text-align: left !important;
+}
+
+.app-shell .deal-card-value span,
+.app-shell .deal-card-value small {
+  color: var(--ui-muted) !important;
+  font-size: 12px !important;
+  line-height: 1.3 !important;
+  text-transform: none !important;
+}
+
+.app-shell .deal-card-value strong {
+  color: var(--ui-ink) !important;
+  font-size: 24px !important;
+  line-height: 1.2 !important;
+  margin: 0 !important;
+}
+
+.app-shell .deal-card-summary > label.btn {
+  align-items: center !important;
+  align-self: stretch !important;
+  background: #fff !important;
+  border: 1px dashed #b9c5d8 !important;
+  border-radius: 10px !important;
+  color: #334155 !important;
+  display: flex !important;
+  font-size: 14px !important;
+  justify-content: center !important;
+  line-height: 1.25 !important;
+  margin: 0 !important;
+  max-width: none !important;
+  min-height: 44px !important;
+  padding: 10px 12px !important;
+  white-space: normal !important;
+  width: 100% !important;
+}
+
+.app-shell .deal-proof-strip {
+  display: grid !important;
+  gap: 8px !important;
+  grid-template-columns: repeat(2, minmax(0, 96px)) !important;
+  overflow: visible !important;
+}
+
+.app-shell .deal-proof-image {
+  aspect-ratio: 4 / 3 !important;
+  border-radius: 8px !important;
+  height: auto !important;
+  object-fit: cover !important;
+  width: 100% !important;
+}
+
+.app-shell .deal-date-grid {
+  display: grid !important;
+  gap: 8px !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.app-shell .deal-date-grid div {
+  background: #fff !important;
+  border: 1px solid var(--ui-line-soft) !important;
+  border-radius: 9px !important;
+  padding: 10px !important;
+}
+
+.app-shell .deal-date-grid span,
+.app-shell .deal-date-grid strong {
+  display: block !important;
+  line-height: 1.25 !important;
+  overflow-wrap: normal !important;
+  white-space: normal !important;
+}
+
+.app-shell .deal-date-grid span {
+  color: var(--ui-muted) !important;
+  font-size: 11px !important;
+}
+
+.app-shell .deal-date-grid strong {
+  color: var(--ui-text) !important;
+  font-size: 13px !important;
+  margin-top: 3px !important;
+}
+
+.app-shell .deal-money-breakdown {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 7px !important;
+}
+
+.app-shell .deal-money-breakdown span,
+.app-shell .deal-product-box {
+  background: #f8faff !important;
+  border: 1px solid var(--ui-line-soft) !important;
+  border-radius: 9px !important;
+  color: var(--ui-text) !important;
+}
+
+.app-shell .deal-action-row {
+  border-top: 1px solid var(--ui-line-soft) !important;
+  display: grid !important;
+  gap: 8px !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  justify-content: stretch !important;
+  margin-top: 0 !important;
+  opacity: 1 !important;
+  padding-top: 14px !important;
+}
+
+.app-shell .deal-action-row button,
+.app-shell .deal-action-row a,
+.app-shell .deal-portfolio-btn {
+  align-items: center !important;
+  background: #fff !important;
+  border: 1px solid #cbd4e2 !important;
+  border-radius: 9px !important;
+  color: var(--ui-text) !important;
+  display: inline-flex !important;
+  font-size: 13px !important;
+  justify-content: center !important;
+  line-height: 1.1 !important;
+  min-height: 38px !important;
+  padding: 9px 10px !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  width: 100% !important;
+}
+
+.app-shell .deal-action-row .primary {
+  background: var(--ui-ink) !important;
+  border-color: var(--ui-ink) !important;
+  color: #fff !important;
+}
+
+.app-shell .deal-action-row .danger {
+  color: #b42318 !important;
+}
+
+.app-shell .deal-portfolio-btn {
+  background: #f0fdfa !important;
+  border-color: #99f6e4 !important;
+  color: #115e59 !important;
+}
+
+.app-shell .deal-card-expanded {
+  background: #f8faff !important;
+  border-top: 1px solid var(--ui-line) !important;
+  padding: 14px !important;
+}
+
+@media (min-width: 1200px) {
+  .app-shell .deals-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 980px) {
+  .app-shell .deals-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-shell h1,
+  .app-shell .dash-hero h1,
+  .app-shell .deals-header h1,
+  .app-shell .brand-crm-hero h1,
+  .app-shell .money-hero h1,
+  .app-shell .rate-hero h1,
+  .app-shell .da-hero h1 {
+    font-size: clamp(27px, 7.6vw, 34px) !important;
+  }
+
+  .app-shell .deals-grid,
+  .app-shell .deal-action-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  .app-shell .deal-card-summary {
+    padding: 14px !important;
   }
 }
 
@@ -3828,5 +6778,2196 @@ body {
 @media (max-width: 760px) {
   .public-nav {
     border-radius: 18px !important;
+  }
+}
+
+/* App mobile cleanup pass: dashboard, money, inbox, tools and deal modals. */
+.rate-hero p,
+.da-hero p,
+.money-hero p,
+.inb-head p {
+  color: var(--ui-muted) !important;
+}
+
+.rate-hero span,
+.da-hero span,
+.money-hero span {
+  color: #7c86a0 !important;
+}
+
+.money-grid-four {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+.money-foundation .money-form-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+
+.money-foundation {
+  overflow: hidden !important;
+}
+
+.modal-backdrop-custom {
+  overflow-y: auto !important;
+  overscroll-behavior: contain !important;
+}
+
+.modal-card {
+  max-height: calc(100dvh - 24px) !important;
+  overflow-y: auto !important;
+}
+
+@media (max-width: 760px) {
+  .app-content {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .dash-page,
+  .money-page,
+  .inb-page,
+  .profile-page,
+  .rate-page,
+  .da-page,
+  .dw-page {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+  .dash-hero h1,
+  .money-hero h1,
+  .inb-head h1,
+  .rate-hero h1,
+  .da-hero h1 {
+    font-size: clamp(30px, 8.4vw, 40px) !important;
+    line-height: 1.12 !important;
+  }
+
+  .dash-hero p,
+  .money-hero p,
+  .inb-head p,
+  .rate-hero p,
+  .da-hero p {
+    color: var(--ui-muted) !important;
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+  }
+
+  .dash-kpis,
+  .money-stat-grid,
+  .inb-stats,
+  .profile-stat-strip {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+  }
+
+  .dash-kpi,
+  .money-stat,
+  .inb-stats div,
+  .stat-card {
+    border: 1px solid var(--ui-line) !important;
+    border-radius: 12px !important;
+    min-height: 112px !important;
+    padding: 16px !important;
+  }
+
+  .dash-kpi strong,
+  .money-stat strong,
+  .inb-stats strong,
+  .stat-value {
+    font-size: clamp(28px, 8vw, 36px) !important;
+  }
+
+  .money-grid-four,
+  .money-grid-two,
+  .money-foundation .money-form-grid,
+  .rate-layout,
+  .rate-input-grid,
+  .da-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .money-panel-head {
+    display: grid !important;
+    gap: 6px !important;
+  }
+
+  .money-panel-head p {
+    max-width: none !important;
+    text-align: left !important;
+  }
+
+  .money-bars {
+    grid-template-columns: repeat(6, minmax(48px, 1fr)) !important;
+    min-height: 210px !important;
+    overflow-x: auto !important;
+  }
+
+  .inb-head {
+    grid-template-columns: 1fr !important;
+  }
+
+  .inb-filters {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .inb-filters button {
+    align-items: center !important;
+    border-radius: 999px !important;
+    display: flex !important;
+    justify-content: center !important;
+    min-height: 42px !important;
+    padding: 9px 10px !important;
+    white-space: nowrap !important;
+  }
+
+  .inb-card {
+    align-items: stretch !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .inb-actions {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .rate-panel,
+  .da-panel,
+  .money-panel {
+    border-radius: 12px !important;
+    padding: 18px !important;
+  }
+
+  .rate-historical,
+  .da-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .da-input textarea {
+    min-height: 300px !important;
+  }
+
+  .profile-form-grid,
+  .profile-panel .d-flex.gap-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .dash-page,
+  .money-page,
+  .inb-page,
+  .profile-page,
+  .rate-page,
+  .da-page,
+  .dw-page {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .dash-kpis,
+  .money-stat-grid,
+  .inb-stats,
+  .profile-stat-strip,
+  .rate-historical,
+  .da-summary-grid,
+  .profile-form-grid,
+  .profile-panel .d-flex.gap-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .dash-kpi,
+  .money-stat,
+  .inb-stats div,
+  .stat-card {
+    min-height: 104px !important;
+    padding: 14px !important;
+  }
+
+  .dash-kpi span,
+  .money-stat span,
+  .inb-stats span,
+  .stat-label {
+    font-size: 11px !important;
+    letter-spacing: 0.04em !important;
+  }
+
+  .inb-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .modal-backdrop-custom {
+    align-items: flex-start !important;
+    padding: 10px !important;
+  }
+}
+
+/* Final targeted UX polish: page headings, money chart density, intelligence card values. */
+.app-shell .brand-crm-hero h1,
+.app-shell .del-page-hero h1,
+.app-shell .bi-hero h1 {
+  color: var(--type-ink) !important;
+  font-size: clamp(26px, 2.25vw, 34px) !important;
+  font-weight: 680 !important;
+  line-height: 1.18 !important;
+  max-width: 760px !important;
+}
+
+.app-shell .brand-crm-hero p,
+.app-shell .del-page-hero p,
+.app-shell .bi-hero p {
+  font-size: 15px !important;
+  line-height: 1.45 !important;
+  max-width: 720px !important;
+}
+
+.app-shell .brand-crm-hero > div:first-child,
+.app-shell .del-page-hero {
+  padding: 28px !important;
+}
+
+.app-shell .bi-title span {
+  background: none !important;
+  color: var(--type-muted) !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+}
+
+.app-shell .money-grid-two .money-panel:first-child {
+  min-height: 0 !important;
+}
+
+.app-shell .money-trend-chart {
+  min-height: 220px !important;
+}
+
+.app-shell .money-trend-chart svg {
+  max-height: 230px !important;
+}
+
+.app-shell .money-trend-axis,
+.app-shell .money-trend-value {
+  font-size: 10px !important;
+}
+
+.app-shell .money-trend-line {
+  stroke-width: 3 !important;
+}
+
+.app-shell .money-trend-point circle {
+  r: 4px !important;
+  stroke-width: 2.5 !important;
+}
+
+.app-shell .bi-card {
+  padding: 16px !important;
+}
+
+.app-shell .bi-card-value {
+  font-size: clamp(22px, 1.8vw, 28px) !important;
+  font-weight: 680 !important;
+  line-height: 1.15 !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell .brand-crm-hero h1,
+  .app-shell .del-page-hero h1,
+  .app-shell .bi-hero h1 {
+    font-size: clamp(24px, 6.6vw, 31px) !important;
+    line-height: 1.18 !important;
+  }
+
+  .app-shell .brand-crm-hero > div:first-child,
+  .app-shell .del-page-hero {
+    padding: 22px !important;
+  }
+
+  .app-shell .money-trend-chart {
+    min-height: 190px !important;
+  }
+
+  .app-shell .money-trend-chart svg {
+    max-height: 200px !important;
+  }
+
+  .app-shell .bi-card-value {
+    font-size: clamp(20px, 6vw, 26px) !important;
+  }
+}
+
+/* Absolute final Rate Intelligence override: match Money page calm type. */
+.app-shell .rate-page .rate-hero h1 {
+  color: var(--type-ink) !important;
+  font-size: clamp(24px, 1.8vw, 30px) !important;
+  font-weight: 560 !important;
+  line-height: 1.22 !important;
+  max-width: 620px !important;
+}
+
+.app-shell .rate-page .rate-hero p {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 1.4 !important;
+}
+
+.app-shell .rate-page .rate-hero span {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+}
+
+.app-shell .rate-page .rate-panel h2 {
+  font-size: 18px !important;
+  font-weight: 560 !important;
+  line-height: 1.25 !important;
+}
+
+.app-shell .rate-page .rate-form label,
+.app-shell .rate-page .rate-message,
+.app-shell .rate-page .rate-checks label {
+  font-size: 12px !important;
+  font-weight: 560 !important;
+}
+
+.app-shell .rate-page .rate-form input,
+.app-shell .rate-page .rate-form select {
+  font-weight: 500 !important;
+}
+
+.app-shell .rate-page .rate-range strong,
+.app-shell .rate-page .rate-historical strong,
+.app-shell .rate-page .rate-table em,
+.app-shell .rate-page .rate-saved strong {
+  color: var(--type-ink) !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+.app-shell .rate-page .rate-saved button {
+  align-items: center !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell .rate-page .rate-hero h1 {
+    font-size: clamp(23px, 6.2vw, 30px) !important;
+    font-weight: 560 !important;
+  }
+
+  .app-shell .rate-page .rate-range strong,
+  .app-shell .rate-page .rate-historical strong,
+  .app-shell .rate-page .rate-table em,
+  .app-shell .rate-page .rate-saved strong {
+    font-size: 20px !important;
+    font-weight: 500 !important;
+  }
+}
+
+/* Absolute final Deal Analyzer cleanup. */
+.app-shell .da-page .da-hero h1 {
+  color: var(--type-ink) !important;
+  font-size: clamp(24px, 1.8vw, 30px) !important;
+  font-weight: 560 !important;
+  line-height: 1.22 !important;
+  max-width: 620px !important;
+}
+
+.app-shell .da-page .da-hero p {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 1.4 !important;
+  max-width: 760px !important;
+}
+
+.app-shell .da-page .da-hero span {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+}
+
+.app-shell .da-page .da-panel h2,
+.app-shell .da-page .da-panel h3 {
+  font-size: 18px !important;
+  font-weight: 560 !important;
+  line-height: 1.25 !important;
+}
+
+.app-shell .da-page .da-summary-grid strong {
+  font-size: 18px !important;
+  font-weight: 500 !important;
+}
+
+.app-shell .da-page .da-sections {
+  align-items: start !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.app-shell .da-page .da-sections .da-panel {
+  min-height: 0 !important;
+}
+
+.app-shell .da-page .da-sections li {
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+}
+
+@media (max-width: 900px) {
+  .app-shell .da-page .da-sections,
+  .app-shell .da-page .da-layout,
+  .app-shell .da-page .da-apply {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .app-shell .da-page .da-hero h1 {
+    font-size: clamp(23px, 6.2vw, 30px) !important;
+    font-weight: 560 !important;
+  }
+
+  .app-shell .da-page .da-input textarea {
+    min-height: 240px !important;
+  }
+}
+
+/* Absolute final Media Kit editor cleanup. */
+.app-shell .media-kit-page .media-kit-head h1 {
+  color: var(--type-ink) !important;
+  font-size: clamp(22px, 2vw, 30px) !important;
+  font-weight: 560 !important;
+  line-height: 1.22 !important;
+}
+
+.app-shell .media-kit-page .mk-editor-section h2,
+.app-shell .media-kit-page .media-kit-side h2 {
+  font-size: 18px !important;
+  font-weight: 560 !important;
+  line-height: 1.3 !important;
+}
+
+.app-shell .media-kit-page .mk-editor-field span,
+.app-shell .media-kit-page .mk-editor-check,
+.app-shell .media-kit-page .media-kit-side label {
+  font-size: 13px !important;
+  font-weight: 560 !important;
+}
+
+.app-shell .media-kit-page .media-kit-publish label,
+.app-shell .media-kit-page .media-kit-side label {
+  align-items: center !important;
+  display: flex !important;
+  gap: 9px !important;
+}
+
+.app-shell .media-kit-page .media-kit-publish input[type="checkbox"],
+.app-shell .media-kit-page .media-kit-side input[type="checkbox"] {
+  flex: 0 0 auto !important;
+  width: auto !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell .media-kit-page .media-kit-head h1 {
+    font-size: clamp(20px, 5.8vw, 25px) !important;
+  }
+
+  .app-shell .media-kit-page .media-kit-head button {
+    width: 100% !important;
+  }
+}
+
+/* Final public Media Kit and Work With Me polish. */
+.mk-page {
+  background:
+    radial-gradient(circle at 13% 4%, rgba(28, 194, 145, 0.18), transparent 25rem),
+    radial-gradient(circle at 92% 9%, rgba(246, 178, 82, 0.18), transparent 26rem),
+    linear-gradient(180deg, #f7faf9 0%, #eef3f7 46%, #f8fafc 100%) !important;
+  color: #101827 !important;
+  padding: 30px 18px 54px !important;
+}
+
+.mk-page *,
+.mk-page *::before,
+.mk-page *::after {
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+}
+
+.mk-page .mk-hero,
+.mk-page .mk-section,
+.mk-page .mk-footer-cta {
+  max-width: 1180px !important;
+}
+
+.mk-page .mk-hero {
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.96), rgba(255,255,255,0.78)),
+    linear-gradient(135deg, rgba(20, 184, 166, 0.14), rgba(255, 185, 94, 0.12)) !important;
+  border: 1px solid rgba(157, 172, 190, 0.32) !important;
+  border-radius: 26px !important;
+  box-shadow: 0 24px 70px rgba(17, 24, 39, 0.10) !important;
+  gap: 30px !important;
+  grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.62fr) !important;
+  margin-bottom: 18px !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  padding: clamp(24px, 4vw, 48px) !important;
+  position: relative !important;
+}
+
+.mk-page .mk-hero::before {
+  background: linear-gradient(90deg, #14b8a6, #f59e0b, #6366f1) !important;
+  content: "" !important;
+  height: 6px !important;
+  inset: 0 0 auto !important;
+  position: absolute !important;
+}
+
+.mk-page .mk-brand {
+  color: #486174 !important;
+  font-size: 11px !important;
+  font-weight: 650 !important;
+  letter-spacing: 0.08em !important;
+}
+
+.mk-page .mk-hero h1 {
+  color: #0f172a !important;
+  font-size: clamp(38px, 6vw, 74px) !important;
+  font-weight: 680 !important;
+  line-height: 0.98 !important;
+  margin: 14px 0 10px !important;
+}
+
+.mk-page .mk-handle {
+  color: #56677b !important;
+  font-size: clamp(17px, 2vw, 24px) !important;
+  font-weight: 620 !important;
+  margin: 0 0 20px !important;
+}
+
+.mk-page .mk-headline {
+  color: #162033 !important;
+  font-size: clamp(21px, 2.2vw, 30px) !important;
+  font-weight: 600 !important;
+  line-height: 1.18 !important;
+  margin-bottom: 10px !important;
+}
+
+.mk-page .mk-bio {
+  color: #526174 !important;
+  font-size: 15px !important;
+  line-height: 1.55 !important;
+  max-width: 650px !important;
+}
+
+.mk-page .mk-tags {
+  gap: 8px !important;
+  margin-top: 16px !important;
+}
+
+.mk-page .mk-tags span {
+  align-items: flex-start !important;
+  background: #fff !important;
+  border: 1px solid #dbe3ee !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  color: #101827 !important;
+  display: grid !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  gap: 2px !important;
+  min-height: 56px !important;
+  padding: 9px 12px !important;
+}
+
+.mk-page .mk-tags small {
+  color: #64748b !important;
+  display: block !important;
+  font-size: 10px !important;
+  font-weight: 650 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+.mk-page .mk-actions {
+  gap: 8px !important;
+  margin-top: 22px !important;
+}
+
+.mk-page .mk-actions a,
+.mk-page .mk-brand-grid span,
+.mk-page .mk-footer-cta a {
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+  min-height: 42px !important;
+  padding: 10px 13px !important;
+}
+
+.mk-page .mk-actions a:first-child,
+.mk-page .mk-footer-cta a {
+  background: #0f172a !important;
+  border-color: #0f172a !important;
+  color: #fff !important;
+}
+
+.mk-page .mk-photo-wrap {
+  aspect-ratio: 1 / 1.12 !important;
+  border: 1px solid rgba(15, 23, 42, 0.12) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.18) !important;
+  max-height: 520px !important;
+  width: 100% !important;
+}
+
+.mk-page .mk-section,
+.mk-page .mk-footer-cta {
+  background: rgba(255,255,255,0.82) !important;
+  border: 1px solid rgba(157, 172, 190, 0.34) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 16px 46px rgba(15, 23, 42, 0.07) !important;
+  margin-bottom: 18px !important;
+  padding: clamp(20px, 3vw, 30px) !important;
+}
+
+.mk-page .mk-section h2,
+.mk-page .mk-footer-cta h2 {
+  color: #101827 !important;
+  font-size: clamp(24px, 3vw, 34px) !important;
+  font-weight: 620 !important;
+  line-height: 1.12 !important;
+  margin: 0 0 16px !important;
+}
+
+.mk-page .mk-stats {
+  gap: 10px !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+
+.mk-page .mk-stats div,
+.mk-page .mk-card-list article {
+  background: linear-gradient(180deg, #ffffff, #fbfcff) !important;
+  border: 1px solid #dfe7f0 !important;
+  border-radius: 12px !important;
+  padding: 14px 16px !important;
+}
+
+.mk-page .mk-stats strong {
+  color: #101827 !important;
+  font-size: clamp(23px, 2.4vw, 31px) !important;
+  font-weight: 650 !important;
+  line-height: 1.05 !important;
+}
+
+.mk-page .mk-stats span,
+.mk-page .mk-card-list p,
+.mk-page .mk-work p {
+  color: #59687c !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+}
+
+.mk-page .mk-card-list {
+  gap: 10px !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.mk-page .mk-card-list h3,
+.mk-page .mk-work h3 {
+  color: #101827 !important;
+  font-size: 18px !important;
+  font-weight: 650 !important;
+  line-height: 1.25 !important;
+  margin: 0 0 5px !important;
+}
+
+.mk-page .mk-price {
+  color: #115e59 !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+}
+
+.mk-page .mk-portfolio {
+  gap: 12px !important;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)) !important;
+}
+
+.mk-page .mk-work {
+  border: 1px solid #dfe7f0 !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+}
+
+.mk-page .mk-work:hover {
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.10) !important;
+  transform: translateY(-2px) !important;
+}
+
+.mk-page .mk-work-thumb {
+  aspect-ratio: 16 / 10 !important;
+  background: linear-gradient(135deg, #0f172a, #2e7490) !important;
+}
+
+.mk-page .mk-work-thumb span {
+  font-size: 28px !important;
+  font-weight: 650 !important;
+}
+
+.mk-page .mk-work > div:last-child {
+  padding: 12px 14px !important;
+}
+
+.mk-page .mk-work span {
+  color: #64748b !important;
+  font-size: 11px !important;
+  font-weight: 650 !important;
+  letter-spacing: 0.06em !important;
+}
+
+.mk-page .mk-work-metrics strong {
+  border-radius: 10px !important;
+  font-size: 13px !important;
+  font-weight: 620 !important;
+  padding: 7px 9px !important;
+}
+
+.mk-page .mk-footer-cta {
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(26, 70, 86, 0.94)),
+    #0f172a !important;
+  color: #fff !important;
+}
+
+.mk-page .mk-footer-cta h2 {
+  color: #fff !important;
+}
+
+.wwm-page {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(20, 184, 166, 0.18), transparent 23rem),
+    radial-gradient(circle at 88% 10%, rgba(245, 158, 11, 0.16), transparent 25rem),
+    #f4f7fb !important;
+}
+
+.wwm-shell {
+  max-width: 1040px !important;
+}
+
+.wwm-hero,
+.wwm-card {
+  border-radius: 18px !important;
+}
+
+.wwm-hero h1 {
+  font-size: clamp(31px, 5vw, 48px) !important;
+  font-weight: 650 !important;
+  line-height: 1.08 !important;
+}
+
+.wwm-card h2 {
+  font-size: clamp(24px, 3vw, 34px) !important;
+  font-weight: 620 !important;
+}
+
+.wwm-form input,
+.wwm-form select,
+.wwm-form textarea,
+.wwm-form label {
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  min-height: 44px !important;
+  padding: 11px 12px !important;
+}
+
+.wwm-form button {
+  border-radius: 10px !important;
+  min-height: 46px !important;
+}
+
+@media (max-width: 900px) {
+  .mk-page {
+    padding: 14px 12px 42px !important;
+  }
+
+  .mk-page .mk-hero {
+    gap: 20px !important;
+    grid-template-columns: 1fr !important;
+    padding: 22px !important;
+  }
+
+  .mk-page .mk-photo-wrap {
+    aspect-ratio: 16 / 11 !important;
+    max-height: 360px !important;
+    order: -1 !important;
+  }
+
+  .mk-page .mk-stats,
+  .mk-page .mk-card-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .mk-page .mk-hero h1 {
+    font-size: clamp(34px, 10vw, 46px) !important;
+  }
+
+  .mk-page .mk-headline {
+    font-size: 20px !important;
+  }
+
+  .mk-page .mk-bio {
+    font-size: 14px !important;
+  }
+
+  .mk-page .mk-tags,
+  .mk-page .mk-actions {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .mk-page .mk-actions a:first-child {
+    grid-column: 1 / -1 !important;
+  }
+
+  .mk-page .mk-section,
+  .mk-page .mk-footer-cta {
+    padding: 18px !important;
+  }
+
+  .mk-page .mk-section h2,
+  .mk-page .mk-footer-cta h2 {
+    font-size: 23px !important;
+  }
+
+  .mk-page .mk-stats,
+  .mk-page .mk-card-list,
+  .mk-page .mk-portfolio {
+    grid-template-columns: 1fr !important;
+  }
+
+  .mk-page .mk-stats div {
+    min-height: 84px !important;
+  }
+
+  .mk-page .mk-footer-cta {
+    align-items: stretch !important;
+  }
+
+  .mk-page .mk-footer-cta a {
+    text-align: center !important;
+    width: 100% !important;
+  }
+
+  .wwm-page {
+    padding: 12px !important;
+  }
+
+  .wwm-hero,
+  .wwm-card {
+    padding: 20px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .mk-page .mk-tags,
+  .mk-page .mk-actions {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Media Kit final direction: light editor, colorful link-page viewer. */
+.app-shell .media-kit-page .media-kit-head {
+  align-items: center !important;
+  display: grid !important;
+  gap: 14px !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+}
+
+.app-shell .media-kit-page .media-kit-head span,
+.app-shell .media-kit-page .mk-editor-section > span {
+  color: #69778b !important;
+  font-size: 12px !important;
+  font-weight: 520 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.app-shell .media-kit-page .media-kit-head h1 {
+  color: #182033 !important;
+  font-size: clamp(20px, 1.45vw, 24px) !important;
+  font-weight: 500 !important;
+  line-height: 1.25 !important;
+  max-width: 620px !important;
+}
+
+.app-shell .media-kit-page .media-kit-head button,
+.app-shell .media-kit-page .media-kit-publish button,
+.app-shell .media-kit-page .media-kit-publish a,
+.app-shell .media-kit-page .mk-photo-upload,
+.app-shell .media-kit-page .mk-secondary,
+.app-shell .media-kit-page .mk-repeat-card button {
+  border-radius: 9px !important;
+  font-size: 13px !important;
+  font-weight: 520 !important;
+  min-height: 36px !important;
+  padding: 8px 12px !important;
+}
+
+.app-shell .media-kit-page .media-kit-publish {
+  align-items: center !important;
+  display: grid !important;
+  gap: 12px !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  padding: 14px 16px !important;
+}
+
+.app-shell .media-kit-page .media-kit-publish span {
+  color: #64748b !important;
+  font-size: 12px !important;
+  font-weight: 520 !important;
+}
+
+.app-shell .media-kit-page .media-kit-publish strong {
+  color: #1e293b !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  line-height: 1.25 !important;
+}
+
+.app-shell .media-kit-page .mk-editor-section h2,
+.app-shell .media-kit-page .media-kit-side h2 {
+  color: #172033 !important;
+  font-size: 17px !important;
+  font-weight: 520 !important;
+}
+
+.app-shell .media-kit-page .mk-work-select article {
+  gap: 9px !important;
+  grid-template-columns: 42px minmax(0, 1fr) auto !important;
+  min-height: 58px !important;
+  padding: 7px 9px !important;
+}
+
+.app-shell .media-kit-page .mk-work-select img {
+  border-radius: 8px !important;
+  height: 40px !important;
+  width: 40px !important;
+}
+
+.app-shell .media-kit-page .mk-work-select strong {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.app-shell .media-kit-page .mk-work-select span {
+  font-size: 12px !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell .media-kit-page .media-kit-head,
+  .app-shell .media-kit-page .media-kit-publish {
+    grid-template-columns: 1fr !important;
+  }
+
+  .app-shell .media-kit-page .media-kit-head h1 {
+    font-size: 20px !important;
+  }
+
+  .app-shell .media-kit-page .media-kit-publish > div:last-child {
+    display: grid !important;
+    gap: 8px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .app-shell .media-kit-page .media-kit-publish label {
+    grid-column: 1 / -1 !important;
+  }
+}
+
+.mk-page {
+  background:
+    radial-gradient(circle at 50% -10%, rgba(245, 158, 11, 0.32), transparent 20rem),
+    radial-gradient(circle at 0% 12%, rgba(20, 184, 166, 0.30), transparent 22rem),
+    radial-gradient(circle at 100% 26%, rgba(99, 102, 241, 0.24), transparent 21rem),
+    linear-gradient(180deg, #e8fff5 0%, #edf7ff 44%, #fff7ed 100%) !important;
+  color: #111827 !important;
+  padding: 24px 14px 52px !important;
+}
+
+.mk-page .mk-hero,
+.mk-page .mk-section,
+.mk-page .mk-footer-cta {
+  max-width: 760px !important;
+}
+
+.mk-page .mk-hero {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,255,255,0.82)),
+    linear-gradient(135deg, rgba(20, 184, 166, 0.18), rgba(245, 158, 11, 0.16)) !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  border-radius: 28px !important;
+  box-shadow: 0 22px 70px rgba(15, 23, 42, 0.13) !important;
+  display: grid !important;
+  gap: 18px !important;
+  grid-template-columns: 1fr !important;
+  margin-bottom: 16px !important;
+  padding: 22px !important;
+  text-align: center !important;
+}
+
+.mk-page .mk-hero::before {
+  background: linear-gradient(90deg, #12b981, #f59e0b, #6476ff) !important;
+  height: 5px !important;
+}
+
+.mk-page .mk-photo-wrap {
+  aspect-ratio: 16 / 9 !important;
+  border-radius: 20px !important;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.16) !important;
+  max-height: 260px !important;
+  order: -1 !important;
+}
+
+.mk-page .mk-brand {
+  color: #536477 !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+}
+
+.mk-page .mk-hero h1 {
+  color: #101827 !important;
+  font-size: clamp(34px, 7vw, 50px) !important;
+  font-weight: 560 !important;
+  line-height: 1.02 !important;
+  margin: 9px 0 4px !important;
+}
+
+.mk-page .mk-handle {
+  color: #5b6a80 !important;
+  font-size: 17px !important;
+  font-weight: 500 !important;
+  margin: 0 0 16px !important;
+}
+
+.mk-page .mk-headline {
+  color: #111827 !important;
+  font-size: 19px !important;
+  font-weight: 520 !important;
+  line-height: 1.3 !important;
+  margin: 0 0 8px !important;
+}
+
+.mk-page .mk-bio {
+  color: #5b677a !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  margin: 0 auto !important;
+  max-width: 560px !important;
+}
+
+.mk-page .mk-tags,
+.mk-page .mk-actions {
+  display: grid !important;
+  gap: 9px !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  margin-top: 16px !important;
+}
+
+.mk-page .mk-tags span,
+.mk-page .mk-actions a,
+.mk-page .mk-brand-grid span {
+  background: rgba(255,255,255,0.82) !important;
+  border: 1px solid rgba(148, 163, 184, 0.30) !important;
+  border-radius: 12px !important;
+  color: #111827 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  min-height: 42px !important;
+  padding: 9px 11px !important;
+}
+
+.mk-page .mk-tags span {
+  text-align: left !important;
+}
+
+.mk-page .mk-tags small {
+  color: #667085 !important;
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.04em !important;
+}
+
+.mk-page .mk-actions a:first-child {
+  background: #101827 !important;
+  border-color: #101827 !important;
+  color: #fff !important;
+  grid-column: 1 / -1 !important;
+}
+
+.mk-page .mk-section,
+.mk-page .mk-footer-cta {
+  background: rgba(255,255,255,0.86) !important;
+  border: 1px solid rgba(148, 163, 184, 0.22) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 14px 42px rgba(15, 23, 42, 0.08) !important;
+  margin-bottom: 14px !important;
+  padding: 18px !important;
+}
+
+.mk-page .mk-section h2,
+.mk-page .mk-footer-cta h2 {
+  color: #101827 !important;
+  font-size: 22px !important;
+  font-weight: 560 !important;
+  line-height: 1.18 !important;
+  margin: 0 0 14px !important;
+}
+
+.mk-page .mk-stats,
+.mk-page .mk-card-list,
+.mk-page .mk-portfolio {
+  display: grid !important;
+  gap: 9px !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.mk-page .mk-stats div,
+.mk-page .mk-card-list article,
+.mk-page .mk-work {
+  background: rgba(255,255,255,0.86) !important;
+  border: 1px solid #dfe7f0 !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+}
+
+.mk-page .mk-stats div,
+.mk-page .mk-card-list article {
+  min-height: 78px !important;
+  padding: 13px !important;
+}
+
+.mk-page .mk-stats strong {
+  color: #111827 !important;
+  display: block !important;
+  font-size: clamp(20px, 4vw, 25px) !important;
+  font-weight: 520 !important;
+  line-height: 1.05 !important;
+}
+
+.mk-page .mk-stats span,
+.mk-page .mk-card-list p,
+.mk-page .mk-work p {
+  color: #5d6b7f !important;
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+}
+
+.mk-page .mk-card-list h3,
+.mk-page .mk-work h3 {
+  color: #111827 !important;
+  font-size: 15px !important;
+  font-weight: 560 !important;
+  line-height: 1.25 !important;
+}
+
+.mk-page .mk-price {
+  color: #0f766e !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.mk-page .mk-work-thumb {
+  aspect-ratio: 16 / 9 !important;
+  background: linear-gradient(135deg, #101827, #2d7996) !important;
+}
+
+.mk-page .mk-work > div:last-child {
+  padding: 11px 12px !important;
+}
+
+.mk-page .mk-work span {
+  font-size: 10px !important;
+  font-weight: 520 !important;
+}
+
+.mk-page .mk-brand-grid {
+  gap: 8px !important;
+}
+
+.mk-page .mk-footer-cta {
+  background: linear-gradient(135deg, #111827, #214b5c) !important;
+  color: #fff !important;
+  text-align: center !important;
+}
+
+.mk-page .mk-footer-cta h2 {
+  color: #fff !important;
+}
+
+.mk-page .mk-footer-cta a {
+  background: #fff !important;
+  border-color: #fff !important;
+  color: #111827 !important;
+  font-weight: 520 !important;
+  width: 100% !important;
+}
+
+@media (min-width: 860px) {
+  .mk-page .mk-hero {
+    grid-template-columns: minmax(0, 1fr) 290px !important;
+    text-align: left !important;
+  }
+
+  .mk-page .mk-photo-wrap {
+    aspect-ratio: 4 / 5 !important;
+    max-height: 360px !important;
+    order: 0 !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .mk-page {
+    padding: 12px 10px 34px !important;
+  }
+
+  .mk-page .mk-hero {
+    border-radius: 22px !important;
+    padding: 18px !important;
+  }
+
+  .mk-page .mk-hero h1 {
+    font-size: clamp(31px, 9vw, 40px) !important;
+  }
+
+  .mk-page .mk-tags,
+  .mk-page .mk-actions,
+  .mk-page .mk-stats,
+  .mk-page .mk-card-list,
+  .mk-page .mk-portfolio {
+    grid-template-columns: 1fr !important;
+  }
+
+  .mk-page .mk-section,
+  .mk-page .mk-footer-cta {
+    padding: 16px !important;
+  }
+}
+
+/* Final polish: real logo, responsive overview, media-kit mobile actions */
+.brandio-nav-logo {
+  display: block !important;
+  width: 36px !important;
+  height: 36px !important;
+  object-fit: contain !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  flex: 0 0 36px !important;
+}
+
+.public-brand span,
+.app-brand span,
+.app-sidebar .app-brand span {
+  display: none !important;
+}
+
+.public-brand,
+.app-brand,
+.public-nav .public-brand {
+  gap: 9px !important;
+}
+
+.public-nav,
+.public-nav:has(+ main .brandio-landing) {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 14px 38px rgba(15, 23, 42, 0.08) !important;
+  color: #111827 !important;
+}
+
+.public-brand strong,
+.app-brand strong,
+.public-nav .public-brand strong,
+.public-nav .public-links a,
+.public-nav:has(+ main .brandio-landing) .public-brand,
+.public-nav:has(+ main .brandio-landing) .public-brand strong,
+.public-nav:has(+ main .brandio-landing) .public-links a {
+  color: #111827 !important;
+  font-weight: 850 !important;
+  letter-spacing: 0 !important;
+}
+
+.public-nav .public-actions .btn-signin,
+.public-nav:has(+ main .brandio-landing) .public-actions .btn-signin {
+  background: #fff !important;
+  border: 1px solid #dbe3ee !important;
+  color: #111827 !important;
+}
+
+.public-nav .public-actions .btn-start,
+.public-nav:has(+ main .brandio-landing) .public-actions .btn-start {
+  background: #111827 !important;
+  border: 1px solid #111827 !important;
+  color: #fff !important;
+}
+
+.dash-page {
+  background: #f7f9fc !important;
+}
+
+.dash-panel,
+.dash-kpi,
+.dash-secondary-card {
+  border-radius: 14px !important;
+}
+
+.dash-analytics-chart {
+  min-height: 292px;
+  overflow: visible;
+}
+
+.dash-analytics-chart svg {
+  display: block;
+  width: 100%;
+  height: clamp(250px, 28vw, 330px);
+  overflow: visible;
+}
+
+.dash-gridline {
+  stroke: #e2e8f0;
+  stroke-width: 1;
+}
+
+.dash-axis {
+  fill: #64748b;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.dash-area {
+  fill: url(#dashRevenueFill);
+}
+
+.dash-line {
+  fill: none;
+  stroke: #111827;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4;
+  filter: drop-shadow(0 10px 16px rgba(15, 23, 42, 0.12));
+}
+
+.dash-point circle {
+  display: none;
+}
+
+.dash-action-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.dash-action-grid a,
+.dash-action-grid button {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.dash-action-grid a:first-child,
+.dash-action-grid button:first-child {
+  grid-column: 1 / -1;
+}
+
+.media-kit-publish {
+  align-items: center !important;
+}
+
+.media-kit-publish > div:last-child {
+  justify-content: flex-end;
+}
+
+@media (max-width: 1100px) {
+  .dash-main-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  }
+
+  .dash-revenue,
+  .dash-active {
+    grid-column: span 6 !important;
+  }
+
+  .dash-pipeline,
+  .dash-payments,
+  .dash-attention,
+  .dash-work,
+  .dash-brands,
+  .dash-intel,
+  .dash-actions {
+    grid-column: span 3 !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .public-nav {
+    gap: 12px !important;
+    padding: 10px 12px !important;
+  }
+
+  .brandio-nav-logo {
+    width: 32px !important;
+    height: 32px !important;
+    flex-basis: 32px !important;
+  }
+
+  .dash-page {
+    padding: 14px 10px 92px !important;
+  }
+
+  .dash-hero {
+    border-radius: 16px !important;
+    padding: 22px !important;
+  }
+
+  .dash-hero h1 {
+    font-size: clamp(30px, 9vw, 42px) !important;
+  }
+
+  .dash-kpis,
+  .dash-secondary {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .dash-kpi,
+  .dash-secondary-card {
+    min-height: 116px !important;
+    padding: 14px !important;
+  }
+
+  .dash-kpi strong,
+  .dash-secondary-card strong {
+    font-size: clamp(22px, 7vw, 28px) !important;
+  }
+
+  .dash-main-grid {
+    display: grid !important;
+    gap: 12px !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .dash-main-grid > * {
+    grid-column: 1 / -1 !important;
+  }
+
+  .dash-panel {
+    border-radius: 14px !important;
+    padding: 16px !important;
+  }
+
+  .dash-panel-head {
+    align-items: flex-start !important;
+  }
+
+  .dash-panel-head h2 {
+    font-size: 18px !important;
+  }
+
+  .dash-revenue-summary {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dash-analytics-chart {
+    margin-inline: -4px;
+    min-height: 236px;
+  }
+
+  .dash-analytics-chart svg {
+    height: 224px;
+  }
+
+  .dash-line {
+    stroke-width: 3.4;
+  }
+
+  .dash-action-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .dash-action-grid a:first-child,
+  .dash-action-grid button:first-child {
+    grid-column: span 1 !important;
+  }
+
+  .media-kit-head {
+    gap: 12px !important;
+  }
+
+  .media-kit-head button {
+    align-self: flex-start;
+    width: auto !important;
+  }
+
+  .media-kit-publish {
+    gap: 12px !important;
+  }
+
+  .media-kit-publish > div:last-child {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .media-kit-publish label {
+    grid-column: 1 / -1;
+  }
+
+  .media-kit-publish button,
+  .media-kit-publish a {
+    flex: none !important;
+    min-height: 40px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .dash-kpis,
+  .dash-secondary,
+  .dash-action-grid,
+  .media-kit-publish > div:last-child {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Dashboard analytics refresh: real chart, calmer pipeline and payment cards. */
+.dash-analytics-chart {
+  background:
+    linear-gradient(180deg, rgba(248, 250, 252, 0.8), rgba(255, 255, 255, 0)),
+    #fff;
+  border: 1px solid #e5eaf2;
+  border-radius: 14px;
+  min-height: 330px;
+  padding: 16px 16px 8px;
+}
+
+.dash-analytics-chart svg {
+  height: 300px !important;
+}
+
+.dash-gridline {
+  stroke: #e6ebf2 !important;
+}
+
+.dash-area {
+  fill: url(#dashRevenueFill) !important;
+}
+
+.dash-line {
+  stroke: #172033 !important;
+  stroke-width: 3.5 !important;
+  filter: none !important;
+}
+
+.dash-revenue-bar {
+  fill: #172033;
+  opacity: 0.92;
+}
+
+.dash-point circle {
+  display: block !important;
+  fill: #fff !important;
+  stroke: #172033 !important;
+  stroke-width: 3 !important;
+}
+
+.dash-value-label {
+  fill: #172033;
+  font-size: 18px;
+  font-weight: 850;
+}
+
+.dash-pipeline-chart,
+.dash-payment-status {
+  display: grid !important;
+  gap: 14px !important;
+}
+
+.dash-pipeline-track {
+  background: #eef2f7 !important;
+  border: 1px solid #e3e8f2 !important;
+  border-radius: 12px !important;
+  display: grid !important;
+  gap: 6px !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  height: auto !important;
+  overflow: visible !important;
+  padding: 8px !important;
+}
+
+.dash-pipeline-track span {
+  border-radius: 8px !important;
+  height: 54px !important;
+  min-width: 0 !important;
+  width: auto !important;
+}
+
+.dash-pipeline-track .pending,
+.dash-pipeline-track .active,
+.dash-pipeline-track .completed,
+.dash-pipeline-track .overdue {
+  background: #dbe3ee !important;
+}
+
+.dash-pipeline-track .pending {
+  background: #172033 !important;
+}
+
+.dash-pipeline-track .active {
+  background: #3b526f !important;
+}
+
+.dash-pipeline-track .completed {
+  background: #0f766e !important;
+}
+
+.dash-pipeline-track .overdue {
+  background: #9f3434 !important;
+}
+
+.dash-pipeline-legend {
+  display: grid !important;
+  gap: 10px !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+
+.dash-pipeline-legend div {
+  background: #f8fafc !important;
+  border: 1px solid #e5eaf2 !important;
+  border-radius: 12px !important;
+  display: grid !important;
+  gap: 8px !important;
+  padding: 12px !important;
+}
+
+.dash-pipeline-legend div > span {
+  align-items: center !important;
+  color: #667085 !important;
+  display: flex !important;
+  font-size: 12px !important;
+  font-weight: 750 !important;
+  gap: 7px !important;
+  text-transform: none !important;
+}
+
+.dash-pipeline-legend i {
+  border-radius: 999px !important;
+  display: inline-block !important;
+  height: 8px !important;
+  width: 8px !important;
+}
+
+.dash-pipeline-legend i.pending { background: #172033 !important; }
+.dash-pipeline-legend i.active { background: #3b526f !important; }
+.dash-pipeline-legend i.completed { background: #0f766e !important; }
+.dash-pipeline-legend i.overdue { background: #9f3434 !important; }
+
+.dash-pipeline-legend strong {
+  color: #111827 !important;
+  font-size: 26px !important;
+  font-weight: 850 !important;
+  line-height: 1 !important;
+  order: 2;
+}
+
+.dash-payment-status {
+  grid-template-columns: 1.1fr repeat(3, minmax(0, 1fr)) !important;
+}
+
+.dash-payment-status > div {
+  background: #f8fafc !important;
+  border: 1px solid #e5eaf2 !important;
+  border-radius: 12px !important;
+  display: grid !important;
+  gap: 8px !important;
+  padding: 14px !important;
+}
+
+.dash-payment-total {
+  background: #172033 !important;
+  color: #fff !important;
+}
+
+.dash-payment-status span {
+  color: #667085 !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+}
+
+.dash-payment-total span,
+.dash-payment-total small {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
+.dash-payment-status strong {
+  color: #111827 !important;
+  font-size: 22px !important;
+  font-weight: 850 !important;
+  line-height: 1.05 !important;
+}
+
+.dash-payment-total strong {
+  color: #fff !important;
+  font-size: 28px !important;
+}
+
+.dash-payment-status small {
+  color: #667085 !important;
+  font-size: 13px !important;
+  font-weight: 650 !important;
+}
+
+.dash-payment-status i {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  .dash-analytics-chart {
+    margin-inline: 0 !important;
+    min-height: 270px !important;
+    padding: 10px 8px 4px !important;
+  }
+
+  .dash-analytics-chart svg {
+    height: 246px !important;
+  }
+
+  .dash-value-label {
+    font-size: 14px !important;
+  }
+
+  .dash-pipeline-track,
+  .dash-pipeline-legend,
+  .dash-payment-status {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .dash-pipeline-track span {
+    height: 42px !important;
+  }
+
+  .dash-payment-total {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 420px) {
+  .dash-pipeline-track,
+  .dash-pipeline-legend,
+  .dash-payment-status {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Final dashboard correction after real data check. */
+.dash-revenue .dash-revenue-summary {
+  gap: 8px !important;
+  margin-bottom: 12px !important;
+}
+
+.dash-revenue .dash-revenue-summary div {
+  border-radius: 10px !important;
+  padding: 12px 14px !important;
+}
+
+.dash-revenue .dash-revenue-summary strong {
+  font-size: clamp(20px, 1.7vw, 26px) !important;
+  font-weight: 760 !important;
+}
+
+.dash-revenue .dash-analytics-chart {
+  background: #fff !important;
+  border-color: #e7ecf3 !important;
+  min-height: 250px !important;
+  padding: 8px 12px 0 !important;
+}
+
+.dash-revenue .dash-analytics-chart svg {
+  height: 230px !important;
+}
+
+.dash-revenue .dash-line {
+  stroke: #2e3a4f !important;
+  stroke-width: 2.4 !important;
+}
+
+.dash-revenue .dash-area {
+  opacity: 0.54 !important;
+}
+
+.dash-revenue .dash-revenue-bar {
+  fill: #2e3a4f !important;
+  opacity: 0.86 !important;
+}
+
+.dash-revenue .dash-point circle {
+  r: 4 !important;
+  stroke-width: 2 !important;
+}
+
+.dash-revenue .dash-value-label {
+  fill: #172033 !important;
+  font-size: 15px !important;
+  font-weight: 760 !important;
+}
+
+.dash-revenue .dash-axis {
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+.dash-pipeline .dash-pipeline-track {
+  background: #f3f6fa !important;
+  border-radius: 10px !important;
+  gap: 5px !important;
+  padding: 6px !important;
+}
+
+.dash-pipeline .dash-pipeline-track span {
+  height: 34px !important;
+  border-radius: 7px !important;
+}
+
+.dash-pipeline .dash-pipeline-legend {
+  gap: 8px !important;
+}
+
+.dash-pipeline .dash-pipeline-legend div {
+  align-items: center !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  min-height: 58px !important;
+  padding: 11px 12px !important;
+}
+
+.dash-pipeline .dash-pipeline-legend div > span {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  overflow-wrap: normal !important;
+  text-transform: none !important;
+  white-space: nowrap !important;
+  word-break: normal !important;
+}
+
+.dash-pipeline .dash-pipeline-legend strong {
+  flex: 0 0 auto !important;
+  font-size: 24px !important;
+  order: 0 !important;
+}
+
+.dash-payment-status {
+  align-items: stretch !important;
+  gap: 10px !important;
+}
+
+.dash-payment-status > div {
+  min-height: 104px !important;
+  overflow: hidden !important;
+}
+
+.dash-payment-status > .dash-payment-total {
+  background: #172033 !important;
+  border-color: #172033 !important;
+  color: #fff !important;
+}
+
+.dash-payment-status > .dash-payment-total span,
+.dash-payment-status > .dash-payment-total small {
+  color: rgba(255, 255, 255, 0.76) !important;
+}
+
+.dash-payment-status > .dash-payment-total strong {
+  color: #fff !important;
+}
+
+.dash-payment-status span,
+.dash-payment-status strong,
+.dash-payment-status small {
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+@media (max-width: 760px) {
+  .dash-revenue .dash-revenue-summary {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dash-revenue .dash-analytics-chart {
+    min-height: 218px !important;
+    padding: 6px 4px 0 !important;
+  }
+
+  .dash-revenue .dash-analytics-chart svg {
+    height: 202px !important;
+  }
+
+  .dash-revenue .dash-value-label {
+    font-size: 12px !important;
+  }
+
+  .dash-pipeline .dash-pipeline-track {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+
+  .dash-pipeline .dash-pipeline-track span {
+    height: 26px !important;
+  }
+
+  .dash-pipeline .dash-pipeline-legend {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .dash-pipeline .dash-pipeline-legend div {
+    min-height: 52px !important;
+  }
+
+  .dash-pipeline .dash-pipeline-legend div > span {
+    font-size: 11px !important;
+  }
+
+  .dash-pipeline .dash-pipeline-legend strong {
+    font-size: 21px !important;
+  }
+
+  .dash-payment-status {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .dash-payment-status > div {
+    min-height: 96px !important;
+    padding: 12px !important;
+  }
+
+  .dash-payment-status > .dash-payment-total {
+    grid-column: 1 / -1 !important;
+  }
+
+  .dash-payment-status strong {
+    font-size: 20px !important;
+  }
+
+  .dash-payment-status > .dash-payment-total strong {
+    font-size: 24px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .dash-pipeline .dash-pipeline-legend,
+  .dash-payment-status {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Final pricing page: country-specific cards only, cleaner app UI. */
+.app-shell .pricing-page {
+  background: #f7f9fc !important;
+  padding: 32px 24px 64px !important;
+}
+
+.app-shell .pricing-hero,
+.app-shell .pricing-grid,
+.app-shell .pricing-footer {
+  max-width: 1180px !important;
+}
+
+.app-shell .pricing-hero {
+  background: #fff !important;
+  border: 1px solid #e3e8f2 !important;
+  border-radius: 18px !important;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.05) !important;
+  margin-bottom: 18px !important;
+  padding: clamp(24px, 4vw, 38px) !important;
+}
+
+.app-shell .pricing-hero > span {
+  color: #0f766e !important;
+  font-size: 12px !important;
+  font-weight: 850 !important;
+  letter-spacing: 0.08em !important;
+}
+
+.app-shell .pricing-hero h1 {
+  color: #111827 !important;
+  font-size: clamp(32px, 4.2vw, 56px) !important;
+  font-weight: 850 !important;
+  line-height: 1.05 !important;
+  max-width: 860px !important;
+}
+
+.app-shell .pricing-hero p {
+  color: #536176 !important;
+  font-size: 16px !important;
+  line-height: 1.55 !important;
+}
+
+.app-shell .pricing-grid {
+  align-items: stretch !important;
+  gap: 14px !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+.app-shell .pricing-card {
+  background: #fff !important;
+  border: 1px solid #e3e8f2 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.05) !important;
+  min-height: 620px !important;
+  padding: 22px !important;
+}
+
+.app-shell .pricing-card.featured {
+  background: linear-gradient(180deg, #ffffff, #f8fbff) !important;
+  border-color: #172033 !important;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.09) !important;
+}
+
+.app-shell .pricing-badge,
+.app-shell .pricing-current {
+  border-radius: 999px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  margin-bottom: 10px !important;
+  padding: 7px 10px !important;
+}
+
+.app-shell .pricing-badge {
+  background: #172033 !important;
+  color: #fff !important;
+}
+
+.app-shell .pricing-current {
+  background: #e7f8f7 !important;
+  color: #0f766e !important;
+}
+
+.app-shell .pricing-card-head h2 {
+  color: #111827 !important;
+  font-size: 24px !important;
+  font-weight: 780 !important;
+  line-height: 1.15 !important;
+}
+
+.app-shell .pricing-card-head p {
+  color: #667085 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.45 !important;
+  min-height: 42px !important;
+  text-transform: none !important;
+}
+
+.app-shell .pricing-price {
+  background: #f8fafc !important;
+  border: 1px solid #e7ecf3 !important;
+  border-radius: 14px !important;
+  margin: 18px 0 !important;
+  padding: 16px !important;
+}
+
+.app-shell .pricing-price strong {
+  color: #111827 !important;
+  font-size: clamp(34px, 3vw, 44px) !important;
+  font-weight: 850 !important;
+}
+
+.app-shell .pricing-price span {
+  color: #667085 !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+}
+
+.app-shell .pricing-price small {
+  color: #0f766e !important;
+  display: block !important;
+  font-size: 12px !important;
+  font-weight: 750 !important;
+  margin-top: 8px !important;
+}
+
+.app-shell .pricing-card ul {
+  gap: 9px !important;
+  margin-bottom: 22px !important;
+}
+
+.app-shell .pricing-card li {
+  align-items: flex-start !important;
+  background: #f8fafc !important;
+  border: 1px solid #eef2f7 !important;
+  border-radius: 10px !important;
+  color: #344054 !important;
+  display: flex !important;
+  font-size: 14px !important;
+  gap: 9px !important;
+  line-height: 1.35 !important;
+  padding: 10px 11px !important;
+}
+
+.app-shell .pricing-card li::before {
+  color: #0f766e !important;
+  content: "✓" !important;
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+}
+
+.app-shell .pricing-card button {
+  border-radius: 12px !important;
+  min-height: 46px !important;
+}
+
+.app-shell .pricing-footer {
+  color: #667085 !important;
+  font-size: 13px !important;
+}
+
+@media (max-width: 1120px) {
+  .app-shell .pricing-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .app-shell .pricing-card {
+    min-height: 0 !important;
+  }
+
+  .app-shell .pricing-card-head p {
+    min-height: 0 !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .app-shell .pricing-page {
+    padding: 14px 10px 92px !important;
+  }
+
+  .app-shell .pricing-hero {
+    border-radius: 14px !important;
+    padding: 20px !important;
+  }
+
+  .app-shell .pricing-hero h1 {
+    font-size: clamp(28px, 8vw, 38px) !important;
+  }
+
+  .app-shell .pricing-card {
+    border-radius: 14px !important;
+    padding: 16px !important;
+  }
+
+  .app-shell .pricing-price {
+    padding: 14px !important;
   }
 }

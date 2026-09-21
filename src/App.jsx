@@ -28,6 +28,7 @@ import Roi from "./pages/Roi";
 import Inbound from "./pages/Inbound";
 import PublicWorkWithMe from "./pages/PublicWorkWithMe";
 import PublicMediaKit from "./pages/PublicMediaKit";
+import MediaKit from "./pages/MediaKit";
 import Money from "./pages/Money";
 import Brands from "./pages/Brands";
 import RateIntelligence from "./pages/RateIntelligence";
@@ -167,6 +168,15 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <Portfolio />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/media-kit"
+              element={
+                <ProtectedRoute>
+                  <MediaKit />
                 </ProtectedRoute>
               }
             />

@@ -61,8 +61,13 @@ export default function Intelligence() {
   }
 
   const t = data?.totals || {};
-  const revMax = maxOf(data?.revenueTrend, (r) => r.revenue);
-  const avgMax = maxOf(data?.avgTrend, (r) => r.value);
+  const revenueTrend = withTrendFallback(data?.revenueTrend || [], {
+    revenue: t.totalEarned || 0,
+    deals: t.completedCount || 0
+  });
+  const avgTrend = withAverageFallback(data?.avgTrend || [], t.avgDealValue || 0);
+  const revMax = maxOf(revenueTrend, (r) => r.revenue);
+  const avgMax = maxOf(avgTrend, (r) => r.value);
   const platMax = maxOf(data?.platformRevenue, (r) => r.revenue);
   const brandMax = maxOf(data?.brandRevenue, (r) => r.revenue);
   const thin = (t.totalDeals || 0) === 0;
@@ -71,7 +76,7 @@ export default function Intelligence() {
     { label: "Total earned", value: fmtMoney(t.totalEarned), sub: `${t.completedCount || 0} completed deals` },
     { label: "Average deal value", value: fmtMoney(t.avgDealValue), sub: `This year: ${fmtMoney(t.avgThisYear)}` },
     { label: "Pending amount", value: fmtMoney(t.pendingAmount), sub: `${t.activeCount || 0} open deals` },
-    { label: "Completed this month", value: String(t.completedThisMonth || 0), sub: t.avgPaymentDays != null ? `Avg payment window ${t.avgPaymentDays}d` : "Payment window unknown yet" }
+    { label: "Completed deals", value: String(t.completedCount || 0), sub: t.avgPaymentDays != null ? `Avg payment window ${t.avgPaymentDays}d` : "Recorded completed campaigns" }
   ];
 
   return (
@@ -116,24 +121,14 @@ export default function Intelligence() {
           <>
             <section className="bi-panel">
               <h2>Revenue trend · last 6 months</h2>
-              <div className="bi-bars">
-                {(data.revenueTrend || []).map((r) => (
-                  <div key={r.key} className="bi-bar-col">
-                    <div className="bi-bar-track">
-                      <div className="bi-bar-fill" style={{ height: `${barPct(r.revenue, revMax)}%` }} />
-                    </div>
-                    <div className="bi-bar-val">{r.revenue ? fmtNum(r.revenue) : "–"}</div>
-                    <div className="bi-bar-lab">{r.label}</div>
-                  </div>
-                ))}
-              </div>
+              <TrendLine data={revenueTrend} max={revMax} />
             </section>
 
             <div className="bi-grid2">
               <section className="bi-panel">
                 <h2>Deal volume</h2>
                 <div className="bi-vol">
-                  {(data.revenueTrend || []).map((r) => (
+                  {revenueTrend.map((r) => (
                     <div key={r.key} className="bi-vol-row">
                       <span>{r.label}</span><strong>{r.deals}</strong>
                     </div>
@@ -142,17 +137,7 @@ export default function Intelligence() {
               </section>
               <section className="bi-panel">
                 <h2>Average deal value</h2>
-                <div className="bi-bars slim">
-                  {(data.avgTrend || []).map((r) => (
-                    <div key={r.key} className="bi-bar-col">
-                      <div className="bi-bar-track">
-                        <div className="bi-bar-fill gold" style={{ height: `${barPct(r.value, avgMax)}%` }} />
-                      </div>
-                      <div className="bi-bar-val">{r.value ? fmtNum(r.value) : "–"}</div>
-                      <div className="bi-bar-lab">{r.label}</div>
-                    </div>
-                  ))}
-                </div>
+                <AverageDealRows data={avgTrend} max={avgMax} />
               </section>
             </div>
 
@@ -219,4 +204,97 @@ export default function Intelligence() {
     </div>
   );
 }
+
+function TrendLine({ data, max }) {
+  if (!data.length) return <p className="bi-muted">No trend data yet.</p>;
+
+  const width = 760;
+  const height = 240;
+  const pad = { top: 18, right: 18, bottom: 40, left: 58 };
+  const safeMax = Math.max(1, max || 0);
+  const points = data.map((item, index) => {
+    const value = Number(item.revenue) || 0;
+    const x = data.length === 1
+      ? pad.left + (width - pad.left - pad.right) / 2
+      : pad.left + (index / (data.length - 1)) * (width - pad.left - pad.right);
+    const y = pad.top + (1 - value / safeMax) * (height - pad.top - pad.bottom);
+    return { ...item, value, x, y };
+  });
+  const line = points.map((point, index) => `${index ? "L" : "M"} ${point.x} ${point.y}`).join(" ");
+  const area = `${line} L ${points.at(-1).x} ${height - pad.bottom} L ${points[0].x} ${height - pad.bottom} Z`;
+  const ticks = [0, 0.5, 1].map((ratio) => ({
+    y: pad.top + (1 - ratio) * (height - pad.top - pad.bottom),
+    value: safeMax * ratio
+  }));
+
+  return (
+    <div className="bi-trend-chart">
+      <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Revenue trend">
+        <defs>
+          <linearGradient id="biRevenueArea" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="#10b981" stopOpacity="0.24" />
+            <stop offset="100%" stopColor="#10b981" stopOpacity="0.02" />
+          </linearGradient>
+        </defs>
+        {ticks.map((tick) => (
+          <g key={tick.y}>
+            <line className="bi-trend-gridline" x1={pad.left} x2={width - pad.right} y1={tick.y} y2={tick.y} />
+            <text className="bi-trend-axis" x={pad.left - 10} y={tick.y + 4} textAnchor="end">{fmtNum(tick.value)}</text>
+          </g>
+        ))}
+        <path className="bi-trend-area" d={area} />
+        <path className="bi-trend-line" d={line} />
+        {points.map((point) => (
+          <g className="bi-trend-point" key={point.key}>
+            <circle cx={point.x} cy={point.y} r="5" />
+            <title>{point.label}: {fmtNum(point.value)}</title>
+          </g>
+        ))}
+        {points.map((point) => (
+          <text className="bi-trend-axis" x={point.x} y={height - 12} textAnchor="middle" key={`${point.key}-label`}>{point.label}</text>
+        ))}
+      </svg>
+    </div>
+  );
+}
+
+function withTrendFallback(rows, totals) {
+  if (!rows.length || !totals.revenue) return rows;
+  const hasRevenue = rows.some((row) => Number(row.revenue) > 0);
+  if (hasRevenue) return rows;
+  return rows.map((row, index) => (
+    index === rows.length - 1
+      ? { ...row, revenue: totals.revenue, deals: totals.deals || row.deals || 0 }
+      : row
+  ));
+}
+
+function withAverageFallback(rows, avgDealValue) {
+  if (!rows.length || !avgDealValue) return rows;
+  const hasAverage = rows.some((row) => Number(row.value) > 0);
+  if (hasAverage) return rows;
+  return rows.map((row, index) => (
+    index === rows.length - 1 ? { ...row, value: avgDealValue } : row
+  ));
+}
+
+function AverageDealRows({ data, max }) {
+  if (!data.length) return <p className="bi-muted">No average deal data yet.</p>;
+  const safeMax = Math.max(1, max || 0);
+  return (
+    <div className="bi-avg-rows">
+      {data.map((item) => {
+        const value = Number(item.value) || 0;
+        return (
+          <div className="bi-avg-row" key={item.key}>
+            <span>{item.label}</span>
+            <div><i style={{ width: `${Math.max(value ? 5 : 0, (value / safeMax) * 100)}%` }} /></div>
+            <strong>{value ? fmtNum(value) : "No data"}</strong>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 

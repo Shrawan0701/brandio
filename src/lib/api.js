@@ -127,6 +127,11 @@ export const fetchPublicMediaKit = async (username) => {
   return res.data;
 };
 
+export const fetchMediaKit = async () => {
+  const res = await api.get("/media-kit");
+  return res.data;
+};
+
 export const updateMediaKit = async (payload) => {
   const res = await api.put("/media-kit", payload);
   return res.data;
@@ -164,6 +169,15 @@ export const fetchRateQuotes = async () => {
 
 export const analyzeDealTerms = async (text) => {
   const res = await api.post("/deal-analyzer/analyze", { text });
+  return res.data;
+};
+
+export const extractDealAnalyzerFile = async (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  const res = await api.post("/deal-analyzer/extract-file", formData, {
+    headers: { "Content-Type": "multipart/form-data" }
+  });
   return res.data;
 };
 

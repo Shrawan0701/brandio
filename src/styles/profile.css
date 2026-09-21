@@ -34,6 +34,20 @@
   width: 104px;
 }
 
+.profile-avatar-btn {
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  flex: 0 0 auto;
+  padding: 0;
+}
+
+.profile-avatar-btn:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.7);
+  outline-offset: 4px;
+}
+
 .profile-kicker,
 .profile-section-head span,
 .profile-muted {
@@ -387,6 +401,38 @@
 
 .profile-panel .btn-sm {
   padding: 7px 10px;
+}
+
+.profile-photo-modal {
+  align-items: center;
+  background: rgba(2, 6, 23, 0.82);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 24px;
+  position: fixed;
+  z-index: 1000;
+}
+
+.profile-photo-modal img {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+  max-height: min(720px, 82vh);
+  max-width: min(720px, 86vw);
+  object-fit: contain;
+}
+
+.profile-photo-modal button {
+  background: #fff;
+  border: 0;
+  border-radius: 999px;
+  color: #111827;
+  font-weight: 850;
+  padding: 10px 14px;
+  position: absolute;
+  right: 24px;
+  top: 24px;
 }
 
 @media (max-width: 1120px) {

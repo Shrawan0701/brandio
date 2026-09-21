@@ -15,6 +15,7 @@ import "./styles/portfolio.css";
 import "./styles/contracts.css";
 import "./styles/inbound.css";
 import "./styles/media-kit.css";
+import "./styles/media-kit-editor.css";
 import "./styles/money.css";
 import "./styles/brands.css";
 import "./styles/rates.css";

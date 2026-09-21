@@ -152,7 +152,10 @@ export default function Inbound() {
         <InquiryModal
           inquiry={selected}
           onClose={() => setSelected(null)}
-          onSaveNotes={(notes) => patchInquiry(selected, { notes })}
+          onSaveNotes={async (notes) => {
+            await patchInquiry(selected, { notes });
+            showToast("Notes saved", "success");
+          }}
           onReject={() => patchInquiry(selected, { status: "rejected" })}
           onArchive={() => patchInquiry(selected, { status: "archived" })}
         />
@@ -181,6 +184,19 @@ function Stat({ label, value }) {
 
 function InquiryModal({ inquiry, onClose, onSaveNotes, onReject, onArchive }) {
   const [notes, setNotes] = useState(inquiry.notes || "");
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const saveNotes = async () => {
+    try {
+      setSaving(true);
+      await onSaveNotes(notes);
+      setSaved(true);
+      window.setTimeout(() => setSaved(false), 1800);
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <div className="modal-backdrop-custom">
       <div className="inb-modal">
@@ -196,8 +212,9 @@ function InquiryModal({ inquiry, onClose, onSaveNotes, onReject, onArchive }) {
           <dt>Description</dt><dd>{inquiry.description || "Not specified"}</dd>
         </dl>
         <textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Creator notes" />
+        {saved && <div className="inb-save-confirm">Notes saved</div>}
         <div className="inb-actions">
-          <button onClick={() => onSaveNotes(notes)}>Save notes</button>
+          <button onClick={saveNotes} disabled={saving}>{saving ? "Saving..." : "Save notes"}</button>
           <button onClick={onReject}>Reject</button>
           <button onClick={onArchive}>Archive</button>
         </div>

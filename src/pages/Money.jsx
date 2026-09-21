@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { fetchMoneyCockpit, updateMoneySettings } from "../lib/api";
+import { fetchMoneyCockpit } from "../lib/api";
 import { formatMoney, num } from "../utils/deals";
-import { useToast } from "../components/ToastProvider";
 
 const dealTypeLabel = {
   paid: "Paid",
@@ -14,11 +13,8 @@ const dealTypeLabel = {
 };
 
 export default function Money() {
-  const { showToast } = useToast();
   const [data, setData] = useState(null);
-  const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
   const load = async () => {
@@ -27,9 +23,8 @@ export default function Money() {
       setError("");
       const next = await fetchMoneyCockpit();
       setData(next);
-      setSettings(next.settings);
     } catch {
-      setError("Could not load money cockpit");
+      setError("Could not load money dashboard");
     } finally {
       setLoading(false);
     }
@@ -44,35 +39,27 @@ export default function Money() {
     [data]
   );
   const maxFlow = useMemo(
-    () => Math.max(1, ...(data?.expectedCashFlow || []).map((item) => num(item.expected))),
+    () => Math.max(1, ...(data?.expectedCashFlow || []).map((item) => num(item.expected)), num(data?.summary?.expected)),
     [data]
   );
 
-  const saveSettings = async () => {
-    try {
-      setSaving(true);
-      await updateMoneySettings(settings);
-      showToast("Money settings updated", "success");
-      await load();
-    } catch {
-      showToast("Could not update money settings", "error");
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  if (loading) return <div className="money-page"><div className="money-empty">Loading money cockpit...</div></div>;
+  if (loading) return <div className="money-page"><div className="money-empty">Loading money dashboard...</div></div>;
   if (error) return <div className="money-page"><div className="money-empty">{error}</div></div>;
 
   const s = data.summary;
+  const expectedCashFlow = (data.expectedCashFlow || []).length
+    ? data.expectedCashFlow
+    : num(s.expected) > 0
+      ? [{ key: "pending-total", label: "Pending deals", expected: s.expected }]
+      : [];
 
   return (
     <div className="money-page">
-      <Helmet><title>Money Cockpit - Brandio</title></Helmet>
+      <Helmet><title>Money - Brandio</title></Helmet>
 
       <header className="money-hero">
         <div>
-          <span>Brandio Money Cockpit</span>
+          <span>Brandio Money</span>
           <h1>Creator finance, without the spreadsheet fog.</h1>
           <p>Recorded deal money, expected cash flow, and planning reserves in one place.</p>
         </div>
@@ -96,21 +83,10 @@ export default function Money() {
       <section className="money-grid-two">
         <div className="money-panel">
           <div className="money-panel-head">
-            <h2>Revenue chart</h2>
-            <p>Actual recorded completed revenue by month.</p>
-          </div>
-          <div className="money-bars">
-            {(data.revenueByMonth || []).map((item) => (
-              <div className="money-bar" key={item.key}>
-                <div className="money-bar-track">
-                  <div style={{ height: `${Math.max(4, (num(item.revenue) / maxMonth) * 100)}%` }} />
-                </div>
-                <span>{item.label}</span>
-                <strong>{formatMoney(item.revenue)}</strong>
-              </div>
-            ))}
-            {!(data.revenueByMonth || []).length && <div className="money-empty-inline">No completed revenue yet.</div>}
-          </div>
+              <h2>Revenue trend</h2>
+              <p>Actual recorded completed revenue by month.</p>
+            </div>
+          <RevenueTrend data={data.revenueByMonth || []} max={maxMonth} />
         </div>
 
         <div className="money-panel">
@@ -119,14 +95,14 @@ export default function Money() {
             <p>Open deal value grouped by due month.</p>
           </div>
           <div className="money-flow-list">
-            {(data.expectedCashFlow || []).map((item) => (
+            {expectedCashFlow.map((item) => (
               <div key={item.key}>
                 <span>{item.label}</span>
                 <div><i style={{ width: `${Math.max(4, (num(item.expected) / maxFlow) * 100)}%` }} /></div>
-                <strong>{formatMoney(item.expected)}</strong>
+                <strong>{formatCompactMoney(item.expected)}</strong>
               </div>
             ))}
-            {!(data.expectedCashFlow || []).length && <div className="money-empty-inline">No dated expected cash flow yet.</div>}
+            {!expectedCashFlow.length && <div className="money-empty-inline">No expected cash flow yet.</div>}
           </div>
         </div>
       </section>
@@ -135,41 +111,9 @@ export default function Money() {
         <Breakdown title="Revenue by brand" rows={data.revenueByBrand} labelKey="brand" />
         <Breakdown title="Revenue by platform" rows={data.revenueByPlatform} labelKey="platform" />
         <Breakdown title="Revenue by deal type" rows={data.revenueByDealType.map((r) => ({ ...r, deal_type: dealTypeLabel[r.deal_type] || r.deal_type }))} labelKey="deal_type" />
-        <div className="money-panel money-settings">
-          <h2>Planning reserve</h2>
-          <label>Tax reserve percentage</label>
-          <input
-            type="number"
-            value={settings.tax_reserve_percentage}
-            onChange={(e) => setSettings({ ...settings, tax_reserve_percentage: e.target.value })}
-          />
-          <div className="money-reserve-line">
-            <span>Basis</span><strong>{formatMoney(data.taxReserve.basis)}</strong>
-          </div>
-          <div className="money-reserve-line">
-            <span>Suggested reserve</span><strong>{formatMoney(data.taxReserve.suggested_reserve)}</strong>
-          </div>
-          <p>Planning calculation only. Brandio does not provide tax advice.</p>
-        </div>
       </section>
 
-      <section className="money-panel money-foundation">
-        <div className="money-panel-head">
-          <h2>India finance foundation</h2>
-          <p>Optional fields for future GST, PAN, TDS and invoice workflows.</p>
-        </div>
-        <div className="money-form-grid">
-          <input placeholder="Business name" value={settings.business_name || ""} onChange={(e) => setSettings({ ...settings, business_name: e.target.value })} />
-          <input placeholder="PAN / business identifier" value={settings.pan_number || ""} onChange={(e) => setSettings({ ...settings, pan_number: e.target.value })} />
-          <input placeholder="GST information" value={settings.gst_number || ""} onChange={(e) => setSettings({ ...settings, gst_number: e.target.value })} />
-          <input placeholder="Invoice prefix" value={settings.invoice_prefix || ""} onChange={(e) => setSettings({ ...settings, invoice_prefix: e.target.value })} />
-          <label className="money-check">
-            <input type="checkbox" checked={settings.tds_tracking_enabled === true} onChange={(e) => setSettings({ ...settings, tds_tracking_enabled: e.target.checked })} />
-            Track TDS fields later
-          </label>
-        </div>
-        <button disabled={saving} onClick={saveSettings}>{saving ? "Saving..." : "Save finance settings"}</button>
-      </section>
+   
     </div>
   );
 }
@@ -184,6 +128,62 @@ function Stat({ label, value, note, tone }) {
   );
 }
 
+function RevenueTrend({ data, max }) {
+  if (!data.length) {
+    return <div className="money-empty-inline">No completed revenue yet.</div>;
+  }
+
+  const width = 680;
+  const height = 260;
+  const pad = { top: 18, right: 18, bottom: 42, left: 58 };
+  const points = data.map((item, index) => {
+    const x = data.length === 1
+      ? pad.left + (width - pad.left - pad.right) / 2
+      : pad.left + (index / (data.length - 1)) * (width - pad.left - pad.right);
+    const y = pad.top + (1 - num(item.revenue) / max) * (height - pad.top - pad.bottom);
+    return { ...item, x, y };
+  });
+  const line = points.map((point, index) => `${index ? "L" : "M"} ${point.x} ${point.y}`).join(" ");
+  const area = `${line} L ${points.at(-1).x} ${height - pad.bottom} L ${points[0].x} ${height - pad.bottom} Z`;
+  const ticks = [0, 0.5, 1].map((ratio) => ({
+    y: pad.top + (1 - ratio) * (height - pad.top - pad.bottom),
+    value: max * ratio
+  }));
+
+  return (
+    <div className="money-trend-chart">
+      <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Revenue trend by month">
+        <defs>
+          <linearGradient id="moneyTrendFill" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="#10b981" stopOpacity="0.22" />
+            <stop offset="100%" stopColor="#10b981" stopOpacity="0.02" />
+          </linearGradient>
+        </defs>
+        {ticks.map((tick) => (
+          <g key={tick.y}>
+            <line className="money-trend-gridline" x1={pad.left} x2={width - pad.right} y1={tick.y} y2={tick.y} />
+            <text className="money-trend-axis" x={pad.left - 10} y={tick.y + 4} textAnchor="end">{formatCompact(tick.value)}</text>
+          </g>
+        ))}
+        <path className="money-trend-area" d={area} />
+        <path className="money-trend-line" d={line} />
+        {points.map((point) => (
+          <g className="money-trend-point" key={point.key}>
+            <circle cx={point.x} cy={point.y} r="5" />
+            <title>{point.label}: {formatMoney(point.revenue)}</title>
+          </g>
+        ))}
+        {points.map((point) => (
+          <g key={`${point.key}-label`}>
+            <text className="money-trend-axis" x={point.x} y={height - 20} textAnchor="middle">{point.label}</text>
+            <text className="money-trend-value" x={point.x} y={height - 5} textAnchor="middle">{formatCompact(point.revenue)}</text>
+          </g>
+        ))}
+      </svg>
+    </div>
+  );
+}
+
 function Breakdown({ title, rows, labelKey }) {
   const max = Math.max(1, ...(rows || []).map((row) => num(row.revenue)));
   return (
@@ -193,7 +193,7 @@ function Breakdown({ title, rows, labelKey }) {
         <div className="money-break-row" key={row[labelKey] || "Unknown"}>
           <div>
             <span>{row[labelKey] || "Unknown"}</span>
-            <strong>{formatMoney(row.revenue)}</strong>
+            <strong>{formatCompactMoney(row.revenue)}</strong>
           </div>
           <i><b style={{ width: `${Math.max(4, (num(row.revenue) / max) * 100)}%` }} /></i>
         </div>
@@ -201,4 +201,16 @@ function Breakdown({ title, rows, labelKey }) {
       {!(rows || []).length && <div className="money-empty-inline">No completed revenue yet.</div>}
     </div>
   );
+}
+
+function formatCompact(value) {
+  const next = Number(value) || 0;
+  if (next >= 10000000) return `${Math.round(next / 1000000) / 10}Cr`;
+  if (next >= 100000) return `${Math.round(next / 10000) / 10}L`;
+  if (next >= 1000) return `${Math.round(next / 100) / 10}k`;
+  return String(Math.round(next));
+}
+
+function formatCompactMoney(value) {
+  return `₹${formatCompact(value)}`;
 }

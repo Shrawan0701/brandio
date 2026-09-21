@@ -127,16 +127,29 @@ export default function DealCard({ deal, onDeleted, onUpdated }) {
           <button onClick={() => setShowEdit(true)}>Edit</button>
           <Link className="primary" to={`/deals/${deal.id}`}>Open</Link>
           <button onClick={() => setShowContract((v) => !v)}>{showContract ? "Hide contract" : "Contract"}</button>
-          <button onClick={() => setShowRoi((v) => !v)}>{showRoi ? "Hide ROI" : "Deal ROI"}</button>
+          <button onClick={() => setShowRoi(true)}>Deal ROI</button>
           {user.plan === "pro" && <button className="danger" onClick={() => setShowConfirm(true)}>Delete</button>}
         </div>
         </div>
 
         {showContract && <div className="deal-card-expanded"><DealContractSection deal={deal} /></div>}
-        {showRoi && <div className="deal-card-expanded"><DealRoiSection deal={deal} onUpdated={onUpdated} /></div>}
       </article>
 
       {showEdit && <EditDealModal deal={deal} onClose={() => setShowEdit(false)} onUpdated={onUpdated} />}
+      {showRoi && (
+        <div className="deal-roi-modal-backdrop" role="dialog" aria-modal="true" aria-label="Deal ROI">
+          <div className="deal-roi-modal-card">
+            <div className="deal-roi-modal-head">
+              <div>
+                <span>{deal.brand_name}</span>
+                <h2>Deal ROI</h2>
+              </div>
+              <button type="button" onClick={() => setShowRoi(false)} aria-label="Close ROI">x</button>
+            </div>
+            <DealRoiSection deal={deal} onUpdated={onUpdated} />
+          </div>
+        </div>
+      )}
 
       {showConfirm && (
         <div className="modal fade show d-block" style={{ background: "rgba(0,0,0,0.55)" }}>

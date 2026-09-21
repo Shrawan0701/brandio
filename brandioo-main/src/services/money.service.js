@@ -60,7 +60,7 @@ export const getMoneyCockpitDB = async (userId) => {
          WHERE status='overdue'
            OR (payment_due_date IS NOT NULL AND payment_due_date < CURRENT_DATE AND status <> 'completed')
        ), 0) AS overdue,
-       COALESCE(SUM(${MONEY_EXPR}) FILTER (WHERE status <> 'completed'), 0) AS expected,
+       COALESCE(SUM(${MONEY_EXPR}) FILTER (WHERE status IN ('pending','active')), 0) AS expected,
        COALESCE(SUM(${MONEY_EXPR}) FILTER (WHERE status='completed'), 0) AS paid,
        COALESCE(SUM(expenses) FILTER (WHERE status='completed'), 0) AS recorded_expenses
      FROM deals
@@ -89,15 +89,14 @@ export const getMoneyCockpitDB = async (userId) => {
 
   const cashFlow = await pool.query(
     `SELECT
-       TO_CHAR(DATE_TRUNC('month', payment_due_date), 'YYYY-MM') AS key,
-       TO_CHAR(DATE_TRUNC('month', payment_due_date), 'Mon YYYY') AS label,
+       COALESCE(TO_CHAR(DATE_TRUNC('month', payment_due_date), 'YYYY-MM'), 'pending-total') AS key,
+       COALESCE(TO_CHAR(DATE_TRUNC('month', payment_due_date), 'Mon YYYY'), 'Pending deals') AS label,
        COALESCE(SUM(${MONEY_EXPR}), 0) AS expected
      FROM deals
      WHERE user_id=$1
-       AND status <> 'completed'
-       AND payment_due_date IS NOT NULL
+       AND status IN ('pending','active')
      GROUP BY 1, 2
-     ORDER BY key ASC
+     ORDER BY CASE WHEN COALESCE(TO_CHAR(DATE_TRUNC('month', payment_due_date), 'YYYY-MM'), 'pending-total') = 'pending-total' THEN 1 ELSE 0 END, key ASC
      LIMIT 6`,
     [userId]
   );

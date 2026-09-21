@@ -32,6 +32,7 @@ export default function NotificationBell() {
   const panelRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(3);
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -73,7 +74,10 @@ export default function NotificationBell() {
   }, []);
 
   useEffect(() => {
-    if (open) loadNotifications();
+    if (open) {
+      setVisibleCount(3);
+      loadNotifications();
+    }
   }, [open]);
 
   useEffect(() => {
@@ -149,7 +153,7 @@ export default function NotificationBell() {
 
           {!loading && !error && notifications.length > 0 && (
             <div className="notif-list">
-              {notifications.map((notification) => (
+              {notifications.slice(0, visibleCount).map((notification) => (
                 <button
                   type="button"
                   key={notification.id}
@@ -164,6 +168,15 @@ export default function NotificationBell() {
                   </span>
                 </button>
               ))}
+              {visibleCount < notifications.length && (
+                <button
+                  type="button"
+                  className="notif-load-more"
+                  onClick={() => setVisibleCount((count) => Math.min(count + 6, notifications.length))}
+                >
+                  Load more
+                </button>
+              )}
             </div>
           )}
         </section>

@@ -2,13 +2,12 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-import api, {
+import {
   updateProfile,
   updatePublicSlug,
   uploadProfilePhoto,
   updateSocialLinks,
-  updateMediaKit,
-  fetchDeals
+  updateMediaKit
 } from "../lib/api";
 
 import Toast from "../components/Toast";
@@ -21,15 +20,8 @@ export default function Profile() {
   const [username, setUsername] = useState(user?.username || "");
   const [publicSlug, setPublicSlug] = useState(user?.public_slug || "");
   const [photoUploading, setPhotoUploading] = useState(false);
+  const [photoPreview, setPhotoPreview] = useState(false);
   const [toast, setToast] = useState(null);
-
-  /* ---------- DEAL STATS ---------- */
-  const [stats, setStats] = useState({
-    total: 0,
-    active: 0,
-    pending: 0,
-    completed: 0
-  });
 
   /* ---------- SOCIAL LINKS ---------- */
   const [socials, setSocials] = useState({
@@ -84,41 +76,12 @@ export default function Profile() {
       }));
     }
 
-    fetchDeals().then((data) => {
-      const deals = data.deals || [];
-      setStats({
-        total: deals.length,
-        active: deals.filter(d => d.status === "active").length,
-        pending: deals.filter(d => d.status === "pending").length,
-        completed: deals.filter(d => d.status === "completed").length
-      });
-    });
   }, [user]);
 
   /* ---------- HELPERS ---------- */
   const showToast = (message, type = "success") => {
     setToast({ message, type });
   };
-
-  /* ---------- PLAN STATUS (PRO ONLY) ---------- */
-  const getPlanStatus = () => {
-    if (!user) return null;
-    if (user.plan !== "pro" || !user.plan_expiry) return null;
-
-    const expiry = new Date(user.plan_expiry);
-    const now = new Date();
-
-    const diffInDays = Math.ceil(
-      (expiry - now) / (1000 * 60 * 60 * 24)
-    );
-
-    if (diffInDays <= 0) return { status: "expired" };
-    if (diffInDays <= 7) return { status: "expiring", daysLeft: diffInDays };
-
-    return { status: "active" };
-  };
-
-  const planStatus = getPlanStatus();
 
   /* ---------- BLOCK UNTIL AUTH READY ---------- */
   if (loading) {
@@ -137,25 +100,18 @@ export default function Profile() {
     navigate("/login");
   };
 
-  /* ---------- SAVE PROFILE ---------- */
-  const handleSaveProfile = async () => {
+  const handleSaveIdentity = async () => {
     try {
-      const updated = await updateProfile(username);
-      setUser({ ...user, ...updated });
-      showToast("Profile updated successfully");
-    } catch {
-      showToast("Failed to update profile", "error");
-    }
-  };
-
-  const handleSavePublicSlug = async () => {
-    try {
-      const updated = await updatePublicSlug(publicSlug);
-      setUser({ ...user, ...updated });
-      setPublicSlug(updated.public_slug || publicSlug);
-      showToast("Public handle updated");
+      const [profileUpdate, slugUpdate, kitUpdate] = await Promise.all([
+        updateProfile(username),
+        updatePublicSlug(publicSlug),
+        updateMediaKit(mediaKit)
+      ]);
+      setUser({ ...user, ...profileUpdate, ...slugUpdate, ...kitUpdate });
+      setPublicSlug(slugUpdate.public_slug || publicSlug);
+      showToast("Profile saved");
     } catch (err) {
-      showToast(err.response?.data?.message || "Public handle is not available", "error");
+      showToast(err.response?.data?.message || "Could not save profile", "error");
     }
   };
 
@@ -195,31 +151,9 @@ export default function Profile() {
   const updateKit = (key, value) =>
     setMediaKit((prev) => ({ ...prev, [key]: value }));
 
-  const updateKitList = (key, index, field, value) =>
-    setMediaKit((prev) => ({
-      ...prev,
-      [key]: prev[key].map((item, i) =>
-        i === index ? { ...item, [field]: value } : item
-      )
-    }));
-
-  const addKitListItem = (key, shape) =>
-    setMediaKit((prev) => ({ ...prev, [key]: [...prev[key], shape] }));
-
-  const handleSaveMediaKit = async () => {
-    try {
-      const updated = await updateMediaKit(mediaKit);
-      setUser({ ...user, ...updated });
-      showToast("Media kit updated");
-    } catch {
-      showToast("Failed to update media kit", "error");
-    }
-  };
-
   const displayName = mediaKit.display_name || user.username;
   const canonicalHandle = user.public_slug || publicSlug || user.username;
   const publicUrl = `/${canonicalHandle}`;
-  const workWithMeUrl = `${publicUrl}/work-with-me`;
 
   return (
     <div className="profile-page">
@@ -227,14 +161,16 @@ export default function Profile() {
       {/* ================= PROFILE HEADER ================= */}
       <section className="profile-hero">
         <div className="profile-identity">
-          <img
-            src={
-              user.profile_image_url ||
-              `https://ui-avatars.com/api/?name=${user.username}`
-            }
-            className="profile-avatar"
-            alt="profile"
-          />
+          <button className="profile-avatar-btn" onClick={() => setPhotoPreview(true)} aria-label="View profile photo">
+            <img
+              src={
+                user.profile_image_url ||
+                `https://ui-avatars.com/api/?name=${user.username}`
+              }
+              className="profile-avatar"
+              alt="profile"
+            />
+          </button>
 
           <div>
             <span className="profile-kicker">Professional creator identity</span>
@@ -242,7 +178,7 @@ export default function Profile() {
             <p>{mediaKit.headline || "Build a public business profile, media kit, and collaboration hub for your brand work."}</p>
             <div className="profile-meta">
               <span className={`plan-badge ${user.plan}`}>{user.plan.toUpperCase()}</span>
-              <span>{mediaKit.location || "Location not set"}</span>
+              {mediaKit.location && <span>{mediaKit.location}</span>}
               <span>{mediaKit.enabled ? "Media kit public" : "Media kit private"}</span>
             </div>
           </div>
@@ -263,37 +199,6 @@ export default function Profile() {
           <button onClick={() => navigate(publicUrl)}>View media kit</button>
         </div>
       </section>
-
-      {user.plan === "pro" && user.plan_expiry && (
-        <div className={`profile-plan-card ${planStatus?.status}`}>
-          <div className="plan-active">
-            <div>
-              <h6>Subscription</h6>
-              {planStatus?.status === "active" && (
-                <p>Valid till <b>{new Date(user.plan_expiry).toLocaleDateString()}</b></p>
-              )}
-              {planStatus?.status === "expiring" && (
-                <p>Expires in <b>{planStatus.daysLeft} days</b>. Renew to avoid interruption.</p>
-              )}
-              {planStatus?.status === "expired" && (
-                <p>Your subscription has expired. Please upgrade again.</p>
-              )}
-            </div>
-            {planStatus?.status !== "active" && (
-              <button onClick={() => navigate("/pricing")}>
-                {planStatus.status === "expired" ? "Upgrade again" : "Renew Pro"}
-              </button>
-            )}
-          </div>
-        </div>
-      )}
-
-      <div className="profile-stat-strip">
-        <StatCard label="Total deals" value={stats.total} variant="total" />
-        <StatCard label="Active" value={stats.active} variant="active" />
-        <StatCard label="Pending" value={stats.pending} variant="pending" />
-        <StatCard label="Completed" value={stats.completed} variant="completed" />
-      </div>
 
       <div className="profile-layout">
         <main className="profile-stack">
@@ -340,9 +245,7 @@ export default function Profile() {
               </Field>
             </div>
             <div className="profile-panel-actions">
-              <button onClick={handleSaveProfile}>Save profile</button>
-              <button onClick={handleSavePublicSlug}>Save public handle</button>
-              <button onClick={handleSaveMediaKit}>Save identity details</button>
+              <button onClick={handleSaveIdentity}>Save profile</button>
             </div>
           </section>
 
@@ -370,48 +273,6 @@ export default function Profile() {
             </div>
           </section>
 
-          <section className="profile-panel">
-            <SectionHead title="Business" eyebrow="Services, rates and proof" />
-            <KitList
-              title="Public metrics"
-              items={mediaKit.metrics}
-              fields={[["label", "Metric label"], ["value", "Metric value"]]}
-              onChange={(index, field, value) => updateKitList("metrics", index, field, value)}
-              onAdd={() => addKitListItem("metrics", { label: "", value: "" })}
-            />
-            <KitList
-              title="Services"
-              items={mediaKit.services}
-              fields={[["name", "Service"], ["description", "Description"]]}
-              onChange={(index, field, value) => updateKitList("services", index, field, value)}
-              onAdd={() => addKitListItem("services", { name: "", description: "" })}
-            />
-            <label className="profile-toggle">
-              <input
-                type="checkbox"
-                checked={mediaKit.show_rates}
-                onChange={(e) => updateKit("show_rates", e.target.checked)}
-              />
-              <span>Show starting rates publicly</span>
-            </label>
-            <KitList
-              title="Starting rates"
-              items={mediaKit.rates}
-              fields={[["name", "Offer"], ["price", "Starting from"]]}
-              onChange={(index, field, value) => updateKitList("rates", index, field, value)}
-              onAdd={() => addKitListItem("rates", { name: "", price: "" })}
-            />
-            <KitList
-              title="Featured brands"
-              items={mediaKit.public_brands}
-              fields={[["name", "Brand name"]]}
-              onChange={(index, field, value) => updateKitList("public_brands", index, field, value)}
-              onAdd={() => addKitListItem("public_brands", { name: "" })}
-            />
-            <div className="profile-panel-actions">
-              <button onClick={handleSaveMediaKit}>Save business profile</button>
-            </div>
-          </section>
         </main>
 
         <aside className="profile-sidebar">
@@ -442,27 +303,9 @@ export default function Profile() {
           </section>
 
           <section className="profile-panel compact">
-            <SectionHead title="Media kit" eyebrow="Publishing" />
-            <p className="profile-muted">Public URL</p>
-            <strong className="profile-url">brandio.world{publicUrl}</strong>
-            <p className="profile-muted">Work With Me URL</p>
-            <strong className="profile-url">brandio.world{workWithMeUrl}</strong>
-            <label className="profile-toggle">
-              <input
-                type="checkbox"
-                checked={mediaKit.show_cta}
-                onChange={(e) => updateKit("show_cta", e.target.checked)}
-              />
-              <span>Show Work With Me CTA</span>
-            </label>
-            <button className="profile-save-wide" onClick={handleSaveMediaKit}>Save media kit</button>
-          </section>
-
-          <section className="profile-panel compact">
             <SectionHead title="Account" eyebrow="Security" />
             <p className="profile-muted">Current plan</p>
             <strong>{user.plan.toUpperCase()}</strong>
-            {user.plan_expiry && <p className="profile-muted mt-2">Valid until {new Date(user.plan_expiry).toLocaleDateString()}</p>}
             <button className="profile-save-wide" onClick={() => navigate("/billing")}>Billing & Plans</button>
             <button className="profile-logout" onClick={handleLogout}>Logout</button>
           </section>
@@ -475,6 +318,16 @@ export default function Profile() {
           type={toast.type}
           onClose={() => setToast(null)}
         />
+      )}
+
+      {photoPreview && (
+        <div className="profile-photo-modal" onClick={() => setPhotoPreview(false)}>
+          <button aria-label="Close photo preview" onClick={() => setPhotoPreview(false)}>Close</button>
+          <img
+            src={user.profile_image_url || `https://ui-avatars.com/api/?name=${user.username}`}
+            alt="Profile preview"
+          />
+        </div>
       )}
     </div>
   );
@@ -495,41 +348,5 @@ function Field({ label, children, wide }) {
       <span>{label}</span>
       {children}
     </label>
-  );
-}
-
-function KitList({ title, items, fields, onChange, onAdd }) {
-  return (
-    <div className="mt-3">
-      <div className="d-flex justify-content-between align-items-center mb-2">
-        <h6 className="fw-semibold mb-0">{title}</h6>
-        <button type="button" className="btn btn-sm btn-outline-secondary" onClick={onAdd}>
-          Add
-        </button>
-      </div>
-      {items.map((item, index) => (
-        <div className="d-flex gap-2 mb-2" key={`${title}-${index}`}>
-          {fields.map(([field, placeholder]) => (
-            <input
-              key={field}
-              className="form-control"
-              placeholder={placeholder}
-              value={item[field] || ""}
-              onChange={(e) => onChange(index, field, e.target.value)}
-            />
-          ))}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/* ================= STAT CARD ================= */
-function StatCard({ label, value, variant }) {
-  return (
-    <div className={`stat-card ${variant}`}>
-      <div className="stat-value">{value}</div>
-      <div className="stat-label">{label}</div>
-    </div>
   );
 }

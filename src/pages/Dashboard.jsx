@@ -118,7 +118,7 @@ export default function Dashboard() {
       <header className="dash-hero">
         <div>
           <span className="dash-eyebrow">Creator business dashboard</span>
-          <h1>Good morning, {user?.username || "creator"}.</h1>
+          <h1>{timeGreeting()}, {user?.username || "creator"}.</h1>
           <p>Revenue, follow-ups, deliverables and deal momentum in one command center.</p>
         </div>
         <div className="dash-hero-actions">
@@ -128,7 +128,7 @@ export default function Dashboard() {
           >
             Add Deal
           </button>
-          <Link to="/money">Money Cockpit</Link>
+          <Link to="/money">Money</Link>
         </div>
       </header>
 
@@ -275,7 +275,7 @@ function RevenueChart({ data }) {
   const width = 640;
   const height = 250;
   const pad = { top: 20, right: 18, bottom: 38, left: 58 };
-  const max = Math.max(1, ...data.map((item) => item.revenue));
+  const max = Math.max(1, ...data.map((item) => item.revenue)) * (data.length === 1 ? 1.35 : 1);
   const points = data.map((item, index) => {
     const x = data.length === 1
       ? (width - pad.left - pad.right) / 2 + pad.left
@@ -283,8 +283,14 @@ function RevenueChart({ data }) {
     const y = pad.top + (1 - item.revenue / max) * (height - pad.top - pad.bottom);
     return { ...item, x, y };
   });
-  const line = points.map((point, index) => `${index ? "L" : "M"} ${point.x} ${point.y}`).join(" ");
-  const area = `${line} L ${points.at(-1).x} ${height - pad.bottom} L ${points[0].x} ${height - pad.bottom} Z`;
+  const singlePoint = data.length === 1;
+  const baseline = height - pad.bottom;
+  const line = singlePoint
+    ? `M ${pad.left} ${points[0].y} L ${width - pad.right} ${points[0].y}`
+    : points.map((point, index) => `${index ? "L" : "M"} ${point.x} ${point.y}`).join(" ");
+  const area = singlePoint
+    ? `M ${pad.left} ${points[0].y} L ${width - pad.right} ${points[0].y} L ${width - pad.right} ${baseline} L ${pad.left} ${baseline} Z`
+    : `${line} L ${points.at(-1).x} ${baseline} L ${points[0].x} ${baseline} Z`;
   const ticks = [0, 0.5, 1].map((ratio) => ({
     y: pad.top + (1 - ratio) * (height - pad.top - pad.bottom),
     value: max * ratio
@@ -295,8 +301,8 @@ function RevenueChart({ data }) {
       <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Revenue over time">
         <defs>
           <linearGradient id="dashRevenueFill" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stopColor="#6d4aff" stopOpacity="0.24" />
-            <stop offset="100%" stopColor="#365cff" stopOpacity="0.02" />
+            <stop offset="0%" stopColor="#0f766e" stopOpacity="0.22" />
+            <stop offset="100%" stopColor="#2563eb" stopOpacity="0.03" />
           </linearGradient>
         </defs>
         {ticks.map((tick) => (
@@ -307,17 +313,31 @@ function RevenueChart({ data }) {
         ))}
         <path className="dash-area" d={area} />
         <path className="dash-line" d={line} />
+        {singlePoint && (
+          <rect
+            className="dash-revenue-bar"
+            x={points[0].x - 34}
+            y={points[0].y}
+            width="68"
+            height={baseline - points[0].y}
+            rx="10"
+          />
+        )}
         {points.map((point) => (
           <g className="dash-point" key={point.key}>
             <circle cx={point.x} cy={point.y} r="5" />
             <title>{point.label}: {formatMoney(point.revenue)}</title>
           </g>
         ))}
+        {singlePoint && (
+          <text className="dash-value-label" x={points[0].x} y={Math.max(16, points[0].y - 10)} textAnchor="middle">
+            {formatMoney(points[0].revenue)}
+          </text>
+        )}
         {points.map((point) => (
           <text className="dash-axis" x={point.x} y={height - 12} textAnchor="middle" key={`${point.key}-label`}>{point.label}</text>
         ))}
       </svg>
-      {data.length === 1 && <p>Only one completed revenue point is available, so Brandio is showing it without inventing a trend.</p>}
     </div>
   );
 }
@@ -338,9 +358,11 @@ function PipelineChart({ data, total }) {
       <div className="dash-pipeline-legend">
         {data.map((item) => (
           <div key={item.key}>
-            <i className={item.key} />
+            <span>
+              <i className={item.key} />
+              {item.label}
+            </span>
             <strong>{item.count}</strong>
-            <span>{item.label}</span>
           </div>
         ))}
       </div>
@@ -350,13 +372,21 @@ function PipelineChart({ data, total }) {
 
 function PaymentStatus({ data }) {
   const total = Math.max(1, data.reduce((sum, item) => sum + item.value, 0));
+  const paid = data.find((item) => item.key === "paid")?.value || 0;
+  const pending = data.find((item) => item.key === "pending")?.value || 0;
+  const overdue = data.find((item) => item.key === "overdue")?.value || 0;
   return (
     <div className="dash-payment-status">
+      <div className="dash-payment-total">
+        <span>Collected</span>
+        <strong>{formatMoney(paid)}</strong>
+        <small>{formatMoney(pending + overdue)} still open</small>
+      </div>
       {data.map((item) => (
         <div className={item.key} key={item.key}>
           <span>{item.label}</span>
           <strong>{formatMoney(item.value)}</strong>
-          <i><b style={{ width: `${(item.value / total) * 100}%` }} /></i>
+          <small>{Math.round((item.value / total) * 100)}%</small>
         </div>
       ))}
     </div>
@@ -531,4 +561,13 @@ function formatCompact(value) {
   if (value >= 1000000) return `${Math.round(value / 100000) / 10}m`;
   if (value >= 1000) return `${Math.round(value / 100) / 10}k`;
   return String(Math.round(value));
+}
+
+function timeGreeting() {
+  const hour = new Date().getHours();
+  if (hour < 5) return "Good night";
+  if (hour < 12) return "Good morning";
+  if (hour < 17) return "Good afternoon";
+  if (hour < 21) return "Good evening";
+  return "Good night";
 }

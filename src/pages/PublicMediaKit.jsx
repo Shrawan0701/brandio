@@ -30,8 +30,8 @@ export default function PublicMediaKit() {
     );
   }
 
-  const { creator, metrics = [], services = [], rates = [], brands = [], portfolio = [] } = kit;
-  const socials = Object.entries(creator.social_links || {}).filter(([, url]) => url);
+  const { creator, metrics = [], services = [], rates = [], brands = [], portfolio = [], brandExperience, collaborationPreferences } = kit;
+  const socials = Object.entries(creator.social_profiles || creator.social_links || {}).filter(([, url]) => url);
   const publicHandle = creator.public_slug || creator.username;
 
   return (
@@ -40,14 +40,15 @@ export default function PublicMediaKit() {
 
       <section className="mk-hero">
         <div className="mk-hero-copy">
-          <div className="mk-brand">Brandio Media Kit</div>
+          <div className="mk-brand">Creator profile</div>
           <h1>{creator.display_name}</h1>
+          <p className="mk-handle">@{publicHandle}</p>
           <p className="mk-headline">{creator.headline || creator.niche || "Creator media kit"}</p>
           {creator.bio && <p className="mk-bio">{creator.bio}</p>}
           <div className="mk-tags">
-            {creator.niche && <span>{creator.niche}</span>}
-            {creator.location && <span>{creator.location}</span>}
-            {creator.languages && <span>{creator.languages}</span>}
+            {creator.niche && <span><small>Niche</small>{creator.niche}</span>}
+            {creator.location && <span><small>Location</small>{creator.location}</span>}
+            {creator.languages && <span><small>Languages</small>{creator.languages}</span>}
           </div>
           <div className="mk-actions">
             {creator.show_cta && <Link to={`/${publicHandle}/work-with-me`}>Work with me</Link>}
@@ -63,47 +64,41 @@ export default function PublicMediaKit() {
 
       {metrics.length > 0 && (
         <section className="mk-section mk-stats">
-          {metrics.map((metric, index) => (
-            <div key={`${metric.label}-${index}`}>
-              <strong>{metric.value}</strong>
-              <span>{metric.label}</span>
-            </div>
+          {metrics.flatMap(normalizeAudienceMetric).map((metric, index) => (
+            <div key={`${metric.label}-${index}`}><strong>{metric.value}</strong><span>{metric.label}</span></div>
           ))}
         </section>
       )}
 
-      {(services.length > 0 || rates.length > 0) && (
-        <section className="mk-section mk-split">
-          {services.length > 0 && (
-            <div>
-              <h2>Services</h2>
+      {services.length > 0 && (
+        <section className="mk-section">
+          <h2>Collaboration options</h2>
               <div className="mk-card-list">
                 {services.map((service, index) => (
                   <article key={`${service.name}-${index}`}>
                     <h3>{service.name}</h3>
                     {service.description && <p>{service.description}</p>}
+                    {service.show_price && service.starting_price && <p className="mk-price">From {service.currency || "₹"}{service.starting_price}</p>}
                   </article>
                 ))}
               </div>
-            </div>
-          )}
-          {rates.length > 0 && (
-            <div>
-              <h2>Starting rates</h2>
-              <div className="mk-card-list">
-                {rates.map((rate, index) => (
-                  <article key={`${rate.name}-${index}`}>
-                    <h3>{rate.name}</h3>
-                    <p>{rate.price}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
-          )}
         </section>
       )}
 
-      {brands.length > 0 && (
+      {brandExperience && (
+        <section className="mk-section">
+          <h2>Brand experience</h2>
+          <div className="mk-stats compact">
+            <div><strong>{brandExperience.total_collaborations || 0}</strong><span>Brand collaborations</span></div>
+            <div><strong>{brandExperience.paid || 0}</strong><span>Paid collaborations</span></div>
+            <div><strong>{brandExperience.affiliate || 0}</strong><span>Affiliate collaborations</span></div>
+            <div><strong>{brandExperience.gifted || 0}</strong><span>Gifted collaborations</span></div>
+          </div>
+          {(brandExperience.brands || []).length > 0 && <><h3>Worked with</h3><div className="mk-brand-grid">{brandExperience.brands.map((brand) => <span key={brand.brand_name}>{brand.brand_name}</span>)}</div></>}
+        </section>
+      )}
+
+      {!brandExperience && brands.length > 0 && (
         <section className="mk-section">
           <h2>Selected brands</h2>
           <div className="mk-brand-grid">
@@ -114,7 +109,7 @@ export default function PublicMediaKit() {
 
       {portfolio.length > 0 && (
         <section className="mk-section">
-          <h2>Portfolio</h2>
+          <h2>Selected work</h2>
           <div className="mk-portfolio">
             {portfolio.map((item, index) => {
               const itemMetrics = visibleMetrics(item.metrics);
@@ -143,10 +138,34 @@ export default function PublicMediaKit() {
         </section>
       )}
 
+      {collaborationPreferences?.work_types?.length > 0 && (
+        <section className="mk-section">
+          <h2>Open to</h2>
+          <div className="mk-brand-grid">
+            {collaborationPreferences.work_types.map((type) => <span key={type}>{type}</span>)}
+          </div>
+          {collaborationPreferences.categories && <p>{collaborationPreferences.categories}</p>}
+        </section>
+      )}
+
       <section className="mk-footer-cta">
         <h2>Ready to collaborate?</h2>
         <Link to={`/${publicHandle}/work-with-me`}>Work with me</Link>
       </section>
     </div>
   );
+}
+
+function normalizeAudienceMetric(metric) {
+  if (metric.label && metric.value) return [{ label: metric.label, value: metric.value }];
+  const platform = metric.platform || "Platform";
+  const rows = [];
+  if (metric.followers) rows.push({ value: metric.followers, label: `${platform} followers` });
+  if (metric.subscribers) rows.push({ value: metric.subscribers, label: `${platform} subscribers` });
+  if (metric.average_reel_views) rows.push({ value: metric.average_reel_views, label: "Avg Reel views" });
+  if (metric.average_story_views) rows.push({ value: metric.average_story_views, label: "Avg Story views" });
+  if (metric.average_views) rows.push({ value: metric.average_views, label: "Avg views" });
+  if (metric.engagement_rate) rows.push({ value: metric.engagement_rate, label: "Engagement" });
+  if (metric.monthly_reach) rows.push({ value: metric.monthly_reach, label: "Monthly reach" });
+  return rows;
 }

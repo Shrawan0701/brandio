@@ -1,27 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { analyzeDealTerms, fetchDeals, updateDeal } from "../lib/api";
+import { analyzeDealTerms, extractDealAnalyzerFile, fetchDeals, updateDeal } from "../lib/api";
 import { formatMoney, num } from "../utils/deals";
 import { useToast } from "../components/ToastProvider";
-
-const fieldLabels = {
-  deal_value: "Deal value",
-  currency: "Currency",
-  deliverables: "Deliverables",
-  posting_dates: "Posting dates",
-  payment_terms: "Payment terms",
-  payment_due_date: "Payment due date",
-  usage_rights: "Usage rights",
-  paid_advertising_rights: "Paid advertising rights",
-  whitelisting: "Whitelisting",
-  exclusivity: "Exclusivity",
-  exclusivity_duration: "Exclusivity duration",
-  revision_requirements: "Revision requirements",
-  cancellation_terms: "Cancellation terms",
-  content_ownership: "Content ownership",
-  raw_footage_requirements: "Raw footage requirements",
-  approval_process: "Approval process"
-};
 
 const sectionLabels = {
   deliverables: "Deliverables",
@@ -38,7 +19,7 @@ export default function DealAnalyzer() {
   const [text, setText] = useState("");
   const [analysis, setAnalysis] = useState(null);
   const [fields, setFields] = useState({});
-  const [selectedFields, setSelectedFields] = useState({
+  const [selectedFields] = useState({
     deal_value: true,
     currency: true,
     deliverables: true,
@@ -82,12 +63,21 @@ export default function DealAnalyzer() {
 
   const readFile = async (file) => {
     if (!file) return;
-    const content = await file.text();
-    setText(content);
+    setError("");
+    setProgress(`Reading ${file.name}...`);
+    try {
+      if (/\.(txt|md|csv|rtf)$/i.test(file.name)) {
+        setText(await file.text());
+      } else {
+        const result = await extractDealAnalyzerFile(file);
+        setText(result.text || "");
+      }
+      setProgress("File loaded");
+    } catch (err) {
+      setError(err.response?.data?.message || "Could not read this file");
+      setProgress("");
+    }
   };
-
-  const updateField = (key, value) => setFields((prev) => ({ ...prev, [key]: value }));
-  const toggleField = (key) => setSelectedFields((prev) => ({ ...prev, [key]: !prev[key] }));
 
   const payloadFromSelected = () => {
     const payload = {};
@@ -138,7 +128,7 @@ export default function DealAnalyzer() {
         <div>
           <span>AI Deal Analyzer</span>
           <h1>Extract the business terms before you sign.</h1>
-          <p>Paste deal terms or upload a text file. Brandio highlights useful business information without giving legal advice.</p>
+          <p>Paste deal terms or upload a PDF, DOCX, or text file. Brandio highlights useful business information without giving legal advice.</p>
         </div>
       </header>
 
@@ -147,8 +137,8 @@ export default function DealAnalyzer() {
           <div className="da-panel-head">
             <h2>Contract or deal terms</h2>
             <label className="da-upload">
-              Upload text
-              <input type="file" accept=".txt,.md,.csv,.rtf" hidden onChange={(e) => readFile(e.target.files?.[0])} />
+              Upload file
+              <input type="file" accept=".pdf,.doc,.docx,.txt,.md,.csv,.rtf,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden onChange={(e) => readFile(e.target.files?.[0])} />
             </label>
           </div>
           <textarea
@@ -169,8 +159,8 @@ export default function DealAnalyzer() {
             <>
               <p>{analysis.deal_summary}</p>
               <div className="da-summary-grid">
-                <div><span>Detected value</span><strong>{fields.deal_value ? formatMoney(fields.deal_value, fields.currency) : "Not detected"}</strong></div>
-                <div><span>Source</span><strong>{analysis.source === "ai" ? "OpenAI extraction" : "Rules fallback"}</strong></div>
+                <div><span>Deal value</span><strong>{fields.deal_value ? displayMoney(fields.deal_value, fields.currency) : "Needs review"}</strong></div>
+                <div><span>Status</span><strong>{analysis.source === "ai" ? "AI reviewed" : "Basic scan"}</strong></div>
               </div>
               <small>{analysis.disclaimer}</small>
             </>
@@ -182,24 +172,6 @@ export default function DealAnalyzer() {
 
       {analysis && (
         <>
-          <section className="da-panel da-fields">
-            <div className="da-panel-head">
-              <h2>Review extracted data</h2>
-              <p>Edit anything before applying it to a deal.</p>
-            </div>
-            <div className="da-field-grid">
-              {Object.keys(fieldLabels).map((key) => (
-                <label key={key} className="da-field">
-                  <span>
-                    <input type="checkbox" checked={selectedFields[key] === true} onChange={() => toggleField(key)} />
-                    {fieldLabels[key]}
-                  </span>
-                  <textarea value={fields[key] || ""} onChange={(e) => updateField(key, e.target.value)} />
-                </label>
-              ))}
-            </div>
-          </section>
-
           <section className="da-sections">
             {usefulSections.map(({ key, label, items }) => (
               <div className="da-panel" key={key}>
@@ -238,4 +210,11 @@ export default function DealAnalyzer() {
       )}
     </div>
   );
+}
+
+function displayMoney(value, currency) {
+  if (currency === "₦" || currency === "NGN") {
+    return `₦${num(value).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
+  }
+  return formatMoney(value, currency);
 }

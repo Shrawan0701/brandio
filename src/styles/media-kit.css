@@ -45,6 +45,12 @@
   max-width: 780px;
 }
 
+.mk-handle {
+  color: #64748b;
+  font-weight: 800;
+  margin: -10px 0 16px;
+}
+
 .mk-bio {
   color: #475569;
   font-size: 18px;
@@ -121,6 +127,10 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.mk-stats.compact {
+  margin-bottom: 18px;
+}
+
 .mk-stats div,
 .mk-card-list article {
   background: #fff;
@@ -157,6 +167,11 @@
   font-size: 22px;
   font-weight: 900;
   margin: 0 0 6px;
+}
+
+.mk-price {
+  color: #111827 !important;
+  font-weight: 900;
 }
 
 .mk-portfolio {

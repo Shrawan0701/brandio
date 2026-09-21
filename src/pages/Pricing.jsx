@@ -8,37 +8,30 @@ import MarketingFooter from "../components/MarketingFooter";
 import { COUNTRIES } from "../utils/countries";
 import "../styles/pricing.css";
 
-const PRO_FEATURES = [
-  "Unlimited brand deals",
-  "Payment reminders",
-  "Advanced deal analytics",
-  "Email notifications",
-  "Priority support"
+const FREE_FEATURES = [
+  "Core dashboard and deal CRM",
+  "3 lifetime free brand deals",
+  "Basic payment and deadline tracking",
+  "Public creator profile",
+  "Portfolio and media kit setup"
 ];
 
-const USD_PLANS = [
-  {
-    name: "Free",
-    price: "$0",
-    cadence: "forever",
-    description: "For getting your creator business organized.",
-    features: ["Core dashboard", "3 lifetime free deals", "Public creator profile"]
-  },
-  {
-    name: "Pro Monthly",
-    price: "$5",
-    cadence: "per month",
-    description: "Flexible Pro access for international creators.",
-    features: PRO_FEATURES
-  },
-  {
-    name: "Pro Yearly",
-    price: "$49",
-    cadence: "per year",
-    description: "Best USD value for creators managing brand work all year.",
-    features: PRO_FEATURES,
-    featured: true
-  }
+const MONTHLY_FEATURES = [
+  "Unlimited brand deals",
+  "Payment reminders and overdue alerts",
+  "Deliverables and contract tracking",
+  "Money dashboard with monthly revenue",
+  "Portfolio and media kit publishing",
+  "Flexible month-to-month renewal"
+];
+
+const YEARLY_FEATURES = [
+  "Everything in Pro Monthly",
+  "Best annual value for active creators",
+  "Advanced intelligence and rate insights",
+  "Priority support",
+  "Full-year inbound, portfolio, and media kit tools",
+  "One simple yearly renewal"
 ];
 
 export default function Pricing() {
@@ -60,7 +53,7 @@ export default function Pricing() {
       usdPrice: "$0",
       cadence: "forever",
       description: "For setting up your creator business workspace.",
-      features: ["Core dashboard", "3 lifetime free deals", "Public creator profile"],
+      features: FREE_FEATURES,
       current: !isPro
     },
     {
@@ -70,7 +63,7 @@ export default function Pricing() {
       usdPrice: "$5",
       cadence: "per month",
       description: "Flexible access to Brandio Pro for active brand work.",
-      features: PRO_FEATURES
+      features: MONTHLY_FEATURES
     },
     {
       id: "yearly",
@@ -79,7 +72,7 @@ export default function Pricing() {
       usdPrice: "$49",
       cadence: "per year",
       description: "Best value for creators managing deals throughout the year.",
-      features: PRO_FEATURES,
+      features: YEARLY_FEATURES,
       current: isPro,
       featured: true
     }
@@ -126,8 +119,8 @@ export default function Pricing() {
 
       <header className="pricing-hero">
         <span>Plans</span>
-        <h1>Choose the Brandio plan that fits your creator business.</h1>
-        <p>Pricing for <strong>{countryName}</strong>, plus USD pricing for creators outside India.</p>
+        <h2>Choose the Brandio plan that fits your creator business.</h2>
+        
       </header>
 
       <section className="pricing-grid">
@@ -142,6 +135,7 @@ export default function Pricing() {
             <div className="pricing-price">
               <strong>{plan.price}</strong>
               <span>{plan.cadence}</span>
+              {plan.id === "yearly" && isIndia && <small>Save more than 50% vs monthly</small>}
             </div>
             <ul>
               {plan.features.map((feature) => <li key={feature}>{feature}</li>)}
@@ -157,33 +151,7 @@ export default function Pricing() {
         ))}
       </section>
 
-      <section className="pricing-usd-section">
-        <div className="pricing-usd-head">
-          <span>USD pricing</span>
-          <h2>For creators outside India.</h2>
-          <p>Use these USD plans if you are based outside India. Checkout availability depends on your account country and supported Razorpay methods.</p>
-        </div>
-        <div className="pricing-grid pricing-usd-grid">
-          {USD_PLANS.map((plan) => (
-            <article className={`pricing-card usd ${plan.featured ? "featured" : ""}`} key={`usd-${plan.name}`}>
-              {plan.featured && <span className="pricing-badge">Best value</span>}
-              <div className="pricing-card-head">
-                <h2>{plan.name}</h2>
-                <p>{plan.description}</p>
-              </div>
-              <div className="pricing-price">
-                <strong>{plan.price}</strong>
-                <span>{plan.cadence}</span>
-              </div>
-              <ul>
-                {plan.features.map((feature) => <li key={feature}>{feature}</li>)}
-              </ul>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <p className="pricing-footer">Secure Razorpay payments. No automatic recurring billing is created by Brandio.</p>
+      <p className="pricing-footer">Secure Razorpay payments. No automatic recurring billing.</p>
 
       {!user && <MarketingFooter />}
       {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}

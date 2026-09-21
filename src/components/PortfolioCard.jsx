@@ -136,7 +136,7 @@ export default function PortfolioCard({
           onClick={() => onToggleVisibility(item)}
           disabled={busy}
         >
-          {item.is_public ? "Make private" : "Make public"}
+          {item.is_public ? " Private" : "Public"}
         </button>
 
         <button
