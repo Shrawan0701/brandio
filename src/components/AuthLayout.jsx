@@ -4,7 +4,6 @@ export default function AuthLayout({ title, children }) {
       <div className="auth-bg" />
 
       <div className="auth-container">
-        {/* LEFT PANEL */}
         <div className="auth-left">
           <div className="auth-left-card">
             <div className="brand">Brandio</div>
@@ -16,14 +15,16 @@ export default function AuthLayout({ title, children }) {
             </p>
 
             <ul>
-              <li>✓ Track brand deals</li>
-              <li>✓ Payment & posting reminders</li>
-              <li>✓ One dashboard for creators</li>
+              <li>Track brand deals from first pitch to payment</li>
+              <li>See overdue payments and follow-ups before they slip</li>
+              <li>Manage deliverables, contracts, and posting dates</li>
+              <li>Build a portfolio and public media kit from real work</li>
+              <li>Understand revenue, brand history, and deal momentum</li>
+              <li>Keep your creator business in one clean workspace</li>
             </ul>
           </div>
         </div>
 
-        {/* RIGHT PANEL */}
         <div className="auth-right">
           <div className="auth-card">
             <h3>{title}</h3>

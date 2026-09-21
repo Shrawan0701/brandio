@@ -63,15 +63,15 @@ export default function PublicMediaKit() {
       </section>
 
       {metrics.length > 0 && (
-        <section className="mk-section mk-stats">
+        <section className="mk-section mk-stats mk-audience-section">
           {metrics.flatMap(normalizeAudienceMetric).map((metric, index) => (
-            <div key={`${metric.label}-${index}`}><strong>{metric.value}</strong><span>{metric.label}</span></div>
+            <div key={`${metric.label}-${index}`}><strong>{formatMetricValue(metric.value)}</strong><span>{metric.label}</span></div>
           ))}
         </section>
       )}
 
       {services.length > 0 && (
-        <section className="mk-section">
+        <section className="mk-section mk-services-section">
           <h2>Collaboration options</h2>
               <div className="mk-card-list">
                 {services.map((service, index) => (
@@ -86,20 +86,20 @@ export default function PublicMediaKit() {
       )}
 
       {brandExperience && (
-        <section className="mk-section">
+        <section className="mk-section mk-brand-experience-section">
           <h2>Brand experience</h2>
           <div className="mk-stats compact">
-            <div><strong>{brandExperience.total_collaborations || 0}</strong><span>Brand collaborations</span></div>
-            <div><strong>{brandExperience.paid || 0}</strong><span>Paid collaborations</span></div>
-            <div><strong>{brandExperience.affiliate || 0}</strong><span>Affiliate collaborations</span></div>
-            <div><strong>{brandExperience.gifted || 0}</strong><span>Gifted collaborations</span></div>
+            <div><strong>{formatMetricValue(brandExperience.total_collaborations || 0)}</strong><span>Brand collaborations</span></div>
+            <div><strong>{formatMetricValue(brandExperience.paid || 0)}</strong><span>Paid collaborations</span></div>
+            <div><strong>{formatMetricValue(brandExperience.affiliate || 0)}</strong><span>Affiliate collaborations</span></div>
+            <div><strong>{formatMetricValue(brandExperience.gifted || 0)}</strong><span>Gifted collaborations</span></div>
           </div>
           {(brandExperience.brands || []).length > 0 && <><h3>Worked with</h3><div className="mk-brand-grid">{brandExperience.brands.map((brand) => <span key={brand.brand_name}>{brand.brand_name}</span>)}</div></>}
         </section>
       )}
 
       {!brandExperience && brands.length > 0 && (
-        <section className="mk-section">
+        <section className="mk-section mk-brand-experience-section">
           <h2>Selected brands</h2>
           <div className="mk-brand-grid">
             {brands.map((brand, index) => <span key={`${brand.name}-${index}`}>{brand.name}</span>)}
@@ -108,7 +108,7 @@ export default function PublicMediaKit() {
       )}
 
       {portfolio.length > 0 && (
-        <section className="mk-section">
+        <section className="mk-section mk-work-section">
           <h2>Selected work</h2>
           <div className="mk-portfolio">
             {portfolio.map((item, index) => {
@@ -139,7 +139,7 @@ export default function PublicMediaKit() {
       )}
 
       {collaborationPreferences?.work_types?.length > 0 && (
-        <section className="mk-section">
+        <section className="mk-section mk-open-section">
           <h2>Open to</h2>
           <div className="mk-brand-grid">
             {collaborationPreferences.work_types.map((type) => <span key={type}>{type}</span>)}
@@ -154,6 +154,12 @@ export default function PublicMediaKit() {
       </section>
     </div>
   );
+}
+
+function formatMetricValue(value) {
+  const number = Number(String(value).replace(/,/g, ""));
+  if (!Number.isFinite(number)) return value;
+  return formatCompactNumber(number);
 }
 
 function normalizeAudienceMetric(metric) {
