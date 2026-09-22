@@ -20,7 +20,7 @@ const monthKey = (value) => {
 };
 
 export default function Dashboard() {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
 
   const [deals, setDeals] = useState([]);
   const [money, setMoney] = useState(null);
@@ -110,6 +110,10 @@ export default function Dashboard() {
 
   const handleDealCreated = (newDeal) => {
     setDeals((prev) => [newDeal, ...prev]);
+    setUser((prev) => prev ? {
+      ...prev,
+      deal_creations_used: Math.max(Number(prev.deal_creations_used) || 0, totalDeals) + 1
+    } : prev);
     setShowAddModal(false);
   };
 
@@ -123,7 +127,7 @@ export default function Dashboard() {
         </div>
         <div className="dash-hero-actions">
           <button
-            disabled={user.plan === "free" && totalDeals >= 3}
+            disabled={isFreeDealLimitUsed(user, totalDeals)}
             onClick={() => setShowAddModal(true)}
           >
             Add Deal
@@ -137,10 +141,10 @@ export default function Dashboard() {
           <div>
             <h5 className="mb-1">Free plan</h5>
             <p className="mb-0 text-muted">
-              {totalDeals >= 3 ? "You've used all 3 free deals. Upgrade to continue adding deals." : `You've used ${totalDeals} of 3 free deals.`}
+              {isFreeDealLimitUsed(user, totalDeals) ? "You've used all 3 free deal credits. Upgrade to continue adding deals." : `You've used ${freeDealCreditsUsed(user, totalDeals)} of 3 free deal credits.`}
             </p>
           </div>
-          {totalDeals >= 3 && <Link to="/pricing">View plans</Link>}
+          {isFreeDealLimitUsed(user, totalDeals) && <Link to="/pricing">View plans</Link>}
         </div>
       )}
 
@@ -254,12 +258,20 @@ export default function Dashboard() {
         <AddDealModal
           onClose={() => setShowAddModal(false)}
           onCreated={handleDealCreated}
-          totalDeals={totalDeals}
+          totalDeals={freeDealCreditsUsed(user, totalDeals)}
           plan={user.plan}
         />
       )}
     </div>
   );
+}
+
+function freeDealCreditsUsed(user, currentDeals) {
+  return Math.max(Number(user?.deal_creations_used) || 0, currentDeals || 0);
+}
+
+function isFreeDealLimitUsed(user, currentDeals) {
+  return user?.plan === "free" && freeDealCreditsUsed(user, currentDeals) >= 3;
 }
 
 function RevenueChart({ data }) {

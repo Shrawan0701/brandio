@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import EditDealModal from "./EditDealModal";
 import DealContractSection from "./DealContractSection";
 import DealRoiSection from "./DealRoiSection";
-import { useAuth } from "../context/AuthContext";
 import { createPortfolioItem, deleteDeal } from "../lib/api";
 import DealImageUpload from "./DealImageUpload";
 import { useToast } from "./ToastProvider";
@@ -20,7 +19,6 @@ import {
 } from "../utils/deals";
 
 export default function DealCard({ deal, onDeleted, onUpdated }) {
-  const { user } = useAuth();
   const { showToast } = useToast();
   const dealTypeMeta = getDealTypeMeta(getDealType(deal));
   const [showEdit, setShowEdit] = useState(false);
@@ -106,7 +104,7 @@ export default function DealCard({ deal, onDeleted, onUpdated }) {
           </div>
         )}
 
-        {user.plan === "pro" && <DealImageUpload deal={deal} onUpdated={onUpdated} />}
+        <DealImageUpload deal={deal} onUpdated={onUpdated} />
 
         {hasDates && (
           <div className="deal-date-grid">
@@ -128,7 +126,7 @@ export default function DealCard({ deal, onDeleted, onUpdated }) {
           <Link className="primary" to={`/deals/${deal.id}`}>Open</Link>
           <button onClick={() => setShowContract((v) => !v)}>{showContract ? "Hide contract" : "Contract"}</button>
           <button onClick={() => setShowRoi(true)}>Deal ROI</button>
-          {user.plan === "pro" && <button className="danger" onClick={() => setShowConfirm(true)}>Delete</button>}
+          <button className="danger" onClick={() => setShowConfirm(true)}>Delete</button>
         </div>
         </div>
 

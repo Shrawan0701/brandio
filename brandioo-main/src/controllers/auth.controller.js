@@ -91,6 +91,7 @@ export const login = async (req, res) => {
       email: user.email,
       plan: user.plan,
       plan_expiry: user.plan_expiry,
+      deal_creations_used: user.deal_creations_used,
       token
     });
 

@@ -163,7 +163,7 @@ function HeroConsole() {
       <div className="bl-console-grid">
         <div className="bl-pipeline-panel">
           <div className="bl-panel-title"><span>Deals</span><b>$18.4k active</b></div>
-          {["Nova Beauty", "AeroFit", "Hearth Studio"].map((brand, index) => (
+          {["Ava", "AeroFit", "Hearth Studio"].map((brand, index) => (
             <div className="bl-deal-row" key={brand}>
               <i>{brand.slice(0, 1)}</i><strong>{brand}</strong><span>{["Contract", "Delivering", "Payment"][index]}</span><em>{["$4,200", "$7,800", "$2,100"][index]}</em>
             </div>

@@ -16,7 +16,7 @@ const FILTERS = [
 ];
 
 export default function Deals() {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const navigate = useNavigate();
   const [deals, setDeals] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -60,6 +60,10 @@ export default function Deals() {
 
   const handleDealCreated = (newDeal) => {
     setDeals((prev) => [newDeal, ...prev]);
+    setUser((prev) => prev ? {
+      ...prev,
+      deal_creations_used: Math.max(Number(prev.deal_creations_used) || 0, deals.length) + 1
+    } : prev);
     setShowAddModal(false);
   };
 
@@ -81,7 +85,7 @@ export default function Deals() {
           <h1>Your deals</h1>
           <p>Track brand work, payments and deliverables from one place.</p>
         </div>
-        <button disabled={user.plan === "free" && deals.length >= 3} onClick={() => setShowAddModal(true)}>
+        <button disabled={isFreeDealLimitUsed(user, deals.length)} onClick={() => setShowAddModal(true)}>
           + Add Deal
         </button>
       </header>
@@ -97,11 +101,11 @@ export default function Deals() {
         <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search brand or platform" />
       </section>
 
-      {user.plan === "free" && deals.length >= 3 && (
+      {isFreeDealLimitUsed(user, deals.length) && (
         <section className="deals-paywall">
           <div>
-            <h2>Your 3 free deals are used.</h2>
-            <p>Upgrade your plan to add more deals.</p>
+            <h2>Your 3 free deal credits are used.</h2>
+            <p>Deleting deals does not reset free credits. Upgrade your plan to add more deals.</p>
           </div>
           <button onClick={() => navigate("/pricing")}>View plans</button>
         </section>
@@ -127,10 +131,18 @@ export default function Deals() {
         <AddDealModal
           onClose={() => setShowAddModal(false)}
           onCreated={handleDealCreated}
-          totalDeals={deals.length}
+          totalDeals={freeDealCreditsUsed(user, deals.length)}
           plan={user.plan}
         />
       )}
     </div>
   );
+}
+
+function freeDealCreditsUsed(user, currentDeals) {
+  return Math.max(Number(user?.deal_creations_used) || 0, currentDeals || 0);
+}
+
+function isFreeDealLimitUsed(user, currentDeals) {
+  return user?.plan === "free" && freeDealCreditsUsed(user, currentDeals) >= 3;
 }

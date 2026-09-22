@@ -8,13 +8,34 @@ const numberOrDefault = (value, fallback = 0) => {
 
 const textOrNull = (value) => (value === "" || value === undefined ? null : value);
 
-/* Count TOTAL deals (not active) */
+/* Count current deals. Lifetime free usage is stored on users.deal_creations_used. */
 export const countTotalDeals = async (userId) => {
   const { rows } = await pool.query(
     `SELECT COUNT(*) FROM deals WHERE user_id=$1`,
     [userId]
   );
   return Number(rows[0].count);
+};
+
+export const reserveDealCreation = async (userId) => {
+  const { rows } = await pool.query(
+    `UPDATE users
+     SET deal_creations_used = deal_creations_used + 1
+     WHERE id=$1
+       AND (plan <> 'free' OR deal_creations_used < 3)
+     RETURNING email, plan, deal_creations_used`,
+    [userId]
+  );
+  return rows[0] || null;
+};
+
+export const releaseDealCreation = async (userId) => {
+  await pool.query(
+    `UPDATE users
+     SET deal_creations_used = GREATEST(deal_creations_used - 1, 0)
+     WHERE id=$1`,
+    [userId]
+  );
 };
 
 export const createDealDB = async (userId, data) => {

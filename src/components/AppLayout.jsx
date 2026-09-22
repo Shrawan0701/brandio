@@ -126,6 +126,7 @@ const navGroups = [
       ["Brands", "/brands", "BR"],
       ["Deliverables", "/deliverables", "DV"],
       ["Money", "/money", "MO"],
+     
       ["Intelligence", "/intelligence", "AI"]
     ]
   },
@@ -137,6 +138,7 @@ const navGroups = [
       ["Media Kit", "/media-kit", "MK"],
       ["Inbound", "/inbound", "IN"],
       ["Rate Intelligence", "/rates", "RI"],
+      ["Deal ROI", "/roi", "ROI"],
       ["Deal Analyzer", "/deal-analyzer", "DA"]
     ]
   },
@@ -157,7 +159,6 @@ function ShellNav({ onNavigate, user }) {
         <section key={group.label}>
           <p>{group.label}</p>
           {group.items
-            .filter(([label]) => user.plan === "pro" || !["Intelligence"].includes(label))
             .map(([label, to, icon]) => (
               <NavLink
                 key={`${label}-${to}`}

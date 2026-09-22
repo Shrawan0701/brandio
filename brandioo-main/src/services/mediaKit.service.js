@@ -2,7 +2,7 @@ import pool from "../config/db.js";
 import { getPublicCreatorBySlug } from "./publicProfile.service.js";
 
 const defaultKit = {
-  enabled: false,
+  enabled: true,
   display_name: "",
   headline: "",
   bio: "",
@@ -51,7 +51,7 @@ export const updateMediaKitDB = async (userId, mediaKit) => {
      WHERE id=$3
      RETURNING id, username, email, plan, plan_expiry, profile_image_url,
        social_links, country_code, public_slug, media_kit_enabled, media_kit`,
-    [next, next.enabled === true, userId]
+    [{ ...next, enabled: next.enabled !== false }, next.enabled !== false, userId]
   );
   return rows[0];
 };
@@ -153,17 +153,6 @@ export const getPublicMediaKitDB = async (username) => {
   if (!user) return null;
 
   const kit = normalizeMediaKit(user.media_kit);
-  const published = user.media_kit_enabled === true || kit.enabled === true;
-
-  if (!published) {
-    return {
-      published: false,
-      reason: "unpublished",
-      creator: {
-        public_slug: user.public_slug
-      }
-    };
-  }
 
   const selectedIds = Array.isArray(kit.selected_portfolio_ids)
     ? kit.selected_portfolio_ids.map((id) => Number(id)).filter(Boolean)

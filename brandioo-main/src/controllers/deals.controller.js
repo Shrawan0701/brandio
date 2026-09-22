@@ -1,6 +1,7 @@
 import {
-  countTotalDeals,
   createDealDB,
+  releaseDealCreation,
+  reserveDealCreation,
   getDealDB,
   getDealsDB,
   updateDealDB,
@@ -11,10 +12,8 @@ import cloudinary from "../config/cloudinary.js";
 import { sendDealCreatedEmail } from "../services/email.service.js";
 import { createNotificationOnce } from "../services/notification.service.js";
 
-/* Auto overdue only for Pro */
 const applyOverdueLogic = (deal, plan) => {
   if (
-    plan === "pro" &&
     deal.payment_due_date &&
     deal.status !== "completed"
   ) {
@@ -28,23 +27,20 @@ const applyOverdueLogic = (deal, plan) => {
 export const createDeal = async (req, res) => {
   const userId = req.user.id;
 
-  const { rows } = await pool.query(
-    `SELECT plan, email FROM users WHERE id=$1`,
-    [userId]
-  );
-  const user = rows[0];
-  const plan = user.plan;
-
-  if (plan === "free") {
-    const totalDeals = await countTotalDeals(userId);
-    if (totalDeals >= 3) {
-      return res.status(403).json({
-        message: "Your 3 free deals are used. Upgrade your plan to add more deals."
-      });
-    }
+  const user = await reserveDealCreation(userId);
+  if (!user) {
+    return res.status(403).json({
+      message: "Your 3 free deal credits are used. Upgrade your plan to add more deals."
+    });
   }
 
-  const deal = await createDealDB(userId, req.body);
+  let deal;
+  try {
+    deal = await createDealDB(userId, req.body);
+  } catch (err) {
+    await releaseDealCreation(userId);
+    throw err;
+  }
   createNotificationOnce({
     userId,
     eventKey: `deal:${deal.id}:created`,
@@ -172,17 +168,6 @@ export const updateDeal = async (req, res) => {
 export const deleteDeal = async (req, res) => {
   const userId = req.user.id;
 
-  const { rows } = await pool.query(
-    `SELECT plan FROM users WHERE id=$1`,
-    [userId]
-  );
-
-  if (rows[0].plan === "free") {
-    return res.status(403).json({
-      message: "Upgrade to Pro to delete deals"
-    });
-  }
-
   await deleteDealDB(userId, req.params.id);
   res.json({ message: "Deal deleted" });
 };
@@ -190,18 +175,6 @@ export const deleteDeal = async (req, res) => {
 export const getDealUploadSignature = async (req, res) => {
   const userId = req.user.id;
   const dealId = req.params.id;
-
-  // 🔒 check plan
-  const { rows } = await pool.query(
-    `SELECT plan FROM users WHERE id=$1`,
-    [userId]
-  );
-
-  if (rows[0].plan !== "pro") {
-    return res.status(403).json({
-      message: "Upgrade to Pro to upload proof images"
-    });
-  }
 
   // 🔢 check image count
   const deal = await pool.query(

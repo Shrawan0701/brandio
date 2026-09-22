@@ -9,6 +9,7 @@ import { validateSocialLinks } from "../utils/validateSocialLinks.js";
 export const me = async (req, res) => {
   const { rows } = await pool.query(
     `SELECT id, username, email, plan, plan_expiry,
+            deal_creations_used,
             profile_image_url, social_links, country_code, public_slug,
             media_kit_enabled, media_kit
      FROM users WHERE id=$1`,
@@ -124,7 +125,6 @@ export const saveProfilePhoto = async (req, res) => {
 
   res.json({ success: true, url: safeUrl });
 };
-
 
 
 

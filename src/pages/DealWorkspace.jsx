@@ -6,7 +6,6 @@ import {
   fetchDeal,
   updateDeal
 } from "../lib/api";
-import { useAuth } from "../context/AuthContext";
 import { useToast } from "../components/ToastProvider";
 import EditDealModal from "../components/EditDealModal";
 import DealContractSection from "../components/DealContractSection";
@@ -32,7 +31,6 @@ const statusTone = {
 
 export default function DealWorkspace() {
   const { id } = useParams();
-  const { user } = useAuth();
   const { showToast } = useToast();
   const [deal, setDeal] = useState(null);
   const [brand, setBrand] = useState(null);
@@ -191,7 +189,7 @@ export default function DealWorkspace() {
             ))}
             {!(deal.proof_images || []).length && <p>No files uploaded yet.</p>}
           </div>
-          {user?.plan === "pro" && <DealImageUpload deal={deal} onUpdated={setDeal} />}
+          <DealImageUpload deal={deal} onUpdated={setDeal} />
         </section>
 
         <section className="dw-panel">

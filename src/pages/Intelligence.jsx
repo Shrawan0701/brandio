@@ -15,11 +15,28 @@ const TONE_ICON = {
   month: "✔", delta: "▲", pending: "●"
 };
 
+const emptyIntelligence = {
+  totals: {
+    totalDeals: 0,
+    totalEarned: 0,
+    completedCount: 0,
+    avgDealValue: 0,
+    avgThisYear: 0,
+    pendingAmount: 0,
+    activeCount: 0
+  },
+  revenueTrend: [],
+  avgTrend: [],
+  platformRevenue: [],
+  brandRevenue: [],
+  statusSplit: [],
+  insights: []
+};
+
 export default function Intelligence() {
   const { showToast } = useToast();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [locked, setLocked] = useState(false);
 
   useEffect(() => {
     let alive = true;
@@ -29,7 +46,7 @@ export default function Intelligence() {
         if (alive) setData(d);
       } catch (err) {
         if (err.response?.status === 403) {
-          if (alive) setLocked(true);
+          if (alive) setData(emptyIntelligence);
         } else {
           showToast("Could not load intelligence", "error");
         }
@@ -44,18 +61,6 @@ export default function Intelligence() {
     return (
       <div className="bi-page"><div className="bi-shell">
         <p className="bi-muted">Reading your deal history…</p>
-      </div></div>
-    );
-  }
-
-  if (locked) {
-    return (
-      <div className="bi-page"><div className="bi-shell">
-        <div className="bi-empty">
-          <h2>Intelligence is a Pro feature</h2>
-          <p>Upgrade to turn your deal history into business insights.</p>
-          <a className="bi-cta" href="/pricing">View plans</a>
-        </div>
       </div></div>
     );
   }

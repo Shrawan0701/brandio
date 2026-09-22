@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS users (
 
   plan VARCHAR(10) DEFAULT 'free',
   plan_expiry TIMESTAMP NULL,
+  deal_creations_used INTEGER NOT NULL DEFAULT 0,
 
   profile_image_url TEXT NULL,
 

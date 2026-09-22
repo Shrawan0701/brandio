@@ -35,8 +35,8 @@ export default function AddDealModal({ onClose, onCreated, totalDeals, plan, ini
     return (
       <ModalShell onClose={onClose} title="Free plan limit reached">
         <div className="add-deal-paywall">
-          <h3>Your 3 free deals are used.</h3>
-          <p>Upgrade your plan to add more deals and keep tracking brand work without interruption.</p>
+          <h3>Your 3 free deal credits are used.</h3>
+          <p>Deleting deals does not restore free credits. Upgrade your plan to add more deals and keep tracking brand work without interruption.</p>
           <button onClick={() => navigate("/pricing")}>View plans</button>
         </div>
       </ModalShell>

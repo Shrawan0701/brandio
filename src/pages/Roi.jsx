@@ -116,7 +116,8 @@ export default function Roi() {
       );
     }
     const expPct = (safeExp / total) * 100;
-    const conic = `conic-gradient(from 0deg, #0e6b3e 0deg ${expPct}deg, #3b5cff ${expPct}deg 100deg)`;
+    const expDeg = expPct * 3.6;
+    const conic = `conic-gradient(from 0deg, #d04732 0deg ${expDeg}deg, #2f6f5e ${expDeg}deg 360deg)`;
     return (
       <div className="cr-donut-wrap">
         <div className="cr-donut" style={{ background: conic }}>
@@ -163,7 +164,7 @@ export default function Roi() {
       <header className="cr-hero">
         <div>
           <span className="cr-eyebrow">ROI</span>
-          <h1 className="cr-title">Campaign <span>ROI</span></h1>
+          <h1 className="cr-title">Deal ROI</h1>
           <p className="cr-subtitle">Once you log hours, expenses and earnings on completed deals, your creator-side ROI breakdown shows up here.</p>
         </div>
       </header>
@@ -186,7 +187,7 @@ export default function Roi() {
       <header className="cr-hero">
         <div>
           <span className="cr-eyebrow">ROI</span>
-          <h1 className="cr-title">Campaign <span>ROI</span></h1>
+          <h1 className="cr-title">Deal ROI</h1>
           <p className="cr-subtitle">Creator-side economics for completed deals — net earnings versus time invested, never fabricated.</p>
         </div>
         <div className="cr-stats">
