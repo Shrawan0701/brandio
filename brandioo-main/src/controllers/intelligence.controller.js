@@ -3,7 +3,7 @@ import { getAiBrief } from "../services/ai-brief.service.js";
 
 export const intelligence = async (req, res) => {
   try {
-    const data = await getIntelligence(req.user.id);
+    const data = await getIntelligence(req.user.id, req.query.currency);
     res.json(data);
   } catch (err) {
     console.error("INTELLIGENCE ERROR:", err);

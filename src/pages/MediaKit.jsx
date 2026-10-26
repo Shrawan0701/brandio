@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { WorkspaceHeader } from "../components/WorkspaceUI";
+import { cloneElement, useEffect, useId, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { fetchMediaKit, updateMediaKit, uploadProfilePhoto } from "../lib/api";
-import { formatPlatform, visibleMetrics } from "../utils/portfolio";
+import { formatPlatform } from "../utils/portfolio";
 import { useToast } from "../components/ToastProvider";
 import { useAuth } from "../context/AuthContext";
 
@@ -55,6 +56,7 @@ export default function MediaKit() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [photoUploading, setPhotoUploading] = useState(false);
+  const [savedKit, setSavedKit] = useState(null);
 
   useEffect(() => {
     fetchMediaKit()
@@ -88,11 +90,16 @@ export default function MediaKit() {
       .finally(() => setLoading(false));
   }, [showToast, user]);
 
+  useEffect(() => {
+    if (!loading) setSavedKit((previous) => previous ?? JSON.stringify(kit));
+  }, [loading, kit]);
+
   const publicHandle = creator?.public_slug || creator?.username || user?.public_slug || user?.username || "";
   const publicPath = `/${publicHandle}`;
   const publicUrl = publicHandle ? `${window.location.origin}${publicPath}` : "";
   const selectedIds = new Set((kit.selected_portfolio_ids || []).map(Number));
   const selectedWork = portfolio.filter((item) => selectedIds.has(Number(item.id)));
+  const hasChanges = savedKit !== null && savedKit !== JSON.stringify(kit);
 
   const update = (key, value) => setKit((prev) => ({ ...prev, [key]: value }));
   const updateNested = (key, value) => setKit((prev) => ({ ...prev, [key]: { ...(prev[key] || {}), ...value } }));
@@ -101,6 +108,7 @@ export default function MediaKit() {
     try {
       setSaving(true);
       await updateMediaKit(kit);
+      setSavedKit(JSON.stringify(kit));
       showToast("Media kit saved", "success");
     } catch (err) {
       showToast(err.response?.data?.message || "Could not save media kit", "error");
@@ -111,8 +119,12 @@ export default function MediaKit() {
 
   const copyLink = async () => {
     if (!publicUrl) return;
-    await navigator.clipboard.writeText(publicUrl);
-    showToast("Media kit link copied", "success");
+    try {
+      await navigator.clipboard.writeText(publicUrl);
+      showToast("Media kit link copied", "success");
+    } catch {
+      showToast("Could not copy the link. You can select and copy your public link below.", "error");
+    }
   };
 
   const handlePhotoChange = async (event) => {
@@ -137,31 +149,30 @@ export default function MediaKit() {
     }
   };
 
-  if (loading) return <div className="media-kit-page"><div className="media-kit-empty">Loading media kit...</div></div>;
+  if (loading) return <div className="media-kit-page workspace-page"><div className="media-kit-empty">Loading media kit...</div></div>;
 
   return (
-    <div className="media-kit-page">
+    <div className="media-kit-page workspace-page">
       <Helmet><title>Media Kit - Brandio</title></Helmet>
 
-      <header className="media-kit-head">
-        <div>
-          <span>Media Kit</span>
-          <h1>Build the public profile brands see before they decide to work with you.</h1>
-        </div>
-        <button onClick={save} disabled={saving}>{saving ? "Saving..." : "Save media kit"}</button>
-      </header>
+      <WorkspaceHeader eyebrow="Workspace / Media kit" title="Media kit" description="Build the profile brands see, choose your best work, and share it in one link." actions={<span className={`mk-save-status ${hasChanges ? "is-pending" : ""}`} role="status"><i />{hasChanges ? "Unsaved changes" : "All changes saved"}</span>} />
+
+      <nav className="mk-section-nav" aria-label="Media kit sections">
+        {[["about-you", "Your profile"], ["social-profiles", "Socials"], ["audience-performance", "Audience"], ["collaboration-options", "Services"], ["selected-work", "Work"], ["collaboration-preferences", "Preferences"], ["publish-media-kit", "Publish & share"]].map(([id, label]) => <a href={`#${id}`} key={id}>{label}</a>)}
+      </nav>
 
       <main className="media-kit-layout">
         <div className="media-kit-stack">
           <EditorSection eyebrow="About you" title="Tell brands who you are, what you create, and where you're based.">
             <div className="mk-editor-grid">
-              <Field label="Profile photo">
+              <Field label="Profile photo" wide>
                 <div className="mk-photo-edit">
                   <PreviewPhoto src={creator?.profile_image_url || user?.profile_image_url} name={kit.display_name || creator?.username || user?.username} />
                   <label className="mk-photo-upload">
                     {photoUploading ? "Uploading..." : "Upload photo"}
-                    <input type="file" accept="image/*" hidden onChange={handlePhotoChange} />
+                    <input type="file" accept="image/*" aria-label="Upload profile photo" disabled={photoUploading} onChange={handlePhotoChange} />
                   </label>
+                  <span className="mk-photo-hint">Choose a photo brands will recognize.</span>
                 </div>
               </Field>
               <Field label="Display / creator name"><input value={kit.display_name} onChange={(e) => update("display_name", e.target.value)} /></Field>
@@ -173,18 +184,6 @@ export default function MediaKit() {
               <Field label="Languages"><input value={kit.languages} onChange={(e) => update("languages", e.target.value)} /></Field>
             </div>
           </EditorSection>
-
-          <section className="media-kit-publish">
-            <div>
-              <span>Public link</span>
-              <strong>{publicUrl || "Set your public handle in Profile to create a public link."}</strong>
-            </div>
-            <div>
-              <label><input type="checkbox" checked={kit.enabled === true} onChange={(e) => update("enabled", e.target.checked)} /> Published</label>
-              <button onClick={copyLink} disabled={!publicUrl}>Copy link</button>
-              {publicUrl ? <Link to={publicPath} target="_blank">View media kit</Link> : <button disabled>View media kit</button>}
-            </div>
-          </section>
 
           <EditorSection eyebrow="Social profiles" title="Add the places brands can verify your creator presence.">
             <div className="mk-editor-grid">
@@ -203,9 +202,14 @@ export default function MediaKit() {
           <Preferences kit={kit} update={update} />
         </div>
 
-        <aside className="media-kit-side">
+        <aside className="media-kit-side" aria-label="Preview and visibility">
+          <section className="mk-preview-panel">
+            <div className="mk-side-heading"><h2>At a glance</h2><span className="mk-preview-tag">Preview</span></div>
+            <PreviewCard kit={kit} creator={creator} selectedWork={selectedWork} brandExperience={brandExperience} />
+          </section>
           <section>
-            <h2>Public visibility</h2>
+            <div className="mk-side-heading"><h2>Public visibility</h2></div>
+            <p className="mk-side-description">Choose what brands see on your media kit.</p>
             {Object.entries({
               about: "About",
               audience: "Audience & performance",
@@ -215,25 +219,42 @@ export default function MediaKit() {
               testimonials: "Testimonials",
               collaboration_preferences: "Collaboration preferences"
             }).map(([key, label]) => (
-              <label key={key}><input type="checkbox" checked={kit.visibility?.[key] !== false} onChange={(e) => updateNested("visibility", { [key]: e.target.checked })} /> {label}</label>
+              <label className="mk-visibility-row" key={key}><span>{label}</span><input className="mk-switch" type="checkbox" checked={kit.visibility?.[key] !== false} onChange={(e) => updateNested("visibility", { [key]: e.target.checked })} /></label>
             ))}
-          </section>
-          <section>
-            <h2>Preview</h2>
-            <PreviewCard kit={kit} creator={creator} selectedWork={selectedWork} brandExperience={brandExperience} />
           </section>
         </aside>
       </main>
+
+      <section className="mk-publish-panel" id="publish-media-kit" aria-labelledby="mk-publish-title">
+        <div className="mk-publish-intro">
+          <span className="mk-eyebrow">READY WHEN YOU ARE</span>
+          <h2 id="mk-publish-title">Your next collaboration starts here.</h2>
+          <p>Save your changes, then share your media kit with brands.</p>
+        </div>
+        <div className="mk-public-link"><span>Your public link</span><strong>{publicUrl || "Set your public handle in Profile to create a public link."}</strong></div>
+        <div className="mk-publish-actions">
+          <button className={`mk-button mk-publish-toggle ${kit.enabled ? "is-published" : ""}`} aria-pressed={kit.enabled === true} onClick={() => update("enabled", !kit.enabled)}>
+            <span className="mk-status-dot" />{kit.enabled ? "Published" : "Draft"}
+          </button>
+          {publicUrl ? <Link className="mk-button" to={publicPath} target="_blank" rel="noopener noreferrer">View media kit <span aria-hidden="true">↗</span></Link> : <button className="mk-button" disabled>View media kit</button>}
+          <button className="mk-button" onClick={copyLink} disabled={!publicUrl}>Copy link</button>
+          <button className="mk-button mk-button-primary" onClick={save} disabled={saving || photoUploading}>{saving ? "Saving..." : "Save media kit"}</button>
+        </div>
+        <p className="mk-publish-note">{hasChanges ? "You have unsaved changes. Save to apply your edits and publication status." : "Switch between Published and Draft, then save to update public access."}</p>
+      </section>
     </div>
   );
 }
 
 function EditorSection({ eyebrow, title, children }) {
-  return <section className="mk-editor-section"><span>{eyebrow}</span><h2>{title}</h2>{children}</section>;
+  const id = eyebrow.toLowerCase().replace(/ & /g, "-").replace(/ /g, "-");
+  return <section className="mk-editor-section" id={id} aria-labelledby={`${id}-title`}><header className="mk-section-heading"><h2 id={`${id}-title`}>{eyebrow}</h2><p>{title}</p></header>{children}</section>;
 }
 
 function Field({ label, children, wide }) {
-  return <label className={`mk-editor-field ${wide ? "wide" : ""}`}><span>{label}</span>{children}</label>;
+  const id = useId();
+  const isControl = ["input", "textarea", "select"].includes(children?.type);
+  return <div className={`mk-editor-field ${wide ? "wide" : ""}`}>{isControl ? <label htmlFor={id}>{label}</label> : <span>{label}</span>}{isControl ? cloneElement(children, { id }) : children}</div>;
 }
 
 function PreviewPhoto({ src, name }) {
@@ -249,22 +270,18 @@ function AudienceEditor({ kit, update }) {
       <div className="mk-list-stack">
         {metrics.map((metric, index) => (
           <div className="mk-repeat-card" key={index}>
-            <select value={metric.platform || "Instagram"} onChange={(e) => setMetrics(updateArray(metrics, index, { platform: e.target.value }))}>
+            <div className="mk-repeat-heading"><h3>Platform {index + 1}</h3><button className="mk-remove" onClick={() => setMetrics(metrics.filter((_, i) => i !== index))}>Remove platform</button></div>
+            <Field label="Platform"><select value={metric.platform || "Instagram"} onChange={(e) => setMetrics(updateArray(metrics, index, { platform: e.target.value }))}>
               {["Instagram", "YouTube", "TikTok", "X"].map((p) => <option key={p}>{p}</option>)}
-            </select>
+            </select></Field>
             <div className="mk-editor-grid">
-              <input placeholder="Followers / subscribers" value={metric.followers || metric.subscribers || ""} onChange={(e) => setMetrics(updateArray(metrics, index, metric.platform === "YouTube" ? { subscribers: e.target.value } : { followers: e.target.value }))} />
-              <input placeholder="Average views" value={metric.average_views || ""} onChange={(e) => setMetrics(updateArray(metrics, index, { average_views: e.target.value }))} />
-              <input placeholder="Average Reel views" value={metric.average_reel_views || ""} onChange={(e) => setMetrics(updateArray(metrics, index, { average_reel_views: e.target.value }))} />
-              <input placeholder="Average Story views" value={metric.average_story_views || ""} onChange={(e) => setMetrics(updateArray(metrics, index, { average_story_views: e.target.value }))} />
-              <input placeholder="Engagement rate" value={metric.engagement_rate || ""} onChange={(e) => setMetrics(updateArray(metrics, index, { engagement_rate: e.target.value }))} />
-              <input placeholder="Monthly reach" value={metric.monthly_reach || ""} onChange={(e) => setMetrics(updateArray(metrics, index, { monthly_reach: e.target.value }))} />
+              <Field label={metric.platform === "YouTube" ? "Subscribers" : "Followers"}><input inputMode="numeric" placeholder="e.g. 25000" value={(metric.platform === "YouTube" ? metric.subscribers : metric.followers) ?? ""} onChange={(e) => setMetrics(updateArray(metrics, index, metric.platform === "YouTube" ? { subscribers: e.target.value } : { followers: e.target.value }))} /></Field>
+              {[ ["average_views", "Average views"], ["average_reel_views", "Average Reel views"], ["average_story_views", "Average Story views"], ["engagement_rate", "Engagement rate (%)"], ["monthly_reach", "Monthly reach"] ].map(([key, label]) => <Field label={label} key={key}><input inputMode={key === "engagement_rate" ? "decimal" : "numeric"} placeholder={key === "engagement_rate" ? "e.g. 4.5" : "e.g. 10000"} value={metric[key] ?? ""} onChange={(e) => setMetrics(updateArray(metrics, index, { [key]: e.target.value }))} /></Field>)}
             </div>
-            <button onClick={() => setMetrics(metrics.filter((_, i) => i !== index))}>Remove platform</button>
           </div>
         ))}
       </div>
-      <button className="mk-secondary" onClick={() => setMetrics([...metrics, { platform: "Instagram" }])}>Add platform metrics</button>
+      <button className="mk-secondary" onClick={() => setMetrics([...metrics, { platform: "Instagram" }])}>+ Add platform metrics</button>
     </EditorSection>
   );
 }
@@ -277,18 +294,18 @@ function ServicesEditor({ kit, update }) {
       <div className="mk-list-stack">
         {services.map((service, index) => (
           <div className="mk-repeat-card" key={index}>
+            <div className="mk-repeat-heading"><h3>Service {index + 1}</h3><button className="mk-remove" onClick={() => setServices(services.filter((_, i) => i !== index))}>Remove service</button></div>
             <div className="mk-editor-grid">
-              <input placeholder="Service name" value={service.name || ""} onChange={(e) => setServices(updateArray(services, index, { name: e.target.value }))} />
-              <input placeholder="Short description" value={service.description || ""} onChange={(e) => setServices(updateArray(services, index, { description: e.target.value }))} />
-              <input placeholder="Starting price" value={service.starting_price || ""} onChange={(e) => setServices(updateArray(services, index, { starting_price: e.target.value }))} />
-              <select value={service.currency || "₹"} onChange={(e) => setServices(updateArray(services, index, { currency: e.target.value }))}><option>₹</option><option>$</option><option>₦</option></select>
+              <Field label="Service name"><input placeholder="e.g. Instagram Reel" value={service.name || ""} onChange={(e) => setServices(updateArray(services, index, { name: e.target.value }))} /></Field>
+              <Field label="Short description"><input placeholder="What does this include?" value={service.description || ""} onChange={(e) => setServices(updateArray(services, index, { description: e.target.value }))} /></Field>
+              <Field label="Starting price"><input inputMode="decimal" placeholder="e.g. 5000" value={service.starting_price ?? ""} onChange={(e) => setServices(updateArray(services, index, { starting_price: e.target.value }))} /></Field>
+              <Field label="Currency"><select value={service.currency || "₹"} onChange={(e) => setServices(updateArray(services, index, { currency: e.target.value }))}><option value="₹">₹ INR</option><option value="$">$ USD</option><option value="₦">₦ NGN</option></select></Field>
             </div>
-            <label><input type="checkbox" checked={service.show_price === true} onChange={(e) => setServices(updateArray(services, index, { show_price: e.target.checked }))} /> Show price publicly</label>
-            <button onClick={() => setServices(services.filter((_, i) => i !== index))}>Remove service</button>
+            <label className="mk-editor-check"><input type="checkbox" checked={service.show_price === true} onChange={(e) => setServices(updateArray(services, index, { show_price: e.target.checked }))} /> Show price publicly</label>
           </div>
         ))}
       </div>
-      <button className="mk-secondary" onClick={() => setServices([...services, { name: "", description: "", starting_price: "", currency: "₹", show_price: true }])}>Add service</button>
+      <button className="mk-secondary" onClick={() => setServices([...services, { name: "", description: "", starting_price: "", currency: "₹", show_price: true }])}>+ Add service</button>
     </EditorSection>
   );
 }
@@ -339,7 +356,7 @@ function Preferences({ kit, update }) {
   return (
     <EditorSection eyebrow="Collaboration preferences" title="Let brands know what kinds of work you're open to.">
       <label className="mk-editor-check"><input type="checkbox" checked={kit.collaboration_preferences_public !== false} onChange={(e) => update("collaboration_preferences_public", e.target.checked)} /> Show collaboration preferences publicly</label>
-      <div className="mk-chip-grid">{workTypes.map((type) => <button className={selected.has(type) ? "active" : ""} onClick={() => toggle(type)} key={type}>{type}</button>)}</div>
+      <div className="mk-chip-grid">{workTypes.map((type) => <button aria-pressed={selected.has(type)} className={selected.has(type) ? "active" : ""} onClick={() => toggle(type)} key={type}>{selected.has(type) && <span aria-hidden="true">✓ </span>}{type}</button>)}</div>
       <Field label="Categories / industries"><input value={prefs.categories || ""} onChange={(e) => update("collaboration_preferences", { ...prefs, categories: e.target.value })} /></Field>
     </EditorSection>
   );
@@ -350,8 +367,9 @@ function PreviewCard({ kit, creator, selectedWork, brandExperience }) {
     <img src={creator?.profile_image_url || `https://ui-avatars.com/api/?name=${kit.display_name || creator?.username}`} alt="" />
     <strong>{kit.display_name || creator?.username}</strong>
     <p>{kit.headline || "Creator media kit"}</p>
-    <span>{selectedWork.length} selected work items</span>
-    <span>{brandExperience?.total_collaborations || 0} collaborations</span>
+    {kit.location && <span className="mk-preview-location">{kit.location}</span>}
+    {kit.bio && <p className="mk-preview-bio">{kit.bio}</p>}
+    <div className="mk-preview-stats"><div><strong>{selectedWork.length}</strong><span>Selected works</span></div><div><strong>{brandExperience?.total_collaborations || 0}</strong><span>Collaborations</span></div></div>
   </div>;
 }
 

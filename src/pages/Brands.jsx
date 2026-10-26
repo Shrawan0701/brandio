@@ -1,7 +1,8 @@
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { WorkspaceHeader, WorkspaceStats, WorkspaceSearch } from "../components/WorkspaceUI";
+import { Fragment, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { fetchBrandRelationships } from "../lib/api";
-import { formatMoney, num } from "../utils/deals";
+import { formatMoney } from "../utils/deals";
 
 export default function Brands() {
   const [brands, setBrands] = useState([]);
@@ -9,6 +10,8 @@ export default function Brands() {
   const [selected, setSelected] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const visibleBrands = brands.filter((brand) => brand.brand?.toLowerCase().includes(query.trim().toLowerCase()));
 
   useEffect(() => {
     fetchBrandRelationships()
@@ -21,41 +24,34 @@ export default function Brands() {
       .finally(() => setLoading(false));
   }, []);
 
-  const maxRevenue = useMemo(
-    () => Math.max(1, ...brands.map((brand) => num(brand.total_revenue))),
-    [brands]
-  );
-
-  if (loading) return <div className="brand-crm-page"><div className="brand-empty">Loading brand relationships...</div></div>;
-  if (error) return <div className="brand-crm-page"><div className="brand-empty">{error}</div></div>;
+  if (loading) return <div className="brand-crm-page workspace-page"><div className="brand-empty">Loading brand relationships...</div></div>;
+  if (error) return <div className="brand-crm-page workspace-page"><div className="brand-empty">{error}</div></div>;
 
   return (
-    <div className="brand-crm-page">
+    <div className="brand-crm-page workspace-page">
       <Helmet><title>Brand CRM - Brandio</title></Helmet>
 
-      <header className="brand-crm-hero">
-        <div>
-          <span>Brand Relationship Intelligence</span>
-          <h1>Factual history for every brand you work with.</h1>
-          <p>Built only from your recorded deals and inbound inquiries. No arbitrary scores, no subjective labels.</p>
-        </div>
-        <div className="brand-crm-stats">
-          <Stat label="Brands" value={totals.brands || 0} />
-          <Stat label="Repeat brands" value={totals.repeat_brands || 0} />
-          <Stat label="Active relationships" value={totals.active_brand_relationships || 0} />
-          <Stat label="Payment history" value={totals.with_payment_history || 0} />
-        </div>
-      </header>
+      <WorkspaceHeader eyebrow="Main / Brands" title="Brand relationships" description="Your collaboration history, payment patterns, and brand conversations in one place." />
+      <WorkspaceStats items={[
+        { label: "Brands", value: totals.brands || 0, note: "Recorded relationships", icon: "brands" },
+        { label: "Repeat brands", value: totals.repeat_brands || 0, note: "More than one collaboration", icon: "check", tone: "green" },
+        { label: "Active relationships", value: totals.active_brand_relationships || 0, note: "Brand work in progress", icon: "deals", tone: "blue" },
+        { label: "Payment history", value: totals.with_payment_history || 0, note: "Brands with recorded payments", icon: "money", tone: "amber" }
+      ]} />
 
       {brands.length === 0 ? (
         <div className="brand-empty">Add deals to build brand relationship history.</div>
       ) : (
         <main className="brand-crm-layout">
           <section className="brand-list">
-            {brands.map((brand) => (
+            <div className="ws-list-heading"><h2>Your brands</h2><span>{brands.length} relationships</span></div>
+            <WorkspaceSearch label="Search brands" placeholder="Find a brand" value={query} onChange={(event) => setQuery(event.target.value)} />
+            {!visibleBrands.length && <p className="brand-muted">No brands match your search.</p>}
+            {visibleBrands.map((brand) => (
               <Fragment key={brand.brand}>
                 <button
                   className={selected?.brand === brand.brand ? "active" : ""}
+                  aria-pressed={selected?.brand === brand.brand}
                   onClick={() => setSelected(brand)}
                 >
                   <div>
@@ -63,10 +59,9 @@ export default function Brands() {
                     <span>{brand.total_deals} collaboration{brand.total_deals === 1 ? "" : "s"}</span>
                   </div>
                   <div className="brand-list-meta">
-                    <em>{formatMoney(brand.total_revenue)}</em>
+                    <em>{formatCurrencyAmounts(brand.revenue_by_currency)}</em>
                     <span className="brand-open-label">{selected?.brand === brand.brand ? "Open" : "View"}</span>
                   </div>
-                  <i><b style={{ width: `${Math.max(4, (num(brand.total_revenue) / maxRevenue) * 100)}%` }} /></i>
                 </button>
                 {selected?.brand === brand.brand && (
                   <div className="brand-mobile-detail">
@@ -97,14 +92,14 @@ function BrandWorkspace({ brand }) {
           <p>Relationship overview from recorded Brandio activity.</p>
         </div>
         <div className="brand-indicators">
-          {brand.indicators.map((indicator) => <span key={indicator}>{indicator}</span>)}
+          {(brand.indicators || []).map((indicator) => <span key={indicator}>{indicator}</span>)}
         </div>
       </div>
 
       <div className="brand-metric-grid">
         <Metric label="Total deals" value={brand.total_deals} />
-        <Metric label="Total recorded revenue" value={formatMoney(brand.total_revenue)} />
-        <Metric label="Average deal value" value={formatMoney(brand.average_deal_value)} />
+        <Metric label="Total recorded revenue" value={formatCurrencyAmounts(brand.revenue_by_currency)} />
+        <Metric label="Average deal value" value={formatCurrencyAmounts(brand.average_by_currency)} />
         <Metric label="Completed campaigns" value={brand.completed_campaigns} />
         <Metric label="Payment timing" value={brand.average_payment_days === null ? "No data" : `${brand.average_payment_days} days`} />
         <Metric label="Number of revisions" value={brand.revisions} />
@@ -123,7 +118,7 @@ function BrandWorkspace({ brand }) {
                 <strong>{deal.platform || "Platform"}</strong>
                 <span>{deal.status} • {formatDate(deal.posting_date)}</span>
               </div>
-              <em>{formatMoney(deal.revenue)}</em>
+              <em>{formatMoney(deal.revenue, deal.currency)}</em>
             </div>
           ))}
           {brand.deals.length === 0 && <p className="brand-muted">No deals recorded for this brand yet.</p>}
@@ -164,4 +159,9 @@ function Metric({ label, value, note }) {
 function formatDate(value) {
   if (!value) return "No data";
   return new Date(value).toLocaleDateString(undefined, { month: "short", year: "numeric" });
+}
+
+function formatCurrencyAmounts(amounts = {}) {
+  const entries = Object.entries(amounts);
+  return entries.length ? entries.map(([currency, value]) => formatMoney(value, currency)).join(" · ") : formatMoney(0);
 }

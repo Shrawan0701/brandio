@@ -1,3 +1,4 @@
+import { WorkspaceHeader } from "../components/WorkspaceUI";
 import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
@@ -14,6 +15,7 @@ import DealRoiSection from "../components/DealRoiSection";
 import DealDeliverablesSection from "../components/DealDeliverablesSection";
 import {
   formatMoney,
+  normalizeCurrency,
   getDealTypeMeta,
   totalEarned,
   productValue,
@@ -98,37 +100,17 @@ export default function DealWorkspace() {
 
   const saveNote = () => patchDeal({ notes: note }, "Note saved");
 
-  if (loading) return <div className="dw-page"><div className="dw-empty">Loading deal workspace...</div></div>;
-  if (error || !deal) return <div className="dw-page"><div className="dw-empty">{error || "Deal not found"}</div></div>;
+  if (loading) return <div className="dw-page workspace-page"><div className="dw-empty">Loading deal workspace...</div></div>;
+  if (error || !deal) return <div className="dw-page workspace-page"><div className="dw-empty">{error || "Deal not found"}</div></div>;
 
   const dealType = getDealTypeMeta(deal.deal_type);
   const displayedValue = isProductDeal(deal) ? productValue(deal) : totalEarned(deal);
 
   return (
-    <div className="dw-page">
+    <div className="dw-page workspace-page">
       <Helmet><title>{deal.brand_name} Workspace - Brandio</title></Helmet>
 
-      <header className="dw-header">
-        <div>
-          <Link to="/deals" className="dw-back">Back to deals</Link>
-          <h1>{deal.brand_name}</h1>
-          <p>{deal.product_name || deal.campaign_title || `${deal.platform} campaign`}</p>
-          <div className="dw-header-meta">
-            <span>{formatMoney(displayedValue, deal.currency)}</span>
-            <span className={`dw-status ${statusTone[deal.status] || "pending"}`}>{deal.status}</span>
-            <span className={`dw-health ${health.tone}`}>{health.label}</span>
-          </div>
-        </div>
-        <div className="dw-header-actions">
-          <button onClick={() => setEditing(true)}>Edit</button>
-          <select value={deal.status} onChange={(e) => patchDeal({ status: e.target.value }, "Status updated")}>
-            <option value="pending">Pending</option>
-            <option value="active">Active</option>
-            <option value="completed">Completed</option>
-            <option value="overdue">Overdue</option>
-          </select>
-        </div>
-      </header>
+      <WorkspaceHeader eyebrow={<Link to="/deals" className="ws-back-link">← Back to deals</Link>} title={deal.brand_name || "Deal workspace"} description={deal.product_name || deal.campaign_title || `${deal.platform || "Brand"} campaign`} actions={<><button className="ws-button ws-primary" onClick={() => setEditing(true)}>Edit deal</button><select aria-label="Deal status" value={deal.status} disabled={saving} onChange={(e) => patchDeal({ status: e.target.value }, "Status updated")}><option value="pending">Pending</option><option value="active">Active</option><option value="completed">Completed</option><option value="overdue">Overdue</option></select></>}><div className="dw-header-meta"><span>{formatMoney(displayedValue, deal.currency)}</span><span className={`dw-status ${statusTone[deal.status] || "pending"}`}>{deal.status}</span><span className={`dw-health ${health.tone}`}>{health.label}</span></div></WorkspaceHeader>
 
       <main className="dw-grid">
         <section className="dw-panel dw-overview">
@@ -162,6 +144,12 @@ export default function DealWorkspace() {
           <DealDeliverablesSection dealId={deal.id} />
         </section>
 
+
+
+        <section className="dw-panel dw-wide dw-contract">
+          <DealContractSection deal={deal} />
+        </section>
+
         <section className="dw-panel">
           <PanelHead title="Timeline" action="Deal activity" />
           <div className="dw-timeline">
@@ -177,10 +165,6 @@ export default function DealWorkspace() {
           </button>
         </section>
 
-        <section className="dw-panel dw-wide dw-contract">
-          <DealContractSection deal={deal} />
-        </section>
-
         <section className="dw-panel">
           <PanelHead title="Files" action="Campaign proof and assets" />
           <div className="dw-files">
@@ -192,7 +176,7 @@ export default function DealWorkspace() {
           <DealImageUpload deal={deal} onUpdated={setDeal} />
         </section>
 
-        <section className="dw-panel">
+        <section className="dw-panel dw-wide">
           <PanelHead title="Notes" action="Creator notes" />
           <textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder="Private notes, clauses, next steps..." />
           <button className="dw-soft-btn" disabled={saving} onClick={saveNote}>Add note / Save</button>
@@ -203,7 +187,7 @@ export default function DealWorkspace() {
           {brand ? (
             <div className="dw-brand-box">
               <Fact label="Total collaborations" value={brand.total_deals} />
-              <Fact label="Total revenue" value={formatMoney(brand.total_revenue, deal.currency)} />
+              <Fact label="Total revenue" value={formatMoney(brand.revenue_by_currency?.[normalizeCurrency(deal.currency)] || 0, deal.currency)} />
               <Fact label="Avg payment timing" value={brand.average_payment_days === null ? "No data" : `${brand.average_payment_days} days`} />
               <Link to="/brands">Open Brand CRM</Link>
             </div>
@@ -251,7 +235,7 @@ function Fact({ label, value }) {
   return (
     <div className="dw-fact">
       <span>{label}</span>
-      <strong>{value || "Not recorded"}</strong>
+      <strong>{value === "" || value == null ? "Not recorded" : value}</strong>
     </div>
   );
 }

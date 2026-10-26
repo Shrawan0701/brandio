@@ -162,6 +162,11 @@
   margin-top: 6px;
 }
 
+.da-summary-flags { background: #fffaf2; border: 1px solid #f1e3cd; border-radius: 12px; margin: 12px 0 16px; padding: 14px 16px; }
+.da-summary-flags > strong { color: #7b5c30; display: block; font-size: 13px; margin-bottom: 8px; }
+.da-summary-flags ul { color: #5d5549; font-size: 13px; line-height: 1.55; margin: 0; padding-left: 18px; }
+.da-summary-flags li + li { margin-top: 5px; }
+
 .da-field-grid {
   display: grid;
   gap: 12px;

@@ -18,7 +18,8 @@ const buildInput = (body = {}) => ({
   paid_ad_usage: body.paid_ad_usage === true,
   exclusivity: body.exclusivity === true,
   turnaround: text(body.turnaround, 80),
-  brand_name: text(body.brand_name, 150)
+  brand_name: text(body.brand_name, 150),
+  currency: text(body.currency, 3)
 });
 
 export const calculateRate = async (req, res) => {

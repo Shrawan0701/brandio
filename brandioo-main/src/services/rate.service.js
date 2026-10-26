@@ -1,4 +1,5 @@
 import pool from "../config/db.js";
+import { currencySql, normalizeCurrency } from "../utils/currency.js";
 
 const MONEY_EXPR = `
   CASE
@@ -21,7 +22,10 @@ const median = (values) => {
   return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
 };
 
-const round500 = (value) => Math.round(value / 500) * 500;
+const roundQuote = (value, currency) => {
+  const increment = currency === "USD" ? 5 : 500;
+  return Math.max(increment, Math.round(value / increment) * increment);
+};
 
 const platformLabel = (deal) => deal.platform_custom || deal.platform || "Other";
 
@@ -48,14 +52,15 @@ const adjustmentFactor = (input) => {
 };
 
 export const calculateRateDB = async (userId, input) => {
+  const currency = normalizeCurrency(input.currency);
   const { rows } = await pool.query(
     `SELECT id, brand_name, platform, platform_custom, status, deal_type,
             deliverable_count, posting_date::text AS posting_date, created_at,
             ${MONEY_EXPR} AS revenue
      FROM deals
-     WHERE user_id=$1 AND ${MONEY_EXPR} > 0
+     WHERE user_id=$1 AND ${currencySql()}=$2 AND ${MONEY_EXPR} > 0
      ORDER BY created_at DESC`,
-    [userId]
+    [userId, currency]
   );
 
   const scored = rows
@@ -78,10 +83,11 @@ export const calculateRateDB = async (userId, input) => {
   const highComparable = values.length ? Math.max(...values) : 0;
   const basis = med || average;
   const factor = adjustmentFactor(input);
-  const low = basis ? round500(basis * factor * 0.9) : 0;
-  const high = basis ? Math.max(low, round500(basis * factor * 1.12)) : 0;
+  const low = basis ? roundQuote(basis * factor * 0.9, currency) : 0;
+  const high = basis ? Math.max(low, roundQuote(basis * factor * 1.12, currency)) : 0;
 
   return {
+    currency,
     input,
     comparable_count: values.length,
     comparables: comparables.map((deal) => ({

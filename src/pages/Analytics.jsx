@@ -1,30 +1,28 @@
 import { useEffect, useState } from "react";
 import { fetchAnalytics, exportAnalyticsCSV } from "../lib/api";
-import { useAuth } from "../context/AuthContext";
+import { formatMoney } from "../utils/deals";
 
 
 export default function Analytics() {
   const [data, setData] = useState(null);
-  const { user } = useAuth();
-  
-  const currencySymbol =
-  user?.country_code === "IN" ? "₹" : "$";
+  const [selectedCurrency, setSelectedCurrency] = useState(null);
 
 
   useEffect(() => {
-    fetchAnalytics().then(res => setData(res.data));
-  }, []);
+    fetchAnalytics(selectedCurrency).then(res => setData(res.data));
+  }, [selectedCurrency]);
 
   if (!data) return <div className="text-muted">Loading analytics…</div>;
 
   return (
     <div className="container py-5">
       <h2 className="fw-bold mb-4">Analytics</h2>
+      {data.availableCurrencies?.length > 1 && <label>Currency <select aria-label="Analytics currency" value={data.currency} onChange={(event) => setSelectedCurrency(event.target.value)}>{data.availableCurrencies.map((code) => <option key={code} value={code}>{code}</option>)}</select></label>}
 
       <div className="row g-4 mb-4">
-        <Stat title="This Month" value={`${currencySymbol}${data.thisMonth}`} />
-<Stat title="Pending Amount" value={`${currencySymbol}${data.pendingAmount}`} />
-<Stat title="Total Earned" value={`${currencySymbol}${data.totalEarned}`} />
+        <Stat title="This Month" value={formatMoney(data.thisMonth, data.currency)} />
+<Stat title="Pending Amount" value={formatMoney(data.pendingAmount, data.currency)} />
+<Stat title="Total Earned" value={formatMoney(data.totalEarned, data.currency)} />
 
       </div>
 

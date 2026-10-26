@@ -4,7 +4,7 @@ import MarketingFooter from "../components/MarketingFooter";
 
 const items = [
   ["Who is Brandio for?", "Brandio is built for creators, influencers, freelancers, and agencies who work with brands and want to manage collaborations professionally."],
-  ["Is there a free plan?", "Yes. You can start for free with limited features and upgrade anytime when your workload grows."],
+  ["Is there a free plan?", "Yes. Every account includes 1 lifetime free brand deal with access to all features. Deleting a deal does not reset this allowance. Upgrade to Pro for unlimited deals, billed monthly, every 3 months, or yearly."],
   ["How do payments work?", "Payments are securely processed via Razorpay. We do not store your card or banking details."],
   ["What can I manage in Brandio?", "You can manage deals, brands, deliverables, contracts, payments, inbound opportunities, portfolio items, media kit details, and business insights."],
   ["Need help?", "Email support@brandio.world and the team will help you within 24-48 hours."]

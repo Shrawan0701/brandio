@@ -61,10 +61,10 @@ export const saveDealImage = async (dealId, imageUrl) => {
 };
 
 
-export const fetchAnalytics = () => api.get("/analytics");
+export const fetchAnalytics = (currency) => api.get("/analytics", { params: currency ? { currency } : {} });
 
-export const fetchIntelligence = async () => {
-  const res = await api.get("/intelligence");
+export const fetchIntelligence = async (currency) => {
+  const res = await api.get("/intelligence", { params: currency ? { currency } : {} });
   return res.data;
 };
 
@@ -75,8 +75,8 @@ export const fetchAiBrief = async () => {
   return res.data;
 };
 
-export const fetchRoi = async () => {
-  const res = await api.get("/roi");
+export const fetchRoi = async (currency) => {
+  const res = await api.get("/roi", { params: currency ? { currency } : {} });
   return res.data;
 };
 
@@ -137,8 +137,8 @@ export const updateMediaKit = async (payload) => {
   return res.data;
 };
 
-export const fetchMoneyCockpit = async () => {
-  const res = await api.get("/money");
+export const fetchMoneyCockpit = async (currency) => {
+  const res = await api.get("/money", { params: currency ? { currency } : {} });
   return res.data;
 };
 

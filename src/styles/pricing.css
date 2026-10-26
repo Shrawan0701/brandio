@@ -118,6 +118,16 @@
   line-height: 1;
 }
 
+.pricing-price small {
+  color: #64748b;
+  display: block;
+  margin-top: 8px;
+}
+
+.pricing-plan-labels {
+  min-height: 32px;
+}
+
 .pricing-card ul {
   color: #334155;
   display: grid;

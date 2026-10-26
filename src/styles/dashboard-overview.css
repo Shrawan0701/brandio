@@ -1,0 +1,268 @@
+.overview-page { --ov-ink: #202333; --ov-muted: #83899a; --ov-line: #e9ebf2; --ov-accent: #6553c7; background: #f7f8fc; color: var(--ov-ink); min-height: 100vh; padding: 30px 26px 36px; }
+.overview-page *, .overview-page *::before, .overview-page *::after { box-sizing: border-box; min-width: 0; }
+.ov-container { margin-inline: auto; max-width: 1440px; }
+.overview-page a { text-decoration: none; }
+.overview-page svg { flex-shrink: 0; }
+.overview-page button:focus-visible, .overview-page a:focus-visible { outline: 3px solid #b5a8e6; outline-offset: 3px; }
+.ov-header { align-items: center; display: flex; gap: 24px; justify-content: space-between; margin-bottom: 26px; }
+.overview-page .ov-date { color: var(--ov-muted); font-size: 11px !important; }
+.app-shell .overview-page h1 { color: var(--ov-ink) !important; font-size: clamp(24px, 2.2vw, 30px) !important; font-weight: 600 !important; letter-spacing: -.04em !important; line-height: 1.25 !important; margin: 8px 0; }
+.overview-page .ov-greeting-dot { color: var(--ov-accent); font-size: inherit !important; }
+.overview-page .ov-header p { color: var(--ov-muted); font-size: 12px !important; line-height: 1.7 !important; margin: 0; }
+.ov-header-actions { align-items: center; display: flex; flex-shrink: 0; gap: 9px; }
+.ov-header-actions label { align-items: center; color: #636a7e; display: inline-flex; font-size: 12px; gap: 8px; }
+.ov-header-actions select { background: #fff; border: 1px solid #e4e6ee; border-radius: 8px; color: #202333; font: inherit; min-height: 42px; padding: 8px 10px; }
+.overview-page .ov-button { align-items: center; border: 1px solid transparent; border-radius: 8px; cursor: pointer; display: inline-flex; font-size: 12px !important; gap: 9px; justify-content: center; min-height: 42px; padding: 10px 15px; transition: background .15s; }
+.ov-button svg { height: 16px; width: 16px; }
+.ov-button-primary { background: #6553c7; color: #fff; }
+.ov-button-primary:hover { background: #5541b3; color: #fff; }
+.overview-page .ov-button-secondary { background: #fff; border-color: #e4e6ee; color: #636a7e; }
+.ov-button-secondary:hover { background: #f0edf9; }
+.ov-loading { align-items: center; color: #6c707f; display: flex; font-size: 13px; gap: 12px; justify-content: center; min-height: 320px; }
+.ov-loading-dot { background: #b8a9e7; border-radius: 50%; height: 9px; width: 9px; }
+.ov-warning { align-items: center; background: #fff8e9; border: 1px solid #f2e3bb; border-radius: 8px; color: #8c7445; display: flex; font-size: 12px; gap: 15px; justify-content: space-between; line-height: 1.6; margin-bottom: 18px; padding: 12px 15px; }
+.overview-page .ov-warning button { background: transparent; border: 0; color: #876328; font-size: 12px !important; padding: 8px; text-decoration: underline; }
+
+.ov-metrics { display: grid; gap: 15px; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 22px; }
+.ov-metric { background: #fff; border: 1px solid #e7e9f1; border-radius: 11px; color: var(--ov-ink); display: block; padding: 18px; transition: border-color .15s, transform .15s; }
+.ov-metric:hover { border-color: #c8bdea; color: var(--ov-ink); transform: translateY(-2px); }
+.ov-metric-top { align-items: center; display: flex; gap: 10px; justify-content: space-between; }
+.overview-page .ov-metric-top > span:first-child { color: #6a7082; font-size: 11px !important; }
+.ov-metric-icon { align-items: center; background: #f0ecfa; border-radius: 8px; color: #7b67ac; display: flex; height: 31px; justify-content: center; width: 31px; }
+.ov-metric-icon svg { height: 16px; width: 16px; }
+.ov-tone-amber .ov-metric-icon { background: #fcf4e5; color: #826f47; }
+.ov-tone-green .ov-metric-icon { background: #ebf6ef; color: #557965; }
+.ov-tone-red .ov-metric-icon { background: #faeeee; color: #9d6368; }
+.ov-tone-blue .ov-metric-icon { background: #ecf1fb; color: #5e7293; }
+.overview-page .ov-metric > strong { display: block; font-size: clamp(25px, 2.15vw, 31px) !important; font-weight: 600 !important; letter-spacing: -.045em; line-height: 1.2; margin: 12px 0 12px; }
+.overview-page .ov-metric-note { align-items: center; color: #6c707c; display: flex; font-size: 10px !important; gap: 6px; justify-content: space-between; line-height: 1.5 !important; }
+.ov-metric-note svg { color: #6d7079; height: 12px; width: 12px; }
+
+.ov-grid { align-items: start; display: grid; gap: 20px; grid-template-columns: minmax(0, 1.7fr) minmax(290px, 1fr); }
+.ov-panel { background: #fff; border: 1px solid #e7e9f1; border-radius: 12px; overflow: hidden; padding: 21px; }
+.ov-panel-heading { align-items: flex-start; display: flex; gap: 16px; justify-content: space-between; margin-bottom: 21px; }
+.app-shell .overview-page .ov-panel h2 { color: #2e3243 !important; font-size: 15px !important; font-weight: 600 !important; letter-spacing: -.02em; line-height: 1.4 !important; margin: 0; }
+.overview-page .ov-panel-heading p { color: #6c707c; font-size: 10px !important; line-height: 1.7 !important; margin: 5px 0 0; }
+.overview-page .ov-panel-link { align-items: center; color: #776a9a; display: inline-flex; flex-shrink: 0; font-size: 10px !important; gap: 7px; min-height: 24px; }
+.ov-panel-link:hover { color: #634ab2; }
+.ov-panel-link svg { height: 12px; width: 12px; }
+.overview-page .ov-muted { color: #6d707b; font-size: 10px !important; padding-top: 2px; }
+.ov-period { background: #f6f5fa; border: 1px solid #eeebf4; border-radius: 6px; display: flex; flex-shrink: 0; gap: 3px; padding: 3px; }
+.overview-page .ov-period button { background: transparent; border: 0; border-radius: 4px; color: #726e7c; font-size: 10px !important; min-height: 27px; padding: 5px 9px; }
+.ov-period button[aria-pressed='true'] { background: #fff; box-shadow: 0 1px 5px #3022540d; color: #766493; }
+.ov-revenue-summary { display: grid; gap: 20px; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 22px; }
+.ov-revenue-summary > div + div { border-left: 1px solid var(--ov-line); padding-left: 20px; }
+.overview-page .ov-revenue-summary span { color: #6d707a; display: block; font-size: 10px !important; }
+.overview-page .ov-revenue-summary strong { color: #4b4d60; display: block; font-size: 20px !important; font-weight: 550 !important; letter-spacing: -.03em; margin-top: 6px; }
+.ov-chart { min-height: 230px; }
+.ov-chart svg { display: block; width: 100%; }
+.ov-chart-caption { align-items: flex-start; color: #6e7079; display: flex; gap: 20px; justify-content: space-between; margin-bottom: 10px; }
+.overview-page .ov-chart-caption > span { align-items: center; display: flex; font-size: 10px !important; gap: 6px; }
+.ov-chart-caption i { background: #a18bcc; border-radius: 50%; height: 5px; width: 5px; }
+.overview-page .ov-chart-caption strong { color: #78718c; font-size: 11px !important; font-weight: 550 !important; margin-left: 5px; }
+.ov-chart-gridline { stroke: #eef0f5; stroke-dasharray: 3 5; stroke-width: 1; }
+.ov-chart-axis { fill: #7b8294; font-size: 10px; }
+.ov-chart-bar { fill: #c5b6e2; transition: fill .15s; }
+.ov-chart-column.is-selected .ov-chart-bar, .ov-chart-column:hover .ov-chart-bar { fill: #9b82cc; }
+.ov-chart-column:focus { outline: none; }
+.ov-chart-column:focus-visible .ov-chart-bar { stroke: #6553c7; stroke-width: 2; }
+
+.overview-page .ov-count { align-items: center; background: #f2f4f8; border-radius: 6px; color: #6b707c; display: inline-flex; font-size: 10px !important; height: 25px; justify-content: center; min-width: 25px; padding: 4px 7px; }
+.overview-page .ov-count.is-urgent { background: #fbf0ed; color: #91685d; }
+.ov-attention .ov-panel-heading { margin-bottom: 10px; }
+.ov-attention-item { align-items: center; border-bottom: 1px solid #f1f2f7; display: flex; gap: 11px; padding: 13px 0; }
+.ov-attention-icon { align-items: center; background: #fbf2ee; border-radius: 7px; color: #886b5d; display: flex; flex: 0 0 31px; height: 31px; justify-content: center; }
+.ov-attention-icon svg { height: 15px; width: 15px; }
+.ov-attention-item.info .ov-attention-icon { background: #f1eff9; color: #766b8b; }
+.ov-attention-item > div { flex: 1; }
+.overview-page .ov-attention-item > div > span { color: #7a6e69; display: block; font-size: 9px !important; margin-bottom: 4px; }
+.overview-page .ov-attention-item strong { color: #6f6974; display: block; font-size: 11px !important; font-weight: 500 !important; line-height: 1.6; }
+.ov-attention-item > svg { color: #726f75; height: 12px; width: 12px; }
+.ov-attention-item:hover strong { color: var(--ov-accent); }
+.overview-page .ov-more-attention { color: #746e77; font-size: 10px !important; line-height: 1.7 !important; margin: 12px 0; }
+.ov-all-clear { align-items: center; display: flex; flex-direction: column; padding: 15px 0 23px; text-align: center; }
+.ov-all-clear > span { align-items: center; background: #eef7f1; border-radius: 50%; color: #5d7765; display: flex; height: 38px; justify-content: center; margin-bottom: 11px; width: 38px; }
+.overview-page .ov-all-clear strong { color: #637569; font-size: 12px !important; font-weight: 500 !important; }
+.overview-page .ov-all-clear p { color: #6a726d; font-size: 10px !important; margin: 6px 0 0; }
+.ov-radar { background: #fafafd; border: 1px solid #f0f0f7; border-radius: 8px; margin-top: 18px; padding: 14px; }
+.overview-page .ov-eyebrow { color: #6e707a; display: block; font-size: 8px !important; font-weight: 500 !important; letter-spacing: .07em; }
+.ov-radar > a { align-items: center; display: flex; gap: 10px; min-height: 33px; }
+.overview-page .ov-radar > a > span { color: #6f6f7b; flex: 1; font-size: 10px !important; }
+.overview-page .ov-radar strong { color: #77728d; font-size: 12px !important; font-weight: 550 !important; }
+.ov-radar svg { color: #716f79; height: 11px; width: 11px; }
+
+.ov-deal-labels, .ov-deal-row { align-items: center; display: grid; gap: 15px; grid-template-columns: minmax(0, 1.4fr) minmax(70px, .7fr) minmax(100px, 1fr) 65px; }
+.ov-deal-labels { border-bottom: 1px solid var(--ov-line); padding-bottom: 12px; }
+.overview-page .ov-deal-labels span { color: #6f6f79; font-size: 9px !important; }
+.ov-deal-row { border-bottom: 1px solid #f0f1f6; padding-block: 17px; }
+.ov-deal-row:last-child { border: 0; padding-bottom: 1px; }
+.ov-deal-row:hover .ov-deal-brand strong { color: var(--ov-accent); }
+.ov-deal-brand { align-items: center; display: flex; gap: 10px; }
+.overview-page .ov-brand-avatar { align-items: center; background: #f0ecf7; border-radius: 7px; color: #756d83; display: flex; flex: 0 0 32px; font-size: 10px !important; height: 32px; justify-content: center; }
+.ov-deal-row:nth-child(3n) .ov-brand-avatar { background: #edf3f8; color: #65727c; }
+.overview-page .ov-deal-brand strong { color: #66687d; display: block; font-size: 12px !important; font-weight: 550 !important; overflow-wrap: anywhere; }
+.overview-page .ov-deal-brand > div > span { color: #6f6f79; display: block; font-size: 9px !important; margin-top: 4px; }
+.overview-page .ov-deal-value { color: #77758a; font-size: 11px !important; font-weight: 550; }
+.ov-deal-status { display: grid; gap: 5px; justify-items: start; }
+.overview-page .ov-status { align-items: center; background: #faf4e9; border-radius: 4px; color: #826e4a; display: inline-flex; font-size: 8px !important; gap: 5px; padding: 4px 7px; }
+.ov-status i { background: currentColor; border-radius: 50%; height: 4px; width: 4px; }
+.overview-page .ov-status.active { background: #eeeffa; color: #706d92; }
+.overview-page .ov-status.overdue { background: #fbefee; color: #906766; }
+.overview-page .ov-deal-status small { color: #716f7a; font-size: 8px !important; }
+.overview-page .ov-deal-deadline { color: #716f78; font-size: 9px !important; text-align: right; }
+
+.ov-collected { align-items: center; display: flex; gap: 15px; justify-content: space-between; padding-bottom: 15px; }
+.overview-page .ov-collected > div > span { color: #736e7a; display: block; font-size: 10px !important; }
+.overview-page .ov-collected strong { color: #766c85; display: block; font-size: 27px !important; font-weight: 550 !important; letter-spacing: -.045em; margin: 9px 0 7px; }
+.overview-page .ov-collected small { color: #746e7a; font-size: 10px !important; }
+.ov-payment-ring { flex: 0 0 80px; height: 80px; position: relative; width: 80px; }
+.ov-payment-ring svg { height: 100%; transform: rotate(-90deg); width: 100%; }
+.ov-payment-ring circle { fill: none; stroke-width: 6; }
+.ov-ring-track { stroke: #f0edf6; }
+.ov-ring-fill { stroke: #b6a0d5; stroke-linecap: round; }
+.overview-page .ov-collected .ov-payment-ring > span { color: #7d698e; font-size: 12px !important; inset: 0; position: absolute; display: grid; place-items: center; }
+.ov-payment-legend { border-top: 1px solid var(--ov-line); padding-top: 12px; }
+.ov-payment-legend > div { align-items: center; display: flex; gap: 18px; justify-content: space-between; padding-block: 9px; }
+.overview-page .ov-payment-legend span { align-items: center; color: #736e7a; display: flex; font-size: 11px !important; gap: 8px; }
+.overview-page .ov-payment-legend strong { color: #766c80; font-size: 13px !important; font-weight: 550 !important; }
+.ov-payment-legend i, .ov-pipeline-legend i { background: #b3a0d2; border-radius: 50%; flex-shrink: 0; height: 6px; width: 6px; }
+.ov-payment-legend i.pending { background: #e1c89c; }
+.ov-payment-legend i.overdue { background: #d7aaa7; }
+.overview-page .ov-payment-content > p { color: #756e79; font-size: 9px !important; margin: 12px 0 0; }
+.ov-pipeline-total { align-items: baseline; display: flex; gap: 9px; margin-bottom: 20px; }
+.overview-page .ov-pipeline-total > strong { color: #756d7e; font-size: 30px !important; font-weight: 500 !important; }
+.overview-page .ov-pipeline-total > span { color: #746e79; font-size: 10px !important; }
+.ov-pipeline-track { background: #f2f0f6; border-radius: 4px; display: flex; gap: 3px; height: 11px; overflow: hidden; }
+.ov-pipeline-track > span { background: #cab9dd; flex-basis: 0; }
+.ov-pipeline-track > .active { background: #aab8d8; }
+.ov-pipeline-track > .completed { background: #a4c8b9; }
+.ov-pipeline-track > .overdue { background: #d8a6a2; }
+.ov-pipeline-legend { display: grid; gap: 14px 28px; grid-template-columns: 1fr 1fr; margin-top: 23px; }
+.ov-pipeline-legend > div { align-items: center; display: flex; gap: 10px; justify-content: space-between; }
+.overview-page .ov-pipeline-legend span { align-items: center; color: #746e79; display: flex; font-size: 10px !important; gap: 7px; }
+.overview-page .ov-pipeline-legend strong { color: #776c80; font-size: 13px !important; font-weight: 550 !important; }
+.ov-pipeline-legend i.active { background: #aab8d8; }
+.ov-pipeline-legend i.completed { background: #a4c8b9; }
+.ov-pipeline-legend i.overdue { background: #d8a6a2; }
+
+.ov-agenda-item { align-items: center; border-top: 1px solid #f1f1f7; display: flex; gap: 13px; padding-block: 13px; }
+.ov-agenda-item:first-child { border: 0; padding-top: 0; }
+.ov-agenda-item time { background: #f6f3fa; border: 1px solid #eeebf4; border-radius: 7px; color: #786c84; display: grid; flex: 0 0 43px; gap: 1px; padding: 7px; text-align: center; }
+.overview-page .ov-agenda-item time > span { font-size: 8px !important; }
+.overview-page .ov-agenda-item time strong { font-size: 16px !important; }
+.ov-agenda-item > div { flex: 1; }
+.overview-page .ov-agenda-item > div > strong { color: #766d82; display: block; font-size: 12px !important; font-weight: 550 !important; }
+.overview-page .ov-agenda-item > div > span { color: #756d7c; display: block; font-size: 10px !important; margin-top: 5px; }
+.overview-page .ov-agenda-due { color: #756d7c; font-size: 10px !important; }
+.ov-empty { align-items: center; display: flex; flex-direction: column; justify-content: center; min-height: 145px; padding: 20px; text-align: center; }
+.ov-empty-icon { align-items: center; background: #f6f4fa; border-radius: 10px; color: #776c83; display: flex; height: 39px; justify-content: center; margin-bottom: 13px; width: 39px; }
+.overview-page .ov-empty > strong { color: #776c81; font-size: 12px !important; font-weight: 500 !important; }
+.overview-page .ov-empty > p { color: #746e7b; font-size: 10px !important; line-height: 1.8 !important; margin: 7px 0 0; max-width: 280px; }
+.ov-chart > .ov-empty { min-height: 225px; }
+.ov-brand-bars { display: grid; gap: 23px; padding-block: 4px; }
+.ov-brand-bars > div { align-items: center; display: flex; gap: 16px; }
+.overview-page .ov-brand-rank { color: #756d7c; font-size: 9px !important; }
+.ov-brand-bars > div > div { flex: 1; }
+.ov-brand-bars > div > div > div { align-items: center; display: flex; gap: 20px; justify-content: space-between; margin-bottom: 10px; }
+.overview-page .ov-brand-bars span:not(.ov-brand-rank) { color: #786c83; font-size: 11px !important; }
+.overview-page .ov-brand-bars strong { color: #7a6b86; font-size: 13px !important; font-weight: 550 !important; }
+.ov-brand-bars i { background: #f6f1f9; border-radius: 4px; display: block; height: 5px; overflow: hidden; }
+.ov-brand-bars b { background: #c8afdc; border-radius: inherit; display: block; height: 100%; }
+.overview-page .ov-insight-label { align-items: center; color: #776c82; display: inline-flex; font-size: 9px !important; gap: 6px; }
+.ov-insight-label svg { height: 12px; width: 12px; }
+.ov-insight-list { margin: -3px 0 16px; }
+.overview-page .ov-insight-list p { align-items: flex-start; display: flex; gap: 10px; margin: 0; padding-block: 10px; }
+.ov-insight-list p > span:first-child { background: #d1bcdf; border-radius: 50%; flex: 0 0 4px; height: 4px; margin-top: 6px; }
+.overview-page .ov-insight-list p > span:last-child { color: #796b83; font-size: 11px !important; line-height: 1.8 !important; }
+.ov-shortcuts { align-items: center; background: #f0edf7; border: 1px solid #e7e0f1; border-radius: 11px; display: flex; gap: 30px; justify-content: space-between; margin-top: 23px; padding: 20px; }
+.overview-page .ov-shortcuts .ov-eyebrow { color: #7b6b86; }
+.app-shell .overview-page .ov-shortcuts h2 { color: #9f85b1 !important; font-size: 14px !important; font-weight: 500 !important; margin: 7px 0 0; }
+.ov-shortcut-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.ov-shortcut-links a { align-items: center; background: #fff; border: 1px solid #ede5f3; border-radius: 7px; color: #7d6a89; display: flex; gap: 8px; min-height: 40px; padding: 9px 11px; }
+.overview-page .ov-shortcut-links span { font-size: 10px !important; }
+.ov-shortcut-links svg { height: 14px; width: 14px; }
+.ov-shortcut-links svg:last-child { height: 10px; margin-left: 5px; width: 10px; }
+.ov-shortcut-links a:hover { background: #faf6fc; }
+
+@media (max-width: 1200px) {
+  .overview-page { padding: 25px 20px 32px; }
+  .ov-grid { gap: 16px; grid-template-columns: minmax(0, 1.4fr) minmax(270px, 1fr); }
+  .ov-panel { padding: 18px; }
+  .ov-metrics { gap: 12px; }
+  .ov-metric { padding: 15px; }
+  .ov-metric-icon { height: 27px; width: 27px; }
+  .ov-deal-labels, .ov-deal-row { gap: 10px; grid-template-columns: minmax(0, 1.2fr) 70px minmax(90px, 1fr); }
+  .ov-deal-labels > span:last-child, .ov-deal-deadline { display: none; }
+  .ov-revenue-summary { gap: 12px; }
+  .ov-revenue-summary > div + div { padding-left: 12px; }
+  .overview-page .ov-revenue-summary strong { font-size: 17px !important; }
+  .ov-header { align-items: flex-start; }
+  .ov-header-actions { flex-direction: column-reverse; align-items: stretch; }
+  .ov-shortcuts { align-items: flex-start; flex-direction: column; gap: 18px; }
+}
+@media (max-width: 1100px) {
+  .ov-grid { grid-template-columns: 1fr 1fr; }
+  .ov-revenue, .ov-active, .ov-work, .ov-brands { grid-column: 1 / -1; }
+  .ov-attention { grid-column: 1; grid-row: 2; }
+  .ov-payments { grid-column: 2; grid-row: 2; }
+  .ov-pipeline { grid-column: 1; }
+  .ov-insights { grid-column: 2; }
+  .ov-brands { grid-row: auto; }
+  .ov-deal-labels, .ov-deal-row { grid-template-columns: minmax(0, 1.4fr) 90px minmax(100px, 1fr) 80px; }
+  .ov-deal-labels > span:last-child, .ov-deal-deadline { display: block; }
+  .ov-metric-top { align-items: flex-start; }
+  .overview-page .ov-metric-top > span:first-child { font-size: 10px !important; }
+}
+@media (max-width: 680px) {
+  .overview-page { padding: 23px 14px 26px; }
+  .ov-header { align-items: flex-start; flex-direction: column; gap: 17px; margin-bottom: 22px; }
+  .app-shell .overview-page h1 { font-size: 25px !important; }
+  .ov-header-actions { align-items: center; flex-direction: row; width: 100%; }
+  .overview-page .ov-button { flex: 1; font-size: 11px !important; min-height: 44px; }
+  .ov-metrics { gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 17px; }
+  .ov-metric { border-radius: 9px; padding: 14px 12px; }
+  .ov-metric-top { align-items: center; }
+  .overview-page .ov-metric-top > span:first-child { font-size: 10px !important; }
+  .ov-metric-icon { border-radius: 6px; height: 25px; width: 25px; }
+  .ov-metric-icon svg { height: 13px; width: 13px; }
+  .overview-page .ov-metric > strong { font-size: 26px !important; margin-block: 13px 10px; }
+  .overview-page .ov-metric-note { font-size: 9px !important; }
+  .ov-metric-note svg { display: none; }
+  .ov-grid { gap: 16px; grid-template-columns: 1fr; }
+  .ov-grid > .ov-panel { grid-column: auto; grid-row: auto; }
+  .ov-panel { border-radius: 10px; padding: 17px; }
+  .ov-panel-heading { gap: 12px; margin-bottom: 21px; }
+  .app-shell .overview-page .ov-panel h2 { font-size: 15px !important; }
+  .overview-page .ov-panel-heading p { font-size: 9px !important; max-width: 180px; }
+  .ov-period { gap: 1px; padding: 2px; }
+  .overview-page .ov-period button { font-size: 9px !important; min-height: 40px; padding: 7px; }
+  .ov-revenue-summary { gap: 10px; margin-bottom: 25px; }
+  .overview-page .ov-revenue-summary span { font-size: 9px !important; }
+  .overview-page .ov-revenue-summary strong { font-size: 16px !important; }
+  .ov-revenue-summary > div + div { padding-left: 10px; }
+  .overview-page .ov-chart-caption > span { font-size: 9px !important; }
+  .ov-chart-caption > span:last-child { align-items: flex-end; flex-direction: column; gap: 2px; }
+  .ov-chart-caption strong { font-size: 10px; }
+  .ov-deal-labels { display: none; }
+  .ov-deal-row { align-items: start; gap: 12px 15px; grid-template-columns: 1fr auto; padding-block: 16px; }
+  .ov-deal-row:first-of-type { padding-top: 0; }
+  .ov-deal-brand { grid-column: 1; grid-row: 1; }
+  .overview-page .ov-deal-brand strong { font-size: 13px !important; }
+  .ov-deal-value { align-self: center; grid-column: 2; grid-row: 1; text-align: right; }
+  .overview-page .ov-deal-value { font-size: 12px !important; }
+  .ov-deal-status { align-items: center; display: flex; flex-wrap: wrap; gap: 7px 10px; grid-column: 1; grid-row: 2; padding-left: 42px; }
+  .overview-page .ov-status { font-size: 9px !important; }
+  .overview-page .ov-deal-status small { font-size: 9px !important; }
+  .ov-deal-deadline { align-self: center; grid-column: 2; grid-row: 2; }
+  .ov-radar > a { min-height: 38px; }
+  .overview-page .ov-radar > a > span { font-size: 11px !important; }
+  .overview-page .ov-attention-item > div > span { font-size: 10px !important; }
+  .overview-page .ov-attention-item strong { font-size: 12px !important; }
+  .ov-payment-ring { flex-basis: 85px; height: 85px; width: 85px; }
+  .ov-shortcuts { border-radius: 10px; margin-top: 18px; padding: 17px; }
+  .ov-shortcut-links { display: grid; gap: 8px; grid-template-columns: 1fr 1fr; width: 100%; }
+  .ov-shortcut-links a { min-height: 45px; padding: 10px; }
+  .ov-shortcut-links svg:last-child { margin-left: auto; }
+  .overview-page .ov-shortcut-links span { font-size: 10px !important; }
+}
+@media (prefers-reduced-motion: reduce) { .overview-page * { transition: none !important; } }

@@ -13,6 +13,7 @@ export default function Register() {
   const { finishAuth } = useAuth();
 
   const [toast, setToast] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const [form, setForm] = useState({
     username: "",
@@ -23,6 +24,8 @@ export default function Register() {
 
   const submit = async (e) => {
   e.preventDefault();
+  if (submitting) return;
+  setSubmitting(true);
 
   try {
     const res = await api.post("/auth/register", form);
@@ -51,6 +54,7 @@ export default function Register() {
       type: "error",
       message: msg
     });
+    setSubmitting(false);
   }
 };
 
@@ -102,7 +106,9 @@ export default function Register() {
 
 
 
-          <button>Create account</button>
+          <button type="submit" disabled={submitting} aria-busy={submitting}>
+            {submitting ? <><span className="auth-submit-spinner" aria-hidden="true" />Creating account...</> : "Create account"}
+          </button>
         </form>
 
         <div className="auth-link">

@@ -1,4 +1,5 @@
 import pool from "../config/db.js";
+import { FREE_DEAL_LIMIT } from "../utils/pricing.js";
 
 const numberOrDefault = (value, fallback = 0) => {
   if (value === "" || value === undefined || value === null) return fallback;
@@ -22,9 +23,10 @@ export const reserveDealCreation = async (userId) => {
     `UPDATE users
      SET deal_creations_used = deal_creations_used + 1
      WHERE id=$1
-       AND (plan <> 'free' OR deal_creations_used < 3)
+       AND ((plan = 'pro' AND (plan_expiry IS NULL OR plan_expiry > NOW()))
+         OR deal_creations_used < $2)
      RETURNING email, plan, deal_creations_used`,
-    [userId]
+    [userId, FREE_DEAL_LIMIT]
   );
   return rows[0] || null;
 };

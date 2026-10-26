@@ -1,4 +1,5 @@
 import pool from "../config/db.js";
+import { currencySql, pickCurrency } from "../utils/currency.js";
 
 const MONEY_EXPR = `
   CASE
@@ -46,8 +47,14 @@ export const updateMoneySettingsDB = async (userId, settings) => {
   return normalizeMoneySettings(rows[0].money_settings);
 };
 
-export const getMoneyCockpitDB = async (userId) => {
+export const getMoneyCockpitDB = async (userId, requestedCurrency) => {
   const settings = await getMoneySettingsDB(userId);
+  const { rows: currencyRows } = await pool.query(
+    `SELECT DISTINCT ${currencySql()} AS currency FROM deals WHERE user_id=$1 ORDER BY currency`,
+    [userId]
+  );
+  const availableCurrencies = currencyRows.map((row) => row.currency);
+  const currency = pickCurrency(availableCurrencies, requestedCurrency);
 
   const summary = await pool.query(
     `SELECT
@@ -55,17 +62,20 @@ export const getMoneyCockpitDB = async (userId) => {
          WHERE status='completed'
            AND DATE_TRUNC('month', COALESCE(paid_date, created_at)::date) = DATE_TRUNC('month', CURRENT_DATE)
        ), 0) AS earned_this_month,
-       COALESCE(SUM(${MONEY_EXPR}) FILTER (WHERE status IN ('pending','active')), 0) AS pending,
+       COALESCE(SUM(${MONEY_EXPR}) FILTER (
+         WHERE status IN ('pending','active')
+           AND (payment_due_date IS NULL OR payment_due_date >= CURRENT_DATE)
+       ), 0) AS pending,
        COALESCE(SUM(${MONEY_EXPR}) FILTER (
          WHERE status='overdue'
-           OR (payment_due_date IS NOT NULL AND payment_due_date < CURRENT_DATE AND status <> 'completed')
+           OR (payment_due_date IS NOT NULL AND payment_due_date < CURRENT_DATE AND status IN ('pending','active'))
        ), 0) AS overdue,
-       COALESCE(SUM(${MONEY_EXPR}) FILTER (WHERE status IN ('pending','active')), 0) AS expected,
+       COALESCE(SUM(${MONEY_EXPR}) FILTER (WHERE status IN ('pending','active','overdue')), 0) AS expected,
        COALESCE(SUM(${MONEY_EXPR}) FILTER (WHERE status='completed'), 0) AS paid,
        COALESCE(SUM(expenses) FILTER (WHERE status='completed'), 0) AS recorded_expenses
      FROM deals
-     WHERE user_id=$1`,
-    [userId]
+     WHERE user_id=$1 AND ${currencySql()}=$2`,
+    [userId, currency]
   );
 
   const row = summary.rows[0];
@@ -80,11 +90,11 @@ export const getMoneyCockpitDB = async (userId) => {
        TO_CHAR(DATE_TRUNC('month', COALESCE(paid_date, created_at)::date), 'Mon YYYY') AS label,
        COALESCE(SUM(${MONEY_EXPR}), 0) AS revenue
      FROM deals
-     WHERE user_id=$1 AND status='completed'
+     WHERE user_id=$1 AND ${currencySql()}=$2 AND status='completed'
      GROUP BY 1, 2
      ORDER BY key DESC
      LIMIT 12`,
-    [userId]
+    [userId, currency]
   );
 
   const cashFlow = await pool.query(
@@ -93,19 +103,21 @@ export const getMoneyCockpitDB = async (userId) => {
        COALESCE(TO_CHAR(DATE_TRUNC('month', payment_due_date), 'Mon YYYY'), 'Pending deals') AS label,
        COALESCE(SUM(${MONEY_EXPR}), 0) AS expected
      FROM deals
-     WHERE user_id=$1
-       AND status IN ('pending','active')
+     WHERE user_id=$1 AND ${currencySql()}=$2
+       AND status IN ('pending','active','overdue')
      GROUP BY 1, 2
      ORDER BY CASE WHEN COALESCE(TO_CHAR(DATE_TRUNC('month', payment_due_date), 'YYYY-MM'), 'pending-total') = 'pending-total' THEN 1 ELSE 0 END, key ASC
      LIMIT 6`,
-    [userId]
+    [userId, currency]
   );
 
-  const byBrand = await grouped(userId, "brand_name", "brand");
-  const byPlatform = await grouped(userId, "COALESCE(NULLIF(platform_custom, ''), platform)", "platform");
-  const byDealType = await grouped(userId, "COALESCE(deal_type, 'paid')", "deal_type");
+  const byBrand = await grouped(userId, currency, "brand_name", "brand");
+  const byPlatform = await grouped(userId, currency, "COALESCE(NULLIF(platform_custom, ''), platform)", "platform");
+  const byDealType = await grouped(userId, currency, "COALESCE(deal_type, 'paid')", "deal_type");
 
   return {
+    currency,
+    availableCurrencies,
     settings,
     summary: {
       earned_this_month: Number(row.earned_this_month),
@@ -132,18 +144,18 @@ export const getMoneyCockpitDB = async (userId) => {
 
 const numRow = (field) => (row) => ({ ...row, [field]: Number(row[field]) });
 
-const grouped = async (userId, groupExpr, alias) => {
+const grouped = async (userId, currency, groupExpr, alias) => {
   const { rows } = await pool.query(
     `SELECT
        ${groupExpr} AS ${alias},
        COALESCE(SUM(${MONEY_EXPR}), 0) AS revenue,
        COUNT(*)::int AS deals
      FROM deals
-     WHERE user_id=$1 AND status='completed'
+     WHERE user_id=$1 AND ${currencySql()}=$2 AND status='completed'
      GROUP BY 1
      ORDER BY revenue DESC
      LIMIT 10`,
-    [userId]
+    [userId, currency]
   );
   return rows.map((row) => ({ ...row, revenue: Number(row.revenue) }));
 };

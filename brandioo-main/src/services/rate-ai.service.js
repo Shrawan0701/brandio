@@ -13,7 +13,7 @@ const fallbackExplanation = (result) => {
     negotiation_considerations:
       "Use this as a planning estimate, not an objective market price. Clarify usage period, paid ad rights, revision limits, timeline, deliverables and payment schedule before confirming.",
     negotiation_message:
-      `Thanks for sharing the campaign details. Based on the deliverables, usage, timeline and my recent recorded collaborations, my quote range for this scope is ${result.suggested_range?.low || 0} to ${result.suggested_range?.high || 0}. Happy to refine once usage rights, revision rounds and timeline are final.`
+      `Thanks for sharing the campaign details. Based on the deliverables, usage, timeline and my recent recorded collaborations, my quote range for this scope is ${result.currency === "USD" ? "$" : "₹"}${result.suggested_range?.low || 0} to ${result.currency === "USD" ? "$" : "₹"}${result.suggested_range?.high || 0}. Happy to refine once usage rights, revision rounds and timeline are final.`
   };
 };
 

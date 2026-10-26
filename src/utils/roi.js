@@ -5,6 +5,7 @@
 import { totalEarned } from "./deals";
 
 export const toNum = (v) => {
+  if (v === null || v === undefined || (typeof v === "string" && !v.trim())) return null;
   const n = Number(v);
   return Number.isFinite(n) ? n : null;
 };

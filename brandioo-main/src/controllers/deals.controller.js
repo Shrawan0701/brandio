@@ -30,7 +30,7 @@ export const createDeal = async (req, res) => {
   const user = await reserveDealCreation(userId);
   if (!user) {
     return res.status(403).json({
-      message: "Your 3 free deal credits are used. Upgrade your plan to add more deals."
+      message: "Your 1 lifetime free deal has been used. All features remain available for your existing deal. Upgrade to add more deals."
     });
   }
 

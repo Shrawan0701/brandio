@@ -11,11 +11,12 @@ import { getIntelligence } from "./intelligence.service.js";
 
 const briefFromRules = (d) => {
   const t = d.totals || {};
+  const symbol = d.currency === "USD" ? "$" : "₹";
   const lines = [];
   if (t.totalDeals) {
     lines.push(
       `You have ${t.totalDeals} deals on record (${t.completedCount || 0} completed) ` +
-      `worth ${Math.round(t.totalEarned || 0).toLocaleString("en-IN")} in completed value.`
+      `worth ${symbol}${Math.round(t.totalEarned || 0).toLocaleString("en-IN")} in completed value.`
     );
   }
   const topP = (d.platformRevenue || [])[0];
@@ -23,7 +24,7 @@ const briefFromRules = (d) => {
   const topB = (d.brandRevenue || [])[0];
   if (topB) lines.push(`Your highest-value brand relationship is ${topB.brand}.`);
   if ((t.pendingAmount || 0) > 0) {
-    lines.push(`Follow up on ${Math.round(t.pendingAmount).toLocaleString("en-IN")} pending across open deals.`);
+    lines.push(`Follow up on ${symbol}${Math.round(t.pendingAmount).toLocaleString("en-IN")} pending across open deals.`);
   }
   return lines.length
     ? lines.join(" ")
@@ -40,6 +41,7 @@ export const getAiBrief = async (userId) => {
   try {
     const summary = {
       totals: data.totals,
+      currency: data.currency,
       platformRevenue: (data.platformRevenue || []).slice(0, 5),
       brandRevenue: (data.brandRevenue || []).slice(0, 5),
       revenueTrend: data.revenueTrend,

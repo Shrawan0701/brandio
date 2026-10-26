@@ -205,6 +205,31 @@
   opacity: 0.9;
 }
 
+.auth-card button[type="submit"] {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.auth-card button[type="submit"]:disabled {
+  cursor: wait;
+  opacity: 0.85;
+}
+
+.auth-submit-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgb(255 255 255 / 35%);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: auth-submit-spin 0.7s linear infinite;
+}
+
+@keyframes auth-submit-spin {
+  to { transform: rotate(360deg); }
+}
+
 .auth-card .auth-link {
   margin-top: 16px;
   font-size: 14px;

@@ -12,13 +12,14 @@
 .billing-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .billing-actions button, .billing-actions a, .billing-plan-card button { background: #111827; border: 1px solid #111827; border-radius: 12px; color: #fff; font-weight: 900; padding: 11px 14px; text-decoration: none; }
 .billing-actions a { background: #fff; color: #111827; }
-.billing-grid { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.billing-grid { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .billing-plan-card { display: grid; gap: 18px; padding: 24px; }
 .billing-plan-card.featured { border-color: #111827; }
 .billing-plan-card h3 { font-size: 28px; font-weight: 950; margin: 4px 0 8px; }
 .billing-plan-card ul { color: #334155; line-height: 1.8; margin: 0; padding-left: 18px; }
 .billing-current { color: #0f766e; }
 .billing-note { margin-top: 16px; padding: 22px; }
+.billing-support { color: #64748b; margin: 18px 0 0; text-align: center; }
 @media (max-width: 720px) {
   .billing-page { padding: 16px 12px 36px; }
   .billing-header, .billing-overview { align-items: stretch; flex-direction: column; }

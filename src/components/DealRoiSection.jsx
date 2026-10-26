@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Helmet } from "react-helmet-async";
 import { useToast } from "./ToastProvider";
 import api from "../lib/api";
 import { computeDealRoi, money, moneyPerHour, fmtDays } from "../utils/roi";
@@ -35,7 +34,7 @@ export default function DealRoiSection({ deal, onUpdated }) {
       const res = await api.put(`/deals/${deal.id}`, payload);
       onUpdated?.(res.data);
       setEditing(false);
-      showToast("ROI details saved");
+      showToast("ROI details saved", "success");
     } catch {
       showToast("Could not save ROI details", "error");
     } finally {
@@ -59,10 +58,8 @@ export default function DealRoiSection({ deal, onUpdated }) {
   }
 
   return (
-    <div className="cr-section">
-      <Helmet>
-        <title>Deal ROI - Brandio</title>
-      </Helmet>
+    <div className="cr-section deal-roi-section">
+
 
       <div className="cr-section-head">
         <div>
@@ -147,7 +144,7 @@ export default function DealRoiSection({ deal, onUpdated }) {
               <div className="cr-card-label">Payment waiting time</div>
               <div className="cr-card-value">{fmtDays(roi.waitDays)}</div>
             </div>
-            <div className="cr-card-note">posting_date → paid_date</div>
+            <div className="cr-card-note">Posting to payment</div>
           </div>
         </div>
         <div className="cr-card">
@@ -156,13 +153,13 @@ export default function DealRoiSection({ deal, onUpdated }) {
               <div className="cr-card-label">Campaign duration</div>
               <div className="cr-card-value">{fmtDays(roi.durationDays)}</div>
             </div>
-            <div className="cr-card-note">posting_date → payment_due_date</div>
+            <div className="cr-card-note">Posting to due date</div>
           </div>
         </div>
       </div>
 
       {editing && (
-        <div className="cr-overlay">
+        <div className="cr-overlay" role="dialog" aria-modal="true" aria-label="Log deal effort">
           <div className="cr-modal">
             <h3 className="cr-modal-title">Log effort for this deal</h3>
             <p className="cr-modal-sub">

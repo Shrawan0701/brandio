@@ -1,3 +1,4 @@
+import { WorkspaceHeader, WorkspaceStats } from "../components/WorkspaceUI";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useToast } from "../components/ToastProvider";
@@ -134,7 +135,7 @@ export default function Contracts() {
   };
 
   return (
-    <div className="ct-page">
+    <div className="ct-page workspace-page">
       <Helmet>
         <title>Contracts - Brandio</title>
         <meta
@@ -144,43 +145,20 @@ export default function Contracts() {
       </Helmet>
 
       <div className="ct-shell">
-        <header className="ct-hero">
-          <div>
-            <span className="ct-eyebrow">Paperwork, handled</span>
-            <h1 className="ct-title">
-              Your <span>contracts</span>
-            </h1>
-            <p className="ct-subtitle">
-              Every deal&apos;s agreement in one place — upload, track signature
-              status and never miss an expiry.
-            </p>
-          </div>
-
-          <div className="ct-stats">
-            <div className="ct-stat">
-              <div className="ct-stat-value">{stats.total}</div>
-              <div className="ct-stat-label">Total</div>
-            </div>
-            <div className="ct-stat">
-              <div className="ct-stat-value">{stats.awaiting_signature}</div>
-              <div className="ct-stat-label">Awaiting</div>
-            </div>
-            <div className="ct-stat">
-              <div className="ct-stat-value">{stats.signed}</div>
-              <div className="ct-stat-label">Signed</div>
-            </div>
-            <div className="ct-stat">
-              <div className="ct-stat-value">{stats.expired}</div>
-              <div className="ct-stat-label">Expired</div>
-            </div>
-          </div>
-        </header>
+        <WorkspaceHeader eyebrow="Workspace / Contracts" title="Contracts" description="Keep agreements, signature status, and expiry dates together." />
+        <WorkspaceStats items={[
+          { label: "Total contracts", value: stats.total, note: "Attached to your deals", icon: "file" },
+          { label: "Awaiting signature", value: stats.awaiting_signature, note: "Paperwork to review", icon: "clock", tone: "amber" },
+          { label: "Signed", value: stats.signed, note: "Marked as signed by you", icon: "check", tone: "green" },
+          { label: "Expired", value: stats.expired, note: "Recorded end dates passed", icon: "calendar", tone: "red" }
+        ]} />
 
         <div className="ct-filters">
           {FILTERS.map((f) => (
             <button
               key={f.id}
               className={`ct-filter ${filter === f.id ? "ct-filter-active" : ""}`}
+              aria-pressed={filter === f.id}
               onClick={() => setFilter(f.id)}
             >
               {f.label}
@@ -194,7 +172,7 @@ export default function Contracts() {
         {!loading && error && (
           <div className="ct-empty-page">
             <h3>{error}</h3>
-            <p>Please try again after the API is available.</p>
+            <p>Your contracts couldn’t be loaded. Please try again.</p>
           </div>
         )}
 

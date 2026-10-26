@@ -421,17 +421,17 @@ button:disabled {
 
 .notif-bell strong {
   align-items: center;
-  background: #dc2626;
-  border: 2px solid #fff;
+  background: #e9e5f6;
+  border: 1px solid #fff;
   border-radius: 999px;
-  color: #fff;
+  color: #55479b;
   display: inline-flex;
   font-size: 10px;
-  font-weight: 950;
-  height: 19px;
+  font-weight: 500;
+  height: 17px;
   justify-content: center;
-  min-width: 19px;
-  padding: 0 5px;
+  min-width: 17px;
+  padding: 0 4px;
   position: absolute;
   right: -5px;
   top: -5px;

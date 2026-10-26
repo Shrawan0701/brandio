@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import MarketingFooter from "../components/MarketingFooter";
 
 const revenueData = [
@@ -36,6 +37,11 @@ export default function Landing() {
 
   return (
     <div className="brandio-landing">
+      <Helmet>
+        <title>Brandio - Brand Deals and Payments for Creators</title>
+        <meta name="description" content="Manage brand deals, deliverables, contracts, payments, and your creator portfolio in one Brandio workspace." />
+        <link rel="canonical" href="https://www.brandio.world/" />
+      </Helmet>
       <section className="bl-hero bl-reveal">
         <div className="bl-hero-copy">
           <span className="bl-kicker">Brandio for creator operators</span>
@@ -185,8 +191,19 @@ function HeroConsole() {
 }
 
 function ChaosMap() {
-  const nodes = ["Instagram DM", "Email", "Rate sheet", "Calendar", "Contract PDF", "Payment note", "Approval thread"];
-  return <div className="bl-chaos-map">{nodes.map((node, index) => <span className={`n${index}`} key={node}>{node}</span>)}<b>Brandio workspace</b></div>;
+  const nodes = [
+    ["Instagram DM", "DM"],
+    ["Email", "EM"],
+    ["Rate sheet", "RS"],
+    ["Calendar", "CAL"],
+    ["Contract PDF", "PDF"],
+    ["Payment note", "PAY"],
+    ["Approval thread", "OK"]
+  ];
+  return <div className="bl-chaos-map" role="img" aria-label="Brandio brings messages, email, rates, calendar, contracts, payments, and approvals into one workspace">
+    {nodes.map(([label, mark], index) => <div className={`bl-orbit-node n${index}`} key={label} aria-hidden="true"><div className="bl-orbit-card"><i>{mark}</i><strong>{label}</strong></div></div>)}
+    <b aria-hidden="true"><strong>Brandio</strong><small>workspace</small></b>
+  </div>;
 }
 
 function ProductBoard() {

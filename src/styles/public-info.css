@@ -1,0 +1,199 @@
+/* Calm, consistent typography for public company, legal, and resource pages. */
+.static-page:is(.about-page, .contact-page, .legal-page, .faq-page, .marketing-static) {
+  max-width: 1080px;
+  padding: clamp(44px, 5vw, 72px) 24px 80px;
+}
+
+.static-page:is(.about-page, .contact-page, .legal-page, .faq-page, .marketing-static) h1 {
+  color: #171d2f;
+  font-size: clamp(32px, 3.5vw, 46px);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 1.14;
+}
+
+.static-page:is(.about-page, .contact-page, .legal-page, .faq-page, .marketing-static) h2 {
+  color: #1b2235;
+  font-size: clamp(21px, 2vw, 26px);
+  font-weight: 620;
+  letter-spacing: -0.02em;
+  line-height: 1.28;
+}
+
+.static-page:is(.about-page, .contact-page, .legal-page, .faq-page, .marketing-static) p,
+.static-page:is(.about-page, .contact-page, .legal-page, .faq-page, .marketing-static) li {
+  color: #536076;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+.static-page .mk-eyebrow {
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.09em;
+}
+
+.legal-page .legal-hero {
+  margin-bottom: 30px;
+  padding-bottom: 28px;
+}
+
+.legal-page .legal-hero h1,
+.contact-page .contact-layout h1,
+.about-page .about-hero h1 {
+  margin: 10px 0 14px;
+  text-align: left;
+}
+
+.legal-page .legal-hero p,
+.contact-page .contact-layout p,
+.about-page .about-hero p,
+.about-page .about-story p {
+  font-size: 16px;
+  line-height: 1.65;
+  max-width: 720px;
+}
+
+.legal-page .legal-layout {
+  gap: 42px;
+  grid-template-columns: 210px minmax(0, 1fr);
+}
+
+.legal-page .legal-layout aside a {
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 550;
+  letter-spacing: 0;
+  padding: 10px 12px;
+  text-transform: none;
+}
+
+.legal-page .legal-layout section { padding-bottom: 25px; scroll-margin-top: 96px; }
+.legal-page .legal-layout section + section { padding-top: 25px; }
+.legal-page .legal-layout h2 { font-size: 22px; font-weight: 620; }
+.legal-page .legal-layout ul { margin-top: 12px; }
+.legal-page .legal-layout li { margin-bottom: 7px; }
+
+.about-page .about-hero,
+.about-page .about-story,
+.about-page .about-capabilities,
+.contact-page .contact-card {
+  background: #fff;
+  border: 1px solid #e4e8f0;
+  border-radius: 16px;
+  box-shadow: none;
+}
+
+.about-page section { margin-bottom: 24px; }
+.about-page .about-hero { padding: clamp(28px, 4vw, 42px); }
+.about-page .about-story,
+.about-page .about-capabilities { padding: clamp(24px, 3vw, 32px); }
+.about-page .about-story h2,
+.about-page .about-capabilities h2 { font-size: 23px; }
+.about-page .about-principles span,
+.contact-page .contact-points span {
+  background: #f4f3fb;
+  border-color: #e7e4f5;
+  color: #5d5876;
+  font-size: 12px;
+  font-weight: 550;
+  padding: 8px 11px;
+}
+
+.contact-page .contact-card h2 { font-size: 22px; font-weight: 620; }
+.contact-page .contact-card > span { font-size: 11px; font-weight: 650; letter-spacing: 0.08em; }
+.contact-page .contact-card p { font-size: 14px; }
+.contact-page .contact-button { border-radius: 9px; font-size: 14px; font-weight: 600; padding: 11px 18px; }
+
+.faq-page > .mk-eyebrow { display: block; text-align: center; }
+.faq-page h1 { margin: 12px auto 14px; max-width: 740px; text-align: center; }
+.faq-page .subtitle { font-size: 16px; line-height: 1.6; margin-bottom: 36px; }
+.faq-page .mk-faq-list { max-width: 760px; }
+.faq-page .mk-faq-list button {
+  background: #fff;
+  border: 1px solid #e4e8f0;
+  border-radius: 12px;
+  box-shadow: none;
+  padding: 17px 20px;
+}
+.faq-page .mk-faq-list strong { color: #20283b; font-size: 16px; font-weight: 600; }
+.faq-page .mk-faq-list p { font-size: 14px; line-height: 1.65; }
+
+.marketing-static:not(.faq-page) > h1 { margin: 12px auto 14px; max-width: 790px; text-align: center; }
+.marketing-static:not(.faq-page) > .subtitle { font-size: 16px; line-height: 1.6; margin-bottom: 0; }
+.marketing-static .feature-editorial { gap: 18px; margin-top: 42px; }
+.marketing-static .feature-editorial section {
+  border-radius: 16px;
+  box-shadow: none;
+  gap: 26px;
+  padding: clamp(24px, 3vw, 32px);
+}
+.marketing-static .feature-editorial h2 { font-size: clamp(22px, 2.4vw, 29px); font-weight: 620; line-height: 1.2; }
+.marketing-static .feature-editorial span { font-size: 11px; font-weight: 650; }
+.marketing-static .feature-editorial small { font-size: 12px; font-weight: 550; }
+.marketing-static .feature-visual { border-radius: 14px; min-height: 240px; }
+.marketing-static .feature-visual b { font-size: 19px; font-weight: 620; }
+.marketing-static .feature-preview-row strong { font-size: 13px; font-weight: 600; }
+.marketing-static .feature-preview-row em { font-weight: 600; }
+.marketing-static .static-cta { border-radius: 16px; padding: 38px 24px; }
+.marketing-static .static-cta h2 { color: #fff; font-size: clamp(25px, 2.8vw, 34px); font-weight: 620; }
+
+.app-shell .pricing-page:not(.workspace-page) .pricing-hero h1 {
+  font-size: clamp(32px, 3.5vw, 46px) !important;
+  font-weight: 650 !important;
+  line-height: 1.15 !important;
+}
+.app-shell .pricing-page:not(.workspace-page) .pricing-hero p { font-size: 15px !important; }
+
+.static-page.payment-page { max-width: 1080px; padding: clamp(44px, 5vw, 72px) 24px 80px; }
+.payment-page .payment-hero {
+  border-radius: 16px;
+  margin-bottom: 32px;
+  padding: clamp(30px, 4vw, 46px);
+}
+.payment-page .payment-hero::after { display: none; }
+.payment-page .payment-hero h1 {
+  font-size: clamp(32px, 3.5vw, 46px);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 1.14;
+  max-width: 740px;
+}
+.payment-page .payment-hero p { font-size: 16px; line-height: 1.65; }
+.payment-page .payment-hero-cta { border-radius: 9px; font-size: 14px; font-weight: 600; }
+.payment-page .payment-region { margin-bottom: 34px !important; }
+.payment-page .payment-region-head h2 { font-size: 25px; font-weight: 620; letter-spacing: -0.02em; }
+.payment-page .payment-region-head p { font-size: 14px; }
+.payment-page .payment-plan { border-radius: 14px; box-shadow: none; padding: 22px; }
+.payment-page .payment-plan h3 { font-size: 20px; font-weight: 620; }
+.payment-page .payment-price strong { font-size: 38px; font-weight: 680; }
+.payment-page .payment-price span { font-size: 12px; font-weight: 550; }
+.payment-page .payment-badge,
+.payment-page .payment-note span { font-size: 11px; font-weight: 650; }
+.payment-page .payment-plan li,
+.payment-page .payment-note p { font-size: 14px; line-height: 1.6; }
+.payment-page .payment-note div { border-radius: 14px; }
+
+.mk-footer { padding: 48px 24px 24px; }
+.mk-footer-top { gap: 26px; max-width: 1100px; }
+.mk-footer h3 { font-size: 23px; font-weight: 650; }
+.mk-footer h4 { font-size: 11px; font-weight: 650; letter-spacing: 0.08em; }
+.mk-footer p,
+.mk-footer a { font-size: 14px; font-weight: 400; line-height: 1.55; }
+.mk-footer-bottom { font-size: 13px; margin-top: 36px; max-width: 1100px; }
+
+@media (max-width: 820px) {
+  .legal-page .legal-layout { gap: 24px; grid-template-columns: 1fr; }
+  .legal-page .legal-layout aside { display: flex; flex-wrap: wrap; position: static; }
+  .legal-page .legal-layout aside a { font-size: 12px; }
+}
+
+@media (max-width: 600px) {
+  .static-page:is(.about-page, .contact-page, .legal-page, .faq-page, .marketing-static) { padding: 42px 18px 58px; }
+  .legal-page .legal-hero p,
+  .contact-page .contact-layout p,
+  .about-page .about-hero p { font-size: 15px; }
+  .mk-footer { padding: 40px 20px 24px; }
+  .static-page.payment-page { padding: 42px 18px 58px; }
+}

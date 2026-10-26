@@ -67,8 +67,9 @@ export default function DealCard({ deal, onDeleted, onUpdated }) {
       <article className="deal-card-v2">
         <div className="deal-card-summary">
         <div className="deal-card-head">
+          <span className="ws-brand-avatar" aria-hidden="true">{(deal.brand_name || "?").slice(0, 2).toUpperCase()}</span>
           <div>
-            <h3>{deal.brand_name}</h3>
+            <h3>{deal.brand_name || "Untitled brand"}</h3>
             <p>{deal.platform || deal.platform_custom || "Campaign"}</p>
           </div>
           <span className={`deal-status-pill ${deal.status || ""}`}>{deal.status}</span>
@@ -96,6 +97,7 @@ export default function DealCard({ deal, onDeleted, onUpdated }) {
           </div>
         )}
 
+        <details className="deal-extra-details"><summary>Campaign details & files <span aria-hidden="true">+</span></summary>
         {deal.proof_images?.length > 0 && (
           <div className="deal-proof-strip">
             {deal.proof_images.map((img, i) => (
@@ -114,6 +116,7 @@ export default function DealCard({ deal, onDeleted, onUpdated }) {
             <DateItem label="Content" value={deal.expected_content_date} />
           </div>
         )}
+        </details>
 
         {deal.status === "completed" && (
           <button className="deal-portfolio-btn" disabled={inPortfolio || addingToPortfolio} onClick={handleAddToPortfolio}>
@@ -150,26 +153,19 @@ export default function DealCard({ deal, onDeleted, onUpdated }) {
       )}
 
       {showConfirm && (
-        <div className="modal fade show d-block" style={{ background: "rgba(0,0,0,0.55)" }}>
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content border-0 rounded-4 shadow-lg">
-              <div className="modal-header border-0 pb-0">
-                <h5 className="fw-bold text-danger mb-0">Delete Deal</h5>
-              </div>
-              <div className="modal-body pt-2">
-                <div className="p-3 rounded-3 bg-light">
-                  <p className="mb-1 fw-semibold">{deal.brand_name}</p>
-                  <p className="text-muted mb-2">{deal.currency} {deal.amount}</p>
-                  <p className="text-danger small mb-0">This action cannot be undone.</p>
-                </div>
-              </div>
-              <div className="modal-footer border-0 pt-0">
+        <div className="ws-confirm-overlay" role="dialog" aria-modal="true" aria-label="Delete deal">
+          <div className="ws-confirm-dialog">
+              <span className="ws-confirm-icon" aria-hidden="true">!</span>
+              <h2>Delete deal?</h2>
+              <p>This permanently removes this deal from your workspace.</p>
+              <div className="ws-confirm-summary"><strong>{deal.brand_name || "Untitled brand"}</strong><span>{value} · {deal.platform || "Campaign"}</span></div>
+              <p className="ws-confirm-warning">This action cannot be undone.</p>
+              <div className="ws-dialog-actions">
                 <button className="btn btn-light" onClick={() => setShowConfirm(false)}>Cancel</button>
-                <button className="btn btn-danger px-4" disabled={deleting} onClick={handleDelete}>
+                <button className="ws-danger" disabled={deleting} onClick={handleDelete}>
                   {deleting ? "Deleting..." : "Delete"}
                 </button>
               </div>
-            </div>
           </div>
         </div>
       )}

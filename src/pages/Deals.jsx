@@ -1,3 +1,4 @@
+import { WorkspaceHeader, WorkspaceStats, WorkspaceSearch, WorkspaceIcon } from "../components/WorkspaceUI";
 import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
@@ -5,6 +6,7 @@ import { fetchDeals } from "../lib/api";
 import { useAuth } from "../context/AuthContext";
 import AddDealModal from "../components/AddDealModal";
 import DealCard from "../components/DealCard";
+import { freeDealCreditsUsed, isFreeDealLimitUsed } from "../utils/pricing";
 import "../styles/deals.css";
 
 const FILTERS = [
@@ -16,13 +18,14 @@ const FILTERS = [
 ];
 
 export default function Deals() {
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [deals, setDeals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
   const [query, setQuery] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     let alive = true;
@@ -30,6 +33,7 @@ export default function Deals() {
       .then((data) => {
         if (alive) setDeals(data.deals || []);
       })
+      .catch(() => { if (alive) setError("Could not load your deals. Please try again."); })
       .finally(() => {
         if (alive) setLoading(false);
       });
@@ -60,10 +64,6 @@ export default function Deals() {
 
   const handleDealCreated = (newDeal) => {
     setDeals((prev) => [newDeal, ...prev]);
-    setUser((prev) => prev ? {
-      ...prev,
-      deal_creations_used: Math.max(Number(prev.deal_creations_used) || 0, deals.length) + 1
-    } : prev);
     setShowAddModal(false);
   };
 
@@ -76,47 +76,45 @@ export default function Deals() {
   };
 
   return (
-    <div className="deals-page">
+    <div className="deals-page workspace-page">
       <Helmet><title>Deals - Brandio</title></Helmet>
 
-      <header className="deals-header">
-        <div>
-          <span>Deals</span>
-          <h1>Your deals</h1>
-          <p>Track brand work, payments and deliverables from one place.</p>
-        </div>
-        <button disabled={isFreeDealLimitUsed(user, deals.length)} onClick={() => setShowAddModal(true)}>
-          + Add Deal
-        </button>
-      </header>
+      <WorkspaceHeader eyebrow="Main / Deals" title="Your deals" description="Track brand work, payments, and the next step for every collaboration." actions={<button className="ws-button ws-primary" disabled={loading} onClick={() => setShowAddModal(true)}><WorkspaceIcon name="plus" /> Add deal</button>} />
+      <WorkspaceStats items={[
+        { label: "Total deals", value: counts.all, note: "Across your workspace", icon: "deals" },
+        { label: "In progress", value: counts.pending + counts.active + counts.overdue, note: "Open collaborations", icon: "clock", tone: "blue" },
+        { label: "Completed", value: counts.completed, note: "Finished collaborations", icon: "check", tone: "green" },
+        { label: "Overdue", value: counts.overdue, note: "Ready for a follow-up", icon: "alert", tone: "amber" }
+      ]} />
 
       <section className="deals-toolbar">
         <div className="deals-filters">
           {FILTERS.map(([id, label]) => (
-            <button key={id} className={filter === id ? "active" : ""} onClick={() => setFilter(id)}>
+            <button key={id} className={filter === id ? "active" : ""} aria-pressed={filter === id} onClick={() => setFilter(id)}>
               {label}<span>{counts[id] || 0}</span>
             </button>
           ))}
         </div>
-        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search brand or platform" />
+        <WorkspaceSearch value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search brand or platform" label="Search deals" />
       </section>
 
       {isFreeDealLimitUsed(user, deals.length) && (
         <section className="deals-paywall">
           <div>
-            <h2>Your 3 free deal credits are used.</h2>
-            <p>Deleting deals does not reset free credits. Upgrade your plan to add more deals.</p>
+            <h2>Your 1 lifetime free deal has been used.</h2>
+            <p>All features remain available for your existing deal. Deleting it does not reset your allowance. Upgrade to add more deals.</p>
           </div>
           <button onClick={() => navigate("/pricing")}>View plans</button>
         </section>
       )}
 
       {loading && <div className="deals-empty">Loading deals...</div>}
-      {!loading && visibleDeals.length === 0 && (
+      {!loading && error && <div className="deals-empty" role="alert">{error}</div>}
+      {!loading && !error && visibleDeals.length === 0 && (
         <div className="deals-empty">
           <h2>{deals.length ? "No deals match this view" : "No deals yet"}</h2>
           <p>{deals.length ? "Try another status or search term." : "Add your first brand deal to start tracking scope, payment and delivery."}</p>
-          {!deals.length && <button onClick={() => setShowAddModal(true)}>Add Deal</button>}
+          {!deals.length && <button className="ws-button ws-primary" onClick={() => setShowAddModal(true)}>Add deal</button>}
         </div>
       )}
       {!loading && visibleDeals.length > 0 && (
@@ -132,17 +130,8 @@ export default function Deals() {
           onClose={() => setShowAddModal(false)}
           onCreated={handleDealCreated}
           totalDeals={freeDealCreditsUsed(user, deals.length)}
-          plan={user.plan}
         />
       )}
     </div>
   );
-}
-
-function freeDealCreditsUsed(user, currentDeals) {
-  return Math.max(Number(user?.deal_creations_used) || 0, currentDeals || 0);
-}
-
-function isFreeDealLimitUsed(user, currentDeals) {
-  return user?.plan === "free" && freeDealCreditsUsed(user, currentDeals) >= 3;
 }

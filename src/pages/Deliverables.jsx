@@ -1,3 +1,4 @@
+import { WorkspaceHeader, WorkspaceStats, WorkspaceIcon } from "../components/WorkspaceUI";
 import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
@@ -17,7 +18,6 @@ const FILTERS = [
 export default function Deliverables() {
   const { showToast } = useToast();
   const [items, setItems] = useState([]);
-  const [stats, setStats] = useState({});
   const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -28,7 +28,6 @@ export default function Deliverables() {
       setError("");
       const data = await fetchDeliverables();
       setItems(data.deliverables || []);
-      setStats(data.stats || {});
     } catch {
       setError("Could not load deliverables");
     } finally {
@@ -50,6 +49,14 @@ export default function Deliverables() {
     return items;
   }, [filter, items]);
 
+  const stats = useMemo(() => ({
+    due_today: items.filter((item) => isToday(item.due_date)).length,
+    due_this_week: items.filter((item) => daysUntil(item.due_date) >= 0 && daysUntil(item.due_date) < 7).length,
+    overdue: items.filter((item) => daysUntil(item.due_date) < 0 && !isDone(item.status)).length,
+    awaiting_approval: items.filter((item) => ["submitted", "changes_requested"].includes(item.status)).length,
+    completed: items.filter((item) => isDone(item.status)).length
+  }), [items]);
+
   const updateStatus = async (item, status) => {
     try {
       const updated = await updateDeliverable(item.id, { status });
@@ -60,27 +67,21 @@ export default function Deliverables() {
   };
 
   return (
-    <div className="del-page">
+    <div className="del-page workspace-page">
       <Helmet><title>Deliverables - Brandio</title></Helmet>
 
-      <header className="del-page-hero">
-        <div>
-          <span>Deliverable Management</span>
-          <h1>Every campaign asset, deadline and approval in one place.</h1>
-          <p>Normalized deliverables connected to your Brandio deals.</p>
-        </div>
-        <div className="del-stat-grid">
-          <Stat label="Due today" value={stats.due_today || 0} />
-          <Stat label="Due this week" value={stats.due_this_week || 0} />
-          <Stat label="Overdue" value={stats.overdue || 0} />
-          <Stat label="Awaiting approval" value={stats.awaiting_approval || 0} />
-          <Stat label="Completed" value={stats.completed || 0} />
-        </div>
-      </header>
+      <WorkspaceHeader eyebrow="Main / Deliverables" title="Deliverables" description="Keep campaign assets, deadlines, and approvals moving forward." actions={<Link className="ws-button ws-secondary" to="/deals">Open deals <WorkspaceIcon name="arrow" /></Link>} />
+      <WorkspaceStats items={[
+        { label: "Due today", value: stats.due_today || 0, note: "On today’s schedule", icon: "calendar" },
+        { label: "This week", value: stats.due_this_week || 0, note: "Upcoming deadlines", icon: "clock", tone: "blue" },
+        { label: "Overdue", value: stats.overdue || 0, note: "Needs attention", icon: "alert", tone: "amber" },
+        { label: "Awaiting approval", value: stats.awaiting_approval || 0, note: "With the brand", icon: "eye" },
+        { label: "Completed", value: stats.completed || 0, note: "Approved or published", icon: "check", tone: "green" }
+      ]} />
 
       <nav className="del-filters">
         {FILTERS.map(([id, label]) => (
-          <button key={id} className={filter === id ? "active" : ""} onClick={() => setFilter(id)}>
+          <button key={id} className={filter === id ? "active" : ""} aria-pressed={filter === id} onClick={() => setFilter(id)}>
             {label}
           </button>
         ))}
@@ -96,7 +97,7 @@ export default function Deliverables() {
             <article className="del-global-card" key={item.id}>
               <div>
                 <h3>{item.title}</h3>
-                <p>{item.brand_name} • {item.type || "Deliverable"} • {item.platform || "Platform"}</p>
+                <p>{item.brand_name || "Untitled brand"} · {item.type || "Deliverable"} · {item.platform || "Platform"}</p>
                 <div className="del-global-meta">
                   <span className={deadlineClass(item)}>{deadlineLabel(item)}</span>
                   <span>{statusLabel(item.status)}</span>
@@ -104,7 +105,7 @@ export default function Deliverables() {
                 </div>
               </div>
               <div className="del-global-actions">
-                <select value={item.status} onChange={(e) => updateStatus(item, e.target.value)}>
+                <select aria-label={`Status for ${item.title}`} value={item.status} onChange={(e) => updateStatus(item, e.target.value)}>
                   {STATUS_OPTIONS.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
                 </select>
                 <Link to={`/deals/${item.deal_id}`}>Open deal</Link>
@@ -117,13 +118,13 @@ export default function Deliverables() {
   );
 }
 
-function Stat({ label, value }) {
-  return <div><strong>{value}</strong><span>{label}</span></div>;
-}
-
 function daysUntil(date) {
   if (!date) return 9999;
-  return Math.ceil((new Date(date) - new Date()) / 86400000);
+  const due = new Date(date);
+  const today = new Date();
+  due.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+  return Math.round((due - today) / 86400000);
 }
 
 function isToday(date) {
@@ -138,7 +139,7 @@ function isDone(status) {
 function deadlineLabel(item) {
   if (!item.due_date) return "No due date";
   const diff = daysUntil(item.due_date);
-  if (isDone(item.status)) return `Completed track`;
+  if (isDone(item.status)) return "Completed";
   if (diff < 0) return `Overdue by ${Math.abs(diff)}d`;
   if (diff === 0) return "Due today";
   if (diff < 7) return `Due in ${diff}d`;

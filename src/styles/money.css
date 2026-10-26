@@ -5,6 +5,9 @@
   padding: 34px 18px;
 }
 
+.money-currency-select { align-items: center; color: #636a7e; display: inline-flex; font-size: 13px; gap: 9px; margin-bottom: 16px; }
+.money-currency-select select { background: #fff; border: 1px solid #e4e6ee; border-radius: 8px; color: #202333; min-height: 38px; padding: 6px 10px; }
+
 .money-hero,
 .money-stat-grid,
 .money-grid-two,

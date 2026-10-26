@@ -50,7 +50,13 @@ export const cashRevenue = (deal) => {
   return 0;
 };
 
+export const normalizeCurrency = (value) =>
+  ["$", "USD"].includes(String(value || "").trim().toUpperCase()) ? "USD" : "INR";
+
+export const currencySymbol = (currency) => normalizeCurrency(currency) === "USD" ? "$" : "₹";
+
 export const formatMoney = (value, currency = "₹") => {
-  const symbol = currency === "$" ? "$" : "₹";
-  return `${symbol}${num(value).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
+  const symbol = currencySymbol(currency);
+  const locale = normalizeCurrency(currency) === "USD" ? "en-US" : "en-IN";
+  return `${symbol}${num(value).toLocaleString(locale, { maximumFractionDigits: 2 })}`;
 };

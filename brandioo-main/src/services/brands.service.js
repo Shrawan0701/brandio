@@ -1,4 +1,5 @@
 import pool from "../config/db.js";
+import { normalizeCurrency } from "../utils/currency.js";
 
 const MONEY_EXPR = `
   CASE
@@ -45,6 +46,7 @@ export const getBrandRelationshipsDB = async (userId) => {
        created_at,
        revision_count,
        deliverable_count,
+       currency,
        ${MONEY_EXPR} AS revenue
      FROM deals
      WHERE user_id=$1
@@ -69,6 +71,8 @@ export const getBrandRelationshipsDB = async (userId) => {
         brand: brandName || "Unknown",
         total_deals: 0,
         total_revenue: 0,
+        revenue_by_currency: {},
+        deal_count_by_currency: {},
         completed_campaigns: 0,
         active_deals: 0,
         revisions: 0,
@@ -87,8 +91,10 @@ export const getBrandRelationshipsDB = async (userId) => {
   for (const deal of deals) {
     const brand = ensure(deal.brand_name);
     const revenue = Number(deal.revenue) || 0;
+    const currency = normalizeCurrency(deal.currency);
     brand.total_deals += 1;
-    brand.total_revenue += revenue;
+    brand.revenue_by_currency[currency] = (brand.revenue_by_currency[currency] || 0) + revenue;
+    brand.deal_count_by_currency[currency] = (brand.deal_count_by_currency[currency] || 0) + 1;
     brand.revisions += Number(deal.revision_count) || 0;
     if (deal.status === "completed") brand.completed_campaigns += 1;
     if (["pending", "active", "overdue"].includes(deal.status)) brand.active_deals += 1;
@@ -113,6 +119,7 @@ export const getBrandRelationshipsDB = async (userId) => {
       status: deal.status,
       platform: deal.platform_custom || deal.platform,
       revenue,
+      currency,
       posting_date: deal.posting_date,
       paid_date: deal.paid_date,
       revision_count: Number(deal.revision_count) || 0
@@ -132,7 +139,9 @@ export const getBrandRelationshipsDB = async (userId) => {
   const now = new Date();
   const brands = [...map.values()]
     .map((brand) => {
-      const averageDealValue = brand.total_deals > 0 ? brand.total_revenue / brand.total_deals : 0;
+      const revenueByCurrency = Object.fromEntries(Object.entries(brand.revenue_by_currency).map(([currency, value]) => [currency, Math.round(value * 100) / 100]));
+      const averageByCurrency = Object.fromEntries(Object.entries(revenueByCurrency).map(([currency, value]) => [currency, Math.round(value / brand.deal_count_by_currency[currency] * 100) / 100]));
+      const primaryCurrency = Object.keys(revenueByCurrency)[0] || "INR";
       const averagePaymentDays =
         brand.payment_records > 0 ? brand.payment_days_total / brand.payment_records : null;
       const repeatCollaborations = Math.max(0, brand.total_deals - 1);
@@ -143,8 +152,11 @@ export const getBrandRelationshipsDB = async (userId) => {
 
       return {
         ...brand,
-        total_revenue: Math.round(brand.total_revenue * 100) / 100,
-        average_deal_value: Math.round(averageDealValue * 100) / 100,
+        total_revenue: revenueByCurrency[primaryCurrency] || 0,
+        average_deal_value: averageByCurrency[primaryCurrency] || 0,
+        currency: primaryCurrency,
+        revenue_by_currency: revenueByCurrency,
+        average_by_currency: averageByCurrency,
         average_payment_days:
           averagePaymentDays === null ? null : Math.round(averagePaymentDays * 10) / 10,
         repeat_collaborations: repeatCollaborations,
@@ -156,7 +168,7 @@ export const getBrandRelationshipsDB = async (userId) => {
         })
       };
     })
-    .sort((a, b) => b.total_revenue - a.total_revenue || b.total_deals - a.total_deals);
+    .sort((a, b) => b.total_deals - a.total_deals);
 
   return {
     brands,

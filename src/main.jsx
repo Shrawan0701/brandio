@@ -15,7 +15,6 @@ import "./styles/portfolio.css";
 import "./styles/contracts.css";
 import "./styles/inbound.css";
 import "./styles/media-kit.css";
-import "./styles/media-kit-editor.css";
 import "./styles/money.css";
 import "./styles/brands.css";
 import "./styles/rates.css";
@@ -26,6 +25,13 @@ import "./styles/intelligence.css";
 import "./styles/roi.css";
 import "./styles/static-pages.css";
 import "./styles/final-ui.css";
+import "./styles/media-kit-editor.css";
+import "./styles/public-media-kit.css";
+import "./styles/collaboration-form.css";
+import "./styles/dashboard-overview.css";
+import "./styles/workspace-ui.css";
+import "./styles/public-info.css";
+import "./styles/landing-polish.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

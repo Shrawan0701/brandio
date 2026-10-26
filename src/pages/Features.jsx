@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import MarketingFooter from "../components/MarketingFooter";
 
 const features = [
@@ -15,6 +16,12 @@ const features = [
 
 export default function Features() {
   return (
+    <>
+    <Helmet>
+      <title>Features - Brandio</title>
+      <meta name="description" content="Explore Brandio features for managing brand deals, deliverables, payments, contracts, and creator portfolios." />
+      <link rel="canonical" href="https://www.brandio.world/features" />
+    </Helmet>
     <div className="static-page marketing-static">
       <span className="mk-eyebrow">Brandio Features</span>
       <h1>The operating system for creator collaborations.</h1>
@@ -40,8 +47,9 @@ export default function Features() {
         <h2>Start running brand work from one place.</h2>
         <Link to="/register" className="mk-btn primary">Start free</Link>
       </section>
-      <MarketingFooter />
     </div>
+    <MarketingFooter />
+    </>
   );
 }
 

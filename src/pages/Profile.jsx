@@ -1,4 +1,6 @@
+import { WorkspaceHeader } from "../components/WorkspaceUI";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -22,6 +24,8 @@ export default function Profile() {
   const [photoUploading, setPhotoUploading] = useState(false);
   const [photoPreview, setPhotoPreview] = useState(false);
   const [toast, setToast] = useState(null);
+  const [savingIdentity, setSavingIdentity] = useState(false);
+  const [savingSocials, setSavingSocials] = useState(false);
 
   /* ---------- SOCIAL LINKS ---------- */
   const [socials, setSocials] = useState({
@@ -102,6 +106,7 @@ export default function Profile() {
 
   const handleSaveIdentity = async () => {
     try {
+      setSavingIdentity(true);
       const [profileUpdate, slugUpdate, kitUpdate] = await Promise.all([
         updateProfile(username),
         updatePublicSlug(publicSlug),
@@ -112,6 +117,8 @@ export default function Profile() {
       showToast("Profile saved");
     } catch (err) {
       showToast(err.response?.data?.message || "Could not save profile", "error");
+    } finally {
+      setSavingIdentity(false);
     }
   };
 
@@ -140,11 +147,14 @@ export default function Profile() {
   /* ---------- SAVE SOCIAL LINKS ---------- */
   const handleSaveSocials = async () => {
     try {
+      setSavingSocials(true);
       await updateSocialLinks(socials);
       await refreshUser();
       showToast("Social links updated");
     } catch {
       showToast("Failed to update social links", "error");
+    } finally {
+      setSavingSocials(false);
     }
   };
 
@@ -156,9 +166,11 @@ export default function Profile() {
   const publicUrl = `/${canonicalHandle}`;
 
   return (
-    <div className="profile-page">
+    <div className="profile-page workspace-page">
+      <Helmet><title>Profile - Brandio</title></Helmet>
 
       {/* ================= PROFILE HEADER ================= */}
+      <WorkspaceHeader eyebrow="Account / Profile" title="Your profile" description="Manage your creator identity, public handle, and social presence." />
       <section className="profile-hero">
         <div className="profile-identity">
           <button className="profile-avatar-btn" onClick={() => setPhotoPreview(true)} aria-label="View profile photo">
@@ -174,8 +186,8 @@ export default function Profile() {
 
           <div>
             <span className="profile-kicker">Professional creator identity</span>
-            <h1>{displayName}</h1>
-            <p>{mediaKit.headline || "Build a public business profile, media kit, and collaboration hub for your brand work."}</p>
+            <h2>{displayName}</h2>
+            <p>{mediaKit.headline || "Your public creator identity and collaboration profile."}</p>
             <div className="profile-meta">
               <span className={`plan-badge ${user.plan}`}>{user.plan.toUpperCase()}</span>
               {mediaKit.location && <span>{mediaKit.location}</span>}
@@ -188,7 +200,8 @@ export default function Profile() {
             {photoUploading ? "Uploading..." : "Change photo"}
             <input
               type="file"
-              hidden
+              aria-label="Change profile photo"
+              disabled={photoUploading}
               accept="image/*"
               onChange={(e) => {
                 handlePhotoChange(e);
@@ -245,7 +258,7 @@ export default function Profile() {
               </Field>
             </div>
             <div className="profile-panel-actions">
-              <button onClick={handleSaveIdentity}>Save profile</button>
+              <button disabled={savingIdentity || photoUploading} onClick={handleSaveIdentity}>{savingIdentity ? "Saving…" : "Save profile"}</button>
             </div>
           </section>
 
@@ -269,7 +282,7 @@ export default function Profile() {
               ))}
             </div>
             <div className="profile-panel-actions">
-              <button onClick={handleSaveSocials}>Save social links</button>
+              <button disabled={savingSocials} onClick={handleSaveSocials}>{savingSocials ? "Saving…" : "Save social links"}</button>
             </div>
           </section>
 
@@ -282,6 +295,7 @@ export default function Profile() {
               <label className="profile-switch">
                 <input
                   type="checkbox"
+                  aria-label="Publish media kit"
                   checked={mediaKit.enabled}
                   onChange={(e) => updateKit("enabled", e.target.checked)}
                 />

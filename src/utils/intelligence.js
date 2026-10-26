@@ -1,8 +1,9 @@
 /* Intelligence formatting helpers — display only, no invented data. */
-export const fmtMoney = (n) => {
+export const fmtMoney = (n, currency = "INR") => {
   const v = Number(n);
-  if (!Number.isFinite(v)) return "Rs.0";
-  return "Rs." + Math.round(v).toLocaleString("en-IN");
+  const symbol = currency === "USD" || currency === "$" ? "$" : "₹";
+  if (!Number.isFinite(v)) return `${symbol}0`;
+  return symbol + Math.round(v).toLocaleString("en-IN");
 };
 export const fmtNum = (n) => {
   const v = Number(n);

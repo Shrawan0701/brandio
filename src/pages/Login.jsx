@@ -12,9 +12,12 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [toast, setToast] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const submit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
 
     try {
       const res = await api.post("/auth/login", { email, password });
@@ -28,6 +31,7 @@ export default function Login() {
         type: "error",
         message: "Invalid email or password"
       });
+      setSubmitting(false);
     }
   };
 
@@ -61,7 +65,9 @@ export default function Login() {
             <Link to="/forgot-password">Forgot password?</Link>
           </div>
 
-          <button>Sign in</button>
+          <button type="submit" disabled={submitting} aria-busy={submitting}>
+            {submitting ? <><span className="auth-submit-spinner" aria-hidden="true" />Signing in...</> : "Sign in"}
+          </button>
         </form>
 
         <div className="auth-link">

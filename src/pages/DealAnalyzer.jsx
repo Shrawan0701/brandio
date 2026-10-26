@@ -1,3 +1,4 @@
+import { WorkspaceHeader } from "../components/WorkspaceUI";
 import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { analyzeDealTerms, extractDealAnalyzerFile, fetchDeals, updateDeal } from "../lib/api";
@@ -9,6 +10,9 @@ const sectionLabels = {
   payment: "Payment",
   usage: "Usage",
   exclusivity: "Exclusivity",
+  performance: "Performance requirements",
+  cancellation: "Cancellation",
+  disclosure: "Disclosure and compliance",
   important_dates: "Important dates",
   potential_negotiation_points: "Potential negotiation points",
   missing_or_unclear_information: "Missing/unclear information"
@@ -41,7 +45,7 @@ export default function DealAnalyzer() {
     fetchDeals().then((data) => setDeals(data.deals || [])).catch(() => {});
   }, []);
 
-  const selectedDeal = useMemo(() => deals.find((deal) => deal.id === dealId), [dealId, deals]);
+  const selectedDeal = useMemo(() => deals.find((deal) => String(deal.id) === String(dealId)), [dealId, deals]);
 
   const analyze = async () => {
     setLoading(true);
@@ -64,6 +68,8 @@ export default function DealAnalyzer() {
   const readFile = async (file) => {
     if (!file) return;
     setError("");
+    setAnalysis(null);
+    setFields({});
     setProgress(`Reading ${file.name}...`);
     try {
       if (/\.(txt|md|csv|rtf)$/i.test(file.name)) {
@@ -84,7 +90,7 @@ export default function DealAnalyzer() {
     const notes = [];
 
     if (selectedFields.deal_value && fields.deal_value) payload.amount = num(fields.deal_value);
-    if (selectedFields.currency && fields.currency) payload.currency = fields.currency === "$" ? "$" : "₹";
+    if (selectedFields.currency && fields.currency) payload.currency = /^(\$|USD)$/i.test(fields.currency) ? "$" : "₹";
     if (selectedFields.deliverables && fields.deliverables) notes.push(`Deliverables:\n${fields.deliverables}`);
     if (selectedFields.usage_rights && fields.usage_rights) notes.push(`Usage rights:\n${fields.usage_rights}`);
     if (selectedFields.paid_advertising_rights && fields.paid_advertising_rights) notes.push(`Paid advertising:\n${fields.paid_advertising_rights}`);
@@ -97,12 +103,19 @@ export default function DealAnalyzer() {
     if (selectedFields.posting_dates && /^\d{4}-\d{2}-\d{2}$/.test(fields.posting_dates || "")) {
       payload.posting_date = fields.posting_dates;
     }
-    if (notes.length) payload.notes = notes.join("\n\n");
+    if (notes.length) {
+      const existingNotes = String(selectedDeal?.notes || "").trim();
+      const extractedNotes = `Analyzer review:\n${notes.join("\n\n")}`;
+      if (!existingNotes.includes(extractedNotes)) payload.notes = [existingNotes, extractedNotes].filter(Boolean).join("\n\n");
+    }
     return payload;
   };
 
   const applyToDeal = async () => {
     if (!dealId) return showToast("Choose a deal first", "error");
+    if (fields.currency && !/^(₹|INR|Rs\.?|\$|USD)$/i.test(fields.currency)) {
+      return showToast("This deal currency is not supported. Review the amount before applying.", "error");
+    }
     const payload = payloadFromSelected();
     if (!Object.keys(payload).length) return showToast("Select at least one usable field", "error");
     try {
@@ -121,16 +134,10 @@ export default function DealAnalyzer() {
   const missingItems = analysis?.sections?.missing_or_unclear_information || [];
 
   return (
-    <div className="da-page">
+    <div className="da-page workspace-page">
       <Helmet><title>AI Deal Analyzer - Brandio</title></Helmet>
 
-      <header className="da-hero">
-        <div>
-          <span>AI Deal Analyzer</span>
-          <h1>Extract the business terms before you sign.</h1>
-          <p>Paste deal terms or upload a PDF, DOCX, or text file. Brandio highlights useful business information without giving legal advice.</p>
-        </div>
-      </header>
+      <WorkspaceHeader eyebrow="Intelligence / Deal analyzer" title="Deal analyzer" description="Upload an agreement or paste its terms to review deliverables, payment, usage, and important dates." />
 
       <main className="da-layout">
         <section className="da-panel da-input">
@@ -138,16 +145,17 @@ export default function DealAnalyzer() {
             <h2>Contract or deal terms</h2>
             <label className="da-upload">
               Upload file
-              <input type="file" accept=".pdf,.doc,.docx,.txt,.md,.csv,.rtf,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden onChange={(e) => readFile(e.target.files?.[0])} />
+              <input type="file" aria-label="Upload deal terms" accept=".pdf,.doc,.docx,.txt,.md,.csv,.rtf,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onChange={(e) => readFile(e.target.files?.[0])} />
             </label>
           </div>
           <textarea
+            aria-label="Contract or deal terms"
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={(e) => { setText(e.target.value); setAnalysis(null); setFields({}); setProgress(""); }}
             placeholder="Paste contract clauses, deal terms, email agreement, or brand brief text here..."
           />
-          {error && <div className="da-error">{error}</div>}
-          {progress && <div className="da-progress">{progress}</div>}
+          {error && <div className="da-error" role="alert">{error}</div>}
+          {progress && <div className="da-progress" role="status">{progress}</div>}
           <button className="da-primary" disabled={loading || text.trim().length < 40} onClick={analyze}>
             {loading ? "Analyzing..." : "Analyze deal terms"}
           </button>
@@ -160,8 +168,9 @@ export default function DealAnalyzer() {
               <p>{analysis.deal_summary}</p>
               <div className="da-summary-grid">
                 <div><span>Deal value</span><strong>{fields.deal_value ? displayMoney(fields.deal_value, fields.currency) : "Needs review"}</strong></div>
-                <div><span>Status</span><strong>{analysis.source === "ai" ? "AI reviewed" : "Basic scan"}</strong></div>
+                <div><span>Review method</span><strong>{analysis.source === "ai" ? "AI-assisted review" : "Rules-based review"}</strong></div>
               </div>
+              {!!analysis.sections?.potential_negotiation_points?.length && <div className="da-summary-flags"><strong>Terms to review</strong><ul>{analysis.sections.potential_negotiation_points.slice(0, 3).map((item, index) => <li key={index}>{item}</li>)}</ul></div>}
               <small>{analysis.disclaimer}</small>
             </>
           ) : (
@@ -194,17 +203,17 @@ export default function DealAnalyzer() {
 
           <section className="da-panel da-apply">
             <div>
-              <h2>Apply selected fields to a deal</h2>
-              <p>Only selected fields are applied. Review everything first.</p>
+              <h2>Apply detected fields to a deal</h2>
+              <p>Review the amount, currency, dates and notes above before applying them.</p>
             </div>
-            <select value={dealId} onChange={(e) => setDealId(e.target.value)}>
+            <select aria-label="Apply terms to deal" value={dealId} onChange={(e) => setDealId(e.target.value)}>
               <option value="">Choose existing deal</option>
               {deals.map((deal) => (
                 <option key={deal.id} value={deal.id}>{deal.brand_name} • {deal.platform}</option>
               ))}
             </select>
             {selectedDeal && <span>Selected: {selectedDeal.brand_name}</span>}
-            <button onClick={applyToDeal}>Apply selected fields</button>
+            <button onClick={applyToDeal}>Apply detected fields</button>
           </section>
         </>
       )}

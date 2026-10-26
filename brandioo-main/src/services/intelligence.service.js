@@ -1,4 +1,5 @@
 import pool from "../config/db.js";
+import { normalizeCurrency, pickCurrency } from "../utils/currency.js";
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const num = (v) => {
   const n = Number(v);
@@ -26,31 +27,40 @@ const metricN = (m, k) => {
   const n = Number(m[k]);
   return Number.isFinite(n) && n > 0 ? n : 0;
 };
-const money = (n) => "Rs." + Math.round(n).toLocaleString("en-IN");
-export const getIntelligence = async (userId) => {
-  const dr = await pool.query("SELECT id, brand_name, platform, platform_custom, amount, status, posting_date::text AS posting_date, payment_due_date::text AS payment_due_date, created_at FROM deals WHERE user_id = $1", [userId]);
-  const deals = dr.rows;
+const dealRevenue = (deal) => {
+  const type = deal.deal_type || "paid";
+  if (["gifted", "barter"].includes(type)) return 0;
+  if (["affiliate", "commission"].includes(type)) return num(deal.commission_earned);
+  if (type === "hybrid") return num(deal.fixed_amount ?? deal.amount) + num(deal.commission_earned);
+  return num(deal.amount);
+};
+export const getIntelligence = async (userId, requestedCurrency) => {
+  const dr = await pool.query("SELECT id, brand_name, platform, platform_custom, amount, fixed_amount, commission_earned, deal_type, currency, status, posting_date::text AS posting_date, payment_due_date::text AS payment_due_date, paid_date::text AS paid_date, created_at FROM deals WHERE user_id = $1", [userId]);
+  const availableCurrencies = [...new Set(dr.rows.map((deal) => normalizeCurrency(deal.currency)))].sort();
+  const currency = pickCurrency(availableCurrencies, requestedCurrency);
+  const money = (n) => (currency === "USD" ? "$" : "₹") + Math.round(n).toLocaleString("en-IN");
+  const deals = dr.rows.filter((deal) => normalizeCurrency(deal.currency) === currency);
   const pr = await pool.query("SELECT p.metrics FROM portfolio_items p JOIN deals d ON d.id = p.deal_id WHERE p.user_id = $1", [userId]);
   const completed = deals.filter((d) => d.status === "completed");
-  const open = deals.filter((d) => d.status === "pending" || d.status === "active");
+  const open = deals.filter((d) => d.status === "pending" || d.status === "active" || d.status === "overdue");
   const cCount = completed.length;
   const aCount = deals.filter((d) => d.status === "pending" || d.status === "active" || d.status === "overdue").length;
   let earned = 0;
-  for (const d of completed) earned += num(d.amount);
+  for (const d of completed) earned += dealRevenue(d);
   const avgVal = cCount ? earned / cCount : 0;
   let pendingAmt = 0;
-  for (const d of open) pendingAmt += num(d.amount);
+  for (const d of open) pendingAmt += dealRevenue(d);
   const yr = new Date().getFullYear();
   const ytd = completed.filter((d) => {
-    const dt = parseDate(d.posting_date) || parseDate(d.created_at);
+    const dt = parseDate(d.paid_date) || parseDate(d.created_at);
     return dt && dt.getFullYear() === yr;
   });
   let ytdEarn = 0;
-  for (const d of ytd) ytdEarn += num(d.amount);
+  for (const d of ytd) ytdEarn += dealRevenue(d);
   const avgYr = ytd.length ? ytdEarn / ytd.length : 0;
   const now = new Date();
   const thisMonth = completed.filter((d) => {
-    const dt = parseDate(d.posting_date) || parseDate(d.created_at);
+    const dt = parseDate(d.paid_date) || parseDate(d.created_at);
     return dt && dt.getFullYear() === now.getFullYear() && dt.getMonth() === now.getMonth();
   }).length;
   const keys = last6();
@@ -59,11 +69,11 @@ export const getIntelligence = async (userId) => {
   const av = {};
   for (const k of keys) { rev[k] = 0; vol[k] = 0; }
   for (const d of completed) {
-    const dt = parseDate(d.posting_date) || parseDate(d.created_at);
+    const dt = parseDate(d.paid_date) || parseDate(d.created_at);
     if (!dt) continue;
     const k = mKey(dt);
     if (!(k in rev)) continue;
-    rev[k] += num(d.amount);
+    rev[k] += dealRevenue(d);
     vol[k] += 1;
   }
   for (const k of keys) av[k] = vol[k] ? rev[k] / vol[k] : 0;
@@ -76,7 +86,7 @@ export const getIntelligence = async (userId) => {
   for (const d of completed) {
     const p = pname(d);
     if (!pmap[p]) pmap[p] = { platform: p, revenue: 0, deals: 0 };
-    pmap[p].revenue += num(d.amount);
+    pmap[p].revenue += dealRevenue(d);
     pmap[p].deals += 1;
   }
   const plats = Object.values(pmap).sort((a, b) => b.revenue - a.revenue);
@@ -85,7 +95,7 @@ export const getIntelligence = async (userId) => {
   for (const d of completed) {
     const b = (d.brand_name && d.brand_name.trim()) || "Unknown";
     if (!bmap[b]) bmap[b] = { brand: b, revenue: 0, deals: 0 };
-    bmap[b].revenue += num(d.amount);
+    bmap[b].revenue += dealRevenue(d);
     bmap[b].deals += 1;
   }
 
@@ -126,7 +136,7 @@ export const getIntelligence = async (userId) => {
   }
   let perMonth = null;
   if (cCount >= 2) {
-    const ts = completed.map((d) => parseDate(d.posting_date) || parseDate(d.created_at)).filter(Boolean).map((d) => d.getTime()).sort((a, b) => a - b);
+    const ts = completed.map((d) => parseDate(d.paid_date) || parseDate(d.created_at)).filter(Boolean).map((d) => d.getTime()).sort((a, b) => a - b);
     if (ts.length >= 2) {
       const span = Math.max(1, (ts[ts.length - 1] - ts[0]) / (86400000 * 30.44));
       perMonth = cCount / span;
@@ -141,6 +151,8 @@ export const getIntelligence = async (userId) => {
   if (delta !== null) insights.push({ id: "delta", icon: "delta", tone: delta >= 0 ? "green" : "red", text: "Your deal value changed by " + Math.abs(Math.round(delta)) + "% compared with the previous month." });
   if (pendingAmt > 0) insights.push({ id: "pending", icon: "pending", tone: "amber", text: money(pendingAmt) + " is currently pending across " + open.length + " open deals." });
   return {
+    currency,
+    availableCurrencies,
     totals: { totalDeals: deals.length, completedCount: cCount, activeCount: aCount, overdueCount: odCount, totalEarned: earned, avgDealValue: avgVal, pendingAmount: pendingAmt, avgThisYear: avgYr, ytdCount: ytd.length, year: yr, completedThisMonth: thisMonth, avgPaymentDays: avgPay, revenueDeltaPctRounded: delta !== null ? Math.round(delta) : null, dealsPerMonth: perMonth, repeatBrands: repeat },
     revenueTrend: trend,
     avgTrend: avgTrend,

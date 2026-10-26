@@ -132,6 +132,29 @@
   font-weight: 900;
   padding: 12px 16px;
 }
+
+.app-shell .modal-card.add-deal-modal.add-deal-upgrade-modal {
+  max-width: 440px !important;
+  width: min(440px, 100%);
+}
+
+.add-deal-upgrade-modal .add-deal-paywall {
+  padding: 24px;
+}
+
+.add-deal-upgrade-modal .add-deal-paywall h3 {
+  font-size: 21px;
+  margin-bottom: 12px;
+}
+
+.add-deal-upgrade-modal .add-deal-paywall p {
+  line-height: 1.5;
+  margin-bottom: 22px;
+}
+
+.add-deal-upgrade-modal .add-deal-paywall button {
+  width: 100%;
+}
 .deal-proof-container {
   display: flex;
   gap: 8px;
@@ -154,6 +177,9 @@
 }
 
 @media (max-width: 640px) {
+  .app-shell .modal-backdrop-custom.add-deal-upgrade-backdrop {
+    align-items: center;
+  }
   .modal-backdrop-custom {
     align-items: stretch;
     padding: 10px;

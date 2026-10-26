@@ -1,6 +1,10 @@
 import pool from "../config/db.js";
+import { currencySql, pickCurrency } from "../utils/currency.js";
 
-export const getAnalytics = async (userId) => {
+export const getAnalytics = async (userId, requestedCurrency) => {
+  const { rows: currencies } = await pool.query(`SELECT DISTINCT ${currencySql()} AS currency FROM deals WHERE user_id=$1 ORDER BY currency`, [userId]);
+  const availableCurrencies = currencies.map((row) => row.currency);
+  const currency = pickCurrency(availableCurrencies, requestedCurrency);
   const total = await pool.query(
     `SELECT COALESCE(SUM(
        CASE
@@ -11,8 +15,8 @@ export const getAnalytics = async (userId) => {
        END
      ),0) AS total
      FROM deals
-     WHERE user_id=$1 AND status='completed'`,
-    [userId]
+     WHERE user_id=$1 AND ${currencySql()}=$2 AND status='completed'`,
+    [userId, currency]
   );
 
   const pending = await pool.query(
@@ -25,8 +29,8 @@ export const getAnalytics = async (userId) => {
        END
      ),0) AS pending
      FROM deals
-     WHERE user_id=$1 AND status IN ('pending','active','overdue')`,
-    [userId]
+     WHERE user_id=$1 AND ${currencySql()}=$2 AND status IN ('pending','active','overdue')`,
+    [userId, currency]
   );
 
   const thisMonth = await pool.query(
@@ -39,10 +43,10 @@ export const getAnalytics = async (userId) => {
        END
      ),0) AS month
      FROM deals
-     WHERE user_id=$1
+     WHERE user_id=$1 AND ${currencySql()}=$2
        AND status='completed'
-       AND DATE_TRUNC('month', created_at) = DATE_TRUNC('month', CURRENT_DATE)`,
-    [userId]
+       AND DATE_TRUNC('month', COALESCE(paid_date, created_at)::date) = DATE_TRUNC('month', CURRENT_DATE)`,
+    [userId, currency]
   );
 
   const counts = await pool.query(
@@ -56,6 +60,8 @@ export const getAnalytics = async (userId) => {
   );
 
   return {
+    currency,
+    availableCurrencies,
     totalEarned: Number(total.rows[0].total),
     pendingAmount: Number(pending.rows[0].pending),
     thisMonth: Number(thisMonth.rows[0].month),

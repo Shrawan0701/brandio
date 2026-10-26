@@ -1,3 +1,4 @@
+import { WorkspaceHeader, WorkspaceStats, WorkspaceIcon } from "../components/WorkspaceUI";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 
@@ -148,7 +149,7 @@ export default function Portfolio() {
   };
 
   return (
-    <div className="pf-page">
+    <div className="pf-page workspace-page">
       <Helmet>
         <title>Portfolio - Brandio</title>
         <meta
@@ -159,60 +160,13 @@ export default function Portfolio() {
 
       <div className="pf-shell">
         {/* --------------------------------- hero --------------------------------- */}
-        <header className="pf-hero">
-          <div>
-            <span className="pf-eyebrow">Proof of work</span>
-            <h1 className="pf-title">
-              Your <span>portfolio</span>
-            </h1>
-            <p className="pf-subtitle">
-              Every completed deal in Brandio can become a campaign you show to
-              brands — deliverables, results and the story behind the work.
-            </p>
-
-            <div className="pf-hero-actions">
-              <button
-                className="pf-cta"
-                onClick={() => setPickerOpen(true)}
-                disabled={loading}
-              >
-                <span className="pf-cta-plus">+</span> Add from completed deals
-              </button>
-
-              <span className="pf-hero-note">
-                {stats.total > 0
-                  ? `${stats.total} campaign${
-                      stats.total === 1 ? "" : "s"
-                    } ready to share`
-                  : "No campaigns added yet"}
-              </span>
-            </div>
-          </div>
-
-          <div className="pf-stats">
-            <div className="pf-stat">
-              <div className="pf-stat-value">{stats.total}</div>
-              <div className="pf-stat-label">Campaigns</div>
-            </div>
-
-            <div className="pf-stat">
-              <div className="pf-stat-value">{stats.featured}</div>
-              <div className="pf-stat-label">Featured</div>
-            </div>
-
-            <div className="pf-stat">
-              <div className="pf-stat-value">{stats.public}</div>
-              <div className="pf-stat-label">Public</div>
-            </div>
-
-            <div className="pf-stat">
-              <div className="pf-stat-value">
-                {stats.reach > 0 ? formatCompactNumber(stats.reach) : "—"}
-              </div>
-              <div className="pf-stat-label">Tracked views</div>
-            </div>
-          </div>
-        </header>
+        <WorkspaceHeader eyebrow="Workspace / Portfolio" title="Your portfolio" description="Turn completed collaborations into proof of your best work." actions={<button className="ws-button ws-primary" onClick={() => setPickerOpen(true)} disabled={loading}><WorkspaceIcon name="plus" /> Add from completed deals</button>} />
+        <WorkspaceStats items={[
+          { label: "Campaigns", value: stats.total, note: "In your portfolio", icon: "deals" },
+          { label: "Featured", value: stats.featured, note: "Your selected highlights", icon: "star", tone: "amber" },
+          { label: "Public", value: stats.public, note: "Visible to brands", icon: "eye", tone: "green" },
+          { label: "Tracked views", value: stats.reach > 0 ? formatCompactNumber(stats.reach) : "—", note: "From recorded content metrics", icon: "chart", tone: "blue" }
+        ]} />
 
         {/* -------------------------------- toolbar -------------------------------- */}
         <div className="pf-toolbar">
@@ -221,6 +175,7 @@ export default function Portfolio() {
               <button
                 key={entry.id}
                 className={`pf-chip${filter === entry.id ? " active" : ""}`}
+                aria-pressed={filter === entry.id}
                 onClick={() => setFilter(entry.id)}
               >
                 {entry.label}

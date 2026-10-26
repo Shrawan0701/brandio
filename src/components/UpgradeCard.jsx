@@ -2,6 +2,7 @@ import { startUpgrade } from "../lib/payments";
 import { useAuth } from "../context/AuthContext";
 import Toast from "./Toast";
 import { useState } from "react";
+import { getPaidPlans } from "../utils/pricing";
 
 export default function UpgradeCard() {
   const { user, setUser } = useAuth();
@@ -10,17 +11,13 @@ export default function UpgradeCard() {
 
   if (!user || !user.country_code) return null;
 
-  const isIndia = user.country_code === "IN";
-
-  const monthlyLabel = isIndia ? "₹99 / Month" : "$5 / Month";
-  const yearlyLabel = isIndia ? "₹499 / Year" : "$49 / Year";
+  const plans = getPaidPlans(user.country_code);
 
   const handleUpgrade = async (plan) => {
     try {
       setLoading(true);
 
-      const updatedUser = await startUpgrade(plan);
-      setUser(updatedUser);
+      await startUpgrade(plan, setUser, user.country_code);
 
       setToast({
         type: "success",
@@ -41,25 +38,15 @@ export default function UpgradeCard() {
       <div className="upgrade-card-modern">
         <h5 className="fw-bold mb-1">Upgrade to Pro</h5>
         <p className="text-muted mb-3">
-          Unlock unlimited deals and reminders
+          Keep every feature and add unlimited brand deals.
         </p>
 
-        <div className="d-flex gap-2">
-          <button
-            className="btn btn-dark w-100"
-            disabled={loading}
-            onClick={() => handleUpgrade("monthly")}
-          >
-            {monthlyLabel}
-          </button>
-
-          <button
-            className="btn btn-outline-dark w-100"
-            disabled={loading}
-            onClick={() => handleUpgrade("yearly")}
-          >
-            {yearlyLabel}
-          </button>
+        <div className="d-flex flex-wrap gap-2">
+          {plans.map((plan) => (
+            <button key={plan.id} className="btn btn-dark" disabled={loading} onClick={() => handleUpgrade(plan.id)}>
+              {plan.price} {plan.cadence}
+            </button>
+          ))}
         </div>
       </div>
 

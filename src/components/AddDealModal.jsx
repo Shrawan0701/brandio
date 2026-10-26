@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../lib/api";
+import { useAuth } from "../context/AuthContext";
+import { freeDealCreditsUsed, isFreeDealLimitUsed } from "../utils/pricing";
 import { DEAL_TYPES, isCommissionDeal, isProductDeal, num } from "../utils/deals";
 
 const baseForm = {
@@ -25,19 +27,20 @@ const baseForm = {
   commission_earned: ""
 };
 
-export default function AddDealModal({ onClose, onCreated, totalDeals, plan, initialData = {} }) {
+export default function AddDealModal({ onClose, onCreated, totalDeals = 0, initialData = {} }) {
   const navigate = useNavigate();
+  const { user, setUser } = useAuth();
   const [form, setForm] = useState({ ...baseForm, ...initialData });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  if (plan === "free" && totalDeals >= 3) {
+  if (isFreeDealLimitUsed(user, totalDeals)) {
     return (
-      <ModalShell onClose={onClose} title="Free plan limit reached">
+      <ModalShell onClose={onClose} title="Upgrade to add more deals" compact>
         <div className="add-deal-paywall">
-          <h3>Your 3 free deal credits are used.</h3>
-          <p>Deleting deals does not restore free credits. Upgrade your plan to add more deals and keep tracking brand work without interruption.</p>
-          <button onClick={() => navigate("/pricing")}>View plans</button>
+          <h3>Unlock unlimited brand deals</h3>
+          <p>You’ve used your 1 lifetime free deal. All Brandio features remain available for it. Upgrade to create more deals.</p>
+          <button onClick={() => navigate("/pricing")}>View plans and upgrade</button>
         </div>
       </ModalShell>
     );
@@ -74,7 +77,11 @@ export default function AddDealModal({ onClose, onCreated, totalDeals, plan, ini
         commission_earned: commissionEarned,
         total_earned: totalEarned
       });
-      onCreated(res.data);
+      setUser((previous) => previous ? {
+        ...previous,
+        deal_creations_used: freeDealCreditsUsed(previous, totalDeals) + 1
+      } : previous);
+      await onCreated(res.data);
     } catch (e) {
       setError(e.response?.data?.message || "Failed to create deal");
     } finally {
@@ -204,13 +211,13 @@ function FormSection({ title, children }) {
   );
 }
 
-function ModalShell({ children, onClose, title }) {
+function ModalShell({ children, onClose, title, compact = false }) {
   return (
-    <div className="modal-backdrop-custom">
-      <div className="modal-card add-deal-modal">
+    <div className={`modal-backdrop-custom ${compact ? "add-deal-upgrade-backdrop" : ""}`}>
+      <div className={`modal-card add-deal-modal ${compact ? "add-deal-upgrade-modal" : ""}`} role="dialog" aria-modal="true" aria-label={title}>
         <div className="add-deal-modal-head">
           <h5>{title}</h5>
-          <button className="modal-close" onClick={onClose}>x</button>
+          <button className="modal-close" onClick={onClose} aria-label="Close">×</button>
         </div>
         <div className="add-deal-modal-body">{children}</div>
       </div>

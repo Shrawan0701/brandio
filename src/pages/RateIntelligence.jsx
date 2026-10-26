@@ -1,3 +1,4 @@
+import { WorkspaceHeader } from "../components/WorkspaceUI";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { calculateRateQuote, fetchRateQuotes, saveRateQuote } from "../lib/api";
@@ -16,7 +17,8 @@ const initial = {
   paid_ad_usage: false,
   exclusivity: false,
   turnaround: "Standard",
-  brand_name: ""
+  brand_name: "",
+  currency: "INR"
 };
 
 export default function RateIntelligence() {
@@ -74,30 +76,26 @@ export default function RateIntelligence() {
       brand_name: form.brand_name || "",
       platform: form.platform || "Instagram",
       deal_type: form.content_type || "paid",
+      currency: result.currency === "USD" ? "$" : "₹",
       amount: result.suggested_range?.high || "",
       fixed_amount: result.suggested_range?.high || "",
       deliverable_count: form.deliverables || 0,
-      notes: `Rate Intelligence quote\nSuggested range: ${formatMoney(result.suggested_range?.low)} - ${formatMoney(result.suggested_range?.high)}\n\n${message}`
+      notes: `Rate Intelligence quote\nSuggested range: ${formatMoney(result.suggested_range?.low, result.currency)} - ${formatMoney(result.suggested_range?.high, result.currency)}\n\n${message}`
     });
   };
 
   return (
-    <div className="rate-page">
+    <div className="rate-page workspace-page">
       <Helmet><title>Rate Intelligence - Brandio</title></Helmet>
 
-      <header className="rate-hero">
-        <div>
-          <span>Rate Intelligence</span>
-          <h1>Quote from your own Brandio history.</h1>
-          <p>Planning estimates from your recorded comparable deals. Not an objective market price.</p>
-        </div>
-      </header>
+      <WorkspaceHeader eyebrow="Intelligence / Rates" title="Rate intelligence" description="Build a planning quote from comparable deals in your own Brandio history." />
 
       <main className="rate-layout">
         <section className="rate-panel rate-form">
           <h2>Campaign inputs</h2>
           <div className="rate-input-grid">
             <Select label="Platform" value={form.platform} onChange={(v) => update("platform", v)} options={["Instagram", "YouTube", "TikTok", "X", "Other"]} />
+            <Select label="Currency" value={form.currency} onChange={(v) => update("currency", v)} options={["INR", "USD"]} />
             <Input label="Followers" value={form.followers} onChange={(v) => update("followers", v)} />
             <Input label="Average views" value={form.average_views} onChange={(v) => update("average_views", v)} />
             <Input label="Engagement rate %" value={form.engagement_rate} onChange={(v) => update("engagement_rate", v)} />
@@ -119,14 +117,14 @@ export default function RateIntelligence() {
           {result ? (
             <>
               <div className="rate-range">
-                <strong>{formatMoney(result.suggested_range.low)} - {formatMoney(result.suggested_range.high)}</strong>
+                <strong>{formatMoney(result.suggested_range.low, result.currency)} - {formatMoney(result.suggested_range.high, result.currency)}</strong>
                 <span>{result.disclaimer}</span>
               </div>
               <div className="rate-historical">
-                <Metric label="Comparable range" value={`${formatMoney(result.historical.low)} - ${formatMoney(result.historical.high)}`} />
-                <Metric label="Average deal value" value={formatMoney(result.historical.average)} />
-                <Metric label="Median deal value" value={formatMoney(result.historical.median)} />
-                <Metric label="Highest deal value" value={formatMoney(result.historical.highest)} />
+                <Metric label="Comparable range" value={`${formatMoney(result.historical.low, result.currency)} - ${formatMoney(result.historical.high, result.currency)}`} />
+                <Metric label="Average deal value" value={formatMoney(result.historical.average, result.currency)} />
+                <Metric label="Median deal value" value={formatMoney(result.historical.median, result.currency)} />
+                <Metric label="Highest deal value" value={formatMoney(result.historical.highest, result.currency)} />
               </div>
               <p className="rate-explain">{result.ai?.explanation}</p>
               <p className="rate-explain">{result.ai?.negotiation_considerations}</p>
@@ -155,7 +153,7 @@ export default function RateIntelligence() {
                 <span>{deal.platform}</span>
                 <span>{deal.deliverable_count || 0} deliverables</span>
                 <span>Similarity {deal.similarity_score}</span>
-                <em>{formatMoney(deal.revenue)}</em>
+                <em>{formatMoney(deal.revenue, result.currency)}</em>
               </div>
             ))}
           </div>
@@ -172,7 +170,7 @@ export default function RateIntelligence() {
             setMessage(quote.negotiation_message || quote.quote_result?.ai?.negotiation_message || "");
           }}>
             <span>{quote.quote_inputs?.platform || "Quote"}</span>
-            <strong>{formatMoney(quote.quote_result?.suggested_range?.low)} - {formatMoney(quote.quote_result?.suggested_range?.high)}</strong>
+            <strong>{formatMoney(quote.quote_result?.suggested_range?.low, quote.quote_result?.currency || quote.quote_inputs?.currency)} - {formatMoney(quote.quote_result?.suggested_range?.high, quote.quote_result?.currency || quote.quote_inputs?.currency)}</strong>
           </button>
         ))}
       </section>
@@ -185,7 +183,6 @@ export default function RateIntelligence() {
             showToast("Deal created from quote", "success");
           }}
           totalDeals={0}
-          plan="pro"
           initialData={dealSeed}
         />
       )}

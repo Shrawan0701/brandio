@@ -8,7 +8,7 @@ const text = (value, max = 120) => String(value || "").trim().slice(0, max);
 
 export const getMoneyCockpit = async (req, res) => {
   try {
-    const data = await getMoneyCockpitDB(req.user.id);
+    const data = await getMoneyCockpitDB(req.user.id, req.query.currency);
     res.json(data);
   } catch (err) {
     console.error("GET MONEY COCKPIT ERROR:", err);

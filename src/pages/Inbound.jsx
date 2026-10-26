@@ -1,3 +1,4 @@
+import { WorkspaceHeader, WorkspaceStats, WorkspaceIcon } from "../components/WorkspaceUI";
 import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useAuth } from "../context/AuthContext";
@@ -27,7 +28,6 @@ export default function Inbound() {
   const { user } = useAuth();
   const { showToast } = useToast();
   const [inquiries, setInquiries] = useState([]);
-  const [stats, setStats] = useState({});
   const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -40,7 +40,6 @@ export default function Inbound() {
       setError("");
       const data = await fetchInboundInquiries();
       setInquiries(data.inquiries || []);
-      setStats(data.stats || {});
     } catch {
       setError("Could not load inbound inquiries");
     } finally {
@@ -60,10 +59,10 @@ export default function Inbound() {
 
   const counts = {
     all: inquiries.length,
-    new: stats.new || 0,
-    reviewing: stats.reviewing || 0,
-    negotiating: stats.negotiating || 0,
-    converted: stats.converted || 0,
+    new: inquiries.filter((i) => i.status === "new").length,
+    reviewing: inquiries.filter((i) => i.status === "reviewing").length,
+    negotiating: inquiries.filter((i) => i.status === "negotiating").length,
+    converted: inquiries.filter((i) => i.converted_deal_id).length,
     archived: inquiries.filter((i) => i.status === "archived").length
   };
 
@@ -89,28 +88,20 @@ export default function Inbound() {
   });
 
   return (
-    <div className="inb-page">
+    <div className="inb-page workspace-page">
       <Helmet><title>Inbound - Brandio</title></Helmet>
       <div className="inb-shell">
-        <header className="inb-head">
-          <div>
-            <h1>Inbound</h1>
-            <p>Review brand collaboration requests before they become deals.</p>
-            {(user?.public_slug || user?.username) && (
-              <div className="inb-link">Work With Me: /{user.public_slug || user.username}/work-with-me</div>
-            )}
-          </div>
-          <div className="inb-stats">
-            <Stat label="New inquiries" value={stats.new || 0} />
-            <Stat label="Reviewing" value={stats.reviewing || 0} />
-            <Stat label="Negotiating" value={stats.negotiating || 0} />
-            <Stat label="Converted" value={stats.converted || 0} />
-          </div>
-        </header>
+        <WorkspaceHeader eyebrow="Workspace / Inbound" title="Your collaboration inbox" description="Review brand requests and turn the right conversations into deals." actions={(user?.public_slug || user?.username) ? <a className="ws-button ws-secondary" href={`/${user.public_slug || user.username}/work-with-me`} target="_blank" rel="noopener noreferrer">View inquiry form <WorkspaceIcon name="arrow" /></a> : null} />
+        <WorkspaceStats items={[
+          { label: "New inquiries", value: counts.new, note: "Ready for a first look", icon: "inbox" },
+          { label: "Reviewing", value: counts.reviewing, note: "Considering the fit", icon: "eye", tone: "blue" },
+          { label: "Negotiating", value: counts.negotiating, note: "Conversations in progress", icon: "clock", tone: "amber" },
+          { label: "Converted", value: counts.converted, note: "Now recorded as deals", icon: "check", tone: "green" }
+        ]} />
 
         <div className="inb-filters">
           {FILTERS.map((f) => (
-            <button key={f.id} className={filter === f.id ? "active" : ""} onClick={() => setFilter(f.id)}>
+            <button key={f.id} className={filter === f.id ? "active" : ""} aria-pressed={filter === f.id} onClick={() => setFilter(f.id)}>
               {f.label}<span>{counts[f.id] || 0}</span>
             </button>
           ))}
@@ -165,7 +156,6 @@ export default function Inbound() {
         <AddDealModal
           onClose={() => setConvertTarget(null)}
           totalDeals={0}
-          plan="pro"
           initialData={prefill(convertTarget)}
           onCreated={async (deal) => {
             await patchInquiry(convertTarget, { converted_deal_id: deal.id });
@@ -176,10 +166,6 @@ export default function Inbound() {
       )}
     </div>
   );
-}
-
-function Stat({ label, value }) {
-  return <div><strong>{value}</strong><span>{label}</span></div>;
 }
 
 function InquiryModal({ inquiry, onClose, onSaveNotes, onReject, onArchive }) {
@@ -199,8 +185,8 @@ function InquiryModal({ inquiry, onClose, onSaveNotes, onReject, onArchive }) {
 
   return (
     <div className="modal-backdrop-custom">
-      <div className="inb-modal">
-        <button className="modal-close" onClick={onClose}>x</button>
+      <div className="inb-modal" role="dialog" aria-modal="true" aria-label="Inquiry details">
+        <button className="modal-close" aria-label="Close inquiry" onClick={onClose}>×</button>
         <h2>{inquiry.brand}</h2>
         <p className="inb-muted">{inquiry.contact} • {inquiry.email}</p>
         {inquiry.website && <p><a href={inquiry.website} target="_blank" rel="noreferrer">{inquiry.website}</a></p>}
@@ -211,7 +197,8 @@ function InquiryModal({ inquiry, onClose, onSaveNotes, onReject, onArchive }) {
           <dt>Usage</dt><dd>{inquiry.usage_requirements || "Not specified"}</dd>
           <dt>Description</dt><dd>{inquiry.description || "Not specified"}</dd>
         </dl>
-        <textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Creator notes" />
+        <label className="inb-notes-label" htmlFor="inquiry-creator-notes">Your notes</label>
+        <textarea id="inquiry-creator-notes" aria-label="Creator notes" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Add context or your next steps…" />
         {saved && <div className="inb-save-confirm">Notes saved</div>}
         <div className="inb-actions">
           <button onClick={saveNotes} disabled={saving}>{saving ? "Saving..." : "Save notes"}</button>

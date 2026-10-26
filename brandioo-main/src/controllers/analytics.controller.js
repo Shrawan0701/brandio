@@ -2,7 +2,7 @@ import { getAnalytics, getDealsForCSV } from "../services/analytics.service.js";
 import { Parser } from "json2csv";
 
 export const analytics = async (req, res) => {
-  const data = await getAnalytics(req.user.id);
+  const data = await getAnalytics(req.user.id, req.query.currency);
   res.json(data);
 };
 
